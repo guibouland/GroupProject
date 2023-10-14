@@ -13,9 +13,12 @@ Photos de dessins des résultats prévus
         
         %% Ceci est provisoire
         section Pierre
-            Recherche concernant le projet  : done,     2023-10-01, 2023-10-23
+            familiatisation avec quarto  : done,     2023-10-01, 2023-10-07
+            création de l'ébauche du site : done,   2023-10-07, 2023-10-14
             Programmation : active,         2023-10-23, 2023-12-10
-            Aspect interactif de la carte : crit,         2023-10-23, 2023-12-10
+            Aspect interactif de la carte : crit,         2023-10-14, 2023-12-10
+            Rendre la carte cliquable par departements : crit,  2023-10-14, 2023-10-28
+            Pollution sur les cartes selon légende : crit, 2023-10-28, 2023-11-18
             
         section Guillaume
             Recherche concernant le projet  : done,     2023-10-01, 2023-10-23
@@ -32,7 +35,9 @@ Photos de dessins des résultats prévus
             Programmation : active,         2023-10-23, 2023-12-10
             Sélection des données : crit,         2023-10-23, 2023-11-10
             Utilisation/interprétation des données : crit,         2023-11-10, 2023-12-10
-            
+        section Groupe
+            Préparation de la presentation orale avec slides sur Quarto : crit, 2023-11-18, 2023-12-10
+        
         section Evaluation
             Présentation projet : active, milestone,     2023-10-23, 2023-10-23
             Dépôt projet : milestone,     2023-12-10, 2023-12-10
