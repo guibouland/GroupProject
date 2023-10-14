@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "qproj",
+    "title": "La pollution en Occitanie",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
+    "text": "Les départements sont contourés et cliquables"
   },
   {
     "objectID": "about.html",
@@ -12,5 +12,12 @@
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "index.html#carte-de-loccitanie",
+    "href": "index.html#carte-de-loccitanie",
+    "title": "La pollution en Occitanie",
+    "section": "",
+    "text": "Les départements sont contourés et cliquables"
   }
 ]

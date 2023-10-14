@@ -1,11 +1,13 @@
 ---
-title: "qproj"
+title: "La pollution en Occitanie"
 ---
 
-This is a Quarto website.
+## Carte de l'Occitanie
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Les départements sont contourés et cliquables
 
-```{r}
-1 + 1
+![](images/hHZ2EV01.svg)
+
+```{python}
+
 ```
