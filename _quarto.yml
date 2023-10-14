@@ -1,20 +1,72 @@
 project:
   type: website
   output-dir: docs
+  render: 
+    - index.qmd
+    - about.qmd
+    - Avancee.qmd
+    - Departements/Ariege.qmd
+    - Departements/Aude.qmd
+    - Departements/Aveyron.qmd
+    - Departements/Gard.qmd
+    - Departements/Gers.qmd
+    - Departements/Haute-Garonne.qmd
+    - Departements/Hautes-Pyrenees.qmd
+    - Departements/Herault.qmd
+    - Departements/Lot.qmd
+    - Departements/Lozere.qmd
+    - Departements/Pyrenees-Orientales.qmd
+    - Departements/Tarn-et-Garonne.qmd
+    - Departements/Tarn.qmd
+
 
 website:
-  title: "qproj"
+  repo-url: https://github.com/guibouland/GroupProject
+  repo-actions: [source, issue]
+  page-navigation: true
+  back-to-top-navigation: true
+  title: "Pollution en Occitanie"
   navbar:
+    search: true
+    tools: 
+      - icon: github
+        href: https://github.com/guibouland/GroupProject
+        text: GitHub
     left:
       - href: index.qmd
-        text: Home
-      - about.qmd
+        text: Accueil
+      - text: "Départements"
+        menu:
+          - Departements/Ariege.qmd
+          - Departements/Aude.qmd
+          - Departements/Aveyron.qmd
+          - Departements/Gard.qmd
+          - Departements/Gers.qmd
+          - Departements/Haute-Garonne.qmd
+          - Departements/Hautes-Pyrenees.qmd
+          - Departements/Herault.qmd
+          - Departements/Lot.qmd
+          - Departements/Lozere.qmd
+          - Departements/Pyrenees-Orientales.qmd
+          - Departements/Tarn-et-Garonne.qmd
+          - Departements/Tarn.qmd
+      - href: about.qmd
+        text: À propos
+      - Avancee.qmd
+
+
 
 format:
   html:
-    theme: cosmo
+    theme:
+      light: cosmo
+      dark: [cosmo, custom.css]
     css: styles.css
-    toc: true
+    toc: false
+jupyter: python3
+
+editor: visual
+
 
 
 

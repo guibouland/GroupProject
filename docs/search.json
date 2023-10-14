@@ -19,5 +19,103 @@
     "title": "La pollution en Occitanie",
     "section": "",
     "text": "Les départements sont contourés et cliquables"
+  },
+  {
+    "objectID": "Departements/Tarn.html",
+    "href": "Departements/Tarn.html",
+    "title": "Tarn",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "Departements/Pyrenees-Orientales.html",
+    "href": "Departements/Pyrenees-Orientales.html",
+    "title": "Pyrénées-Orientales",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "Departements/Lot.html",
+    "href": "Departements/Lot.html",
+    "title": "Lot",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "Departements/Hautes-Pyrenees.html",
+    "href": "Departements/Hautes-Pyrenees.html",
+    "title": "Hautes-Pyrénées",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "Departements/Gers.html",
+    "href": "Departements/Gers.html",
+    "title": "Gers",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "Departements/Aveyron.html",
+    "href": "Departements/Aveyron.html",
+    "title": "Aveyron",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "Departements/Ariege.html",
+    "href": "Departements/Ariege.html",
+    "title": "Ariège",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "Avancee.html",
+    "href": "Avancee.html",
+    "title": "Avancées",
+    "section": "",
+    "text": "gantt\n        dateFormat YYYY-MM-DD\n        title Diagramme de Gantt pour les avancées du projet\n        \n        %% Ceci est provisoire\n        section Pierre\n            familiatisation avec quarto  : done,     2023-10-01, 2023-10-07\n            création de l'ébauche du site : done,   2023-10-07, 2023-10-14\n            Programmation : active,         2023-10-23, 2023-12-10\n            Aspect interactif de la carte : crit,         2023-10-14, 2023-12-10\n            Rendre la carte cliquable par departements : crit,  2023-10-14, 2023-10-28\n            Pollution sur les cartes selon légende : crit, 2023-10-28, 2023-11-18\n            \n        section Guillaume\n            Recherche concernant le projet  : done,     2023-10-01, 2023-10-23\n            Programmation : active,         2023-10-23, 2023-12-10\n            Elaboration du site : crit,         2023-10-23, 2023-12-10\n            \n        section Maxence\n            Recherche concernant le projet : done,     2023-10-01, 2023-10-23\n            Programmation : active,         2023-10-23, 2023-12-10\n            Création des classes : crit,         2023-10-23, 2023-11-10\n            \n        section Quentin\n            Recherche concernant le projet : done,     2023-10-01, 2023-10-23\n            Programmation : active,         2023-10-23, 2023-12-10\n            Sélection des données : crit,         2023-10-23, 2023-11-10\n            Utilisation/interprétation des données : crit,         2023-11-10, 2023-12-10\n        section Groupe\n            Préparation de la presentation orale avec slides sur Quarto : crit, 2023-11-18, 2023-12-10\n        \n        section Evaluation\n            Présentation projet : active, milestone,     2023-10-23, 2023-10-23\n            Dépôt projet : milestone,     2023-12-10, 2023-12-10\n            Présentation orale : milestone,     2023-12-15, 2023-12-15\n\n\n\n\n\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "Departements/Aude.html",
+    "href": "Departements/Aude.html",
+    "title": "Aude",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "Departements/Gard.html",
+    "href": "Departements/Gard.html",
+    "title": "Gard",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "Departements/Haute-Garonne.html",
+    "href": "Departements/Haute-Garonne.html",
+    "title": "Haute-Garonne",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "Departements/Herault.html",
+    "href": "Departements/Herault.html",
+    "title": "Hérault",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "Departements/Lozere.html",
+    "href": "Departements/Lozere.html",
+    "title": "Lozère",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "Departements/Tarn-et-Garonne.html",
+    "href": "Departements/Tarn-et-Garonne.html",
+    "title": "Tarn-et-Garonne",
+    "section": "",
+    "text": "Back to top"
   }
 ]
