@@ -1,0 +1,13 @@
+---
+title: "La pollution en Occitanie"
+---
+
+## Carte de l'Occitanie
+
+Les départements sont contourés et cliquables
+
+![](images/hHZ2EV01.svg)
+
+```{python}
+
+```
