@@ -1,7 +1,0 @@
----
-title: "À propos"
----
-
-About this site
-
-Créé pour un projet de groupe
