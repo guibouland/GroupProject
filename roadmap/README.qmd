@@ -63,7 +63,7 @@ Pour ne pas déranger nos travaux respectifs, nous feront évoluer le projet à 
 * "carte" pour manipuler celles-ci.
 
 ### Visuel
-> Photo du dessin
+![](https://guibouland.github.io/GroupProject/images/objectifSchema.png)
 
 ## Site Web
 Le site internet (maintenant qu'il marche) de ce projet est disponible à l'URL suivante: [https://guibouland.github.io/GroupProject](https://guibouland.github.io/GroupProject/)
