@@ -3,11 +3,12 @@
 ## Environnement
 Pour ce projet, nous allons avoir besoin d'un environnement contenant:
 
-* Python
-* Pandas
-* Plotly
-* Pytest
-* Pooch
+* **Python**;
+* **Pandas** pour la manipulation de données;
+* **Plotly** pour la modélisation des données;
+* **Dash** pour rendre les légendes des graphiques et des cartes intéractives;
+* **Pytest** pour éliminer un maximum de bug possibles dans nos codes;
+* **Pooch**.
 
 ## Objectif
 L'objectif est de créer un site contenant une carte interactive permettant de voir la pollution en occitannie à une période donnée. Cette carte devra être lisible et facilement interprétable.
@@ -63,15 +64,16 @@ Pour ne pas déranger nos travaux respectifs, nous feront évoluer le projet à 
 * "carte" pour manipuler celles-ci.
 
 ### Visuel
-![](https://guibouland.github.io/GroupProject/images/objectifSchema.png)
+![](https://github.com/guibouland/GroupProject/tree/main/images/objectifSchema.png)
 
 ## Site Web
-Le site internet (maintenant qu'il marche) de ce projet est disponible à l'URL suivante: [https://guibouland.github.io/GroupProject](https://guibouland.github.io/GroupProject/)
+Le site internet de ce projet est disponible à l'URL suivante: [https://guibouland.github.io/GroupProject](https://guibouland.github.io/GroupProject/)
 
 ## Choix des données
 Les données du site [Atmo Occitanie](https://data-atmo-occitanie.opendata.arcgis.com/pages/liste-des-flux) sont nombreuses et ne nous seront pas toutes utiles. Nous allons donc utiliser les suivantes:
-- Les données de 2020
-- Les données d'il y a 5 ans
+
+* Les données de 2020
+* Les données d'il y a 5 ans
 
 
 
