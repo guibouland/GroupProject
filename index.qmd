@@ -1,5 +1,7 @@
 ---
 title: "La pollution en Occitanie"
+execute: 
+  echo: false
 ---
 
 ## Carte de l'Occitanie
@@ -8,6 +10,15 @@ Les départements sont contourés et cliquables
 
 ![](images/hHZ2EV01.svg)
 
-```{python}
+ceci est un test
 
+```{python}
+import numpy as np
+from matplotlib import pyplot
+import matplotlib.pyplot as plt
+
+x=np.linspace(-200, 200)
+y=x**2
+plt.plot(x, y)
+plt.show()
 ```
