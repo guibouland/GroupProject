@@ -44,8 +44,8 @@ Pour atteindre notre objectif, nous avons divisé le travail de la facon suivant
             Recherche concernant le projet  : done,     2023-10-01, 2023-10-23
             Programmation : active,         2023-10-23, 2023-12-10
             Elaboration du site : crit,         2023-10-23, 2023-12-10
-            Evolution de la pollution au fil des années par tranche de population: crit,    2023-10-23, 2023-11-15
-            Comparaison villes ultra-urbaines/moyenne régionale: crit,  2023-11-16, 2023-12-10
+            Evolution pollution\ pop par année: crit,    2023-10-23, 2023-11-15
+            Partie villes: crit,  2023-11-16, 2023-12-10
             
         section Maxence
             Recherche concernant le projet : done,     2023-10-01, 2023-10-23
