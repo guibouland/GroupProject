@@ -64,13 +64,13 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Pytest</strong> pour éliminer un maximum de bug possibles dans nos codes;</li>
 <li><strong>Pooch</strong>.</li>
 </ul>
-<p>L’objectif est de représenter l’évolution de différents types de polluants en Occitanie durant 3 périodes différents.</p>
-<p>Par exemple, on s’intéresse à l’évolution durant les 5 dernières années. Pour cela on utilise une base de donnée comportant uniquement la valeur moyenne de l’année de chaque polluant pour un bon nombres de villes, réparties équitablement dans chaque départements en Occitanie.</p>
-<p>Pour modéliser ça on va utiliser pour commencer la bibliothèque Pandas afin d’ouvrir la base de donnée qui est un fichier csv avec la commande panda.read_csv(“chemin/de/la/base/de/donnée.csv”). Ensuite on utilise l’environnement plotly afin de créer de beau graphiques. On choisit de modéliser l’évolution moyenne par an des différents types de polluants au cours des 5 dernières années par département dans certaines villes. Enfin afin de rendre le site intéractif on utilise l’environnement dash qui va nous permettre de créer un fichier html regroupant nos graphiques et de sélectionner le département que l’on veut afficher.</p>
+<p>L’objectif est de représenter l’évolution des différents types de polluants en Occitanie durant 3 périodes différentes.</p>
+<p>Par exemple, on s’intéresse à l’évolution durant les 5 dernières années. Pour cela, on utilise une base de données comportant uniquement la valeur moyenne de l’année de chaque polluant pour un bon nombres de villes, réparties équitablement dans chaque département en Occitanie.</p>
+<p>Pour modéliser cela, on va d’abord utiliser la bibliothèque Pandas afin d’ouvrir la base de données qui est un fichier csv avec la commande panda.read_csv(“chemin/de/la/base/de/donnée.csv”). Ensuite on utilise l’environnement plotly afin de créer de beaux graphiques. On choisit de modéliser l’évolution moyenne par an des différents types de polluants au cours des 5 dernières années par départements dans certaines villes. Enfin, afin de rendre le site intéractif, on utilise l’environnement dash qui va nous permettre de créer un fichier html regroupant nos graphiques et de sélectionner le département que l’on veut afficher.</p>
 </section>
 <section id="objectif" class="level2">
 <h2 class="anchored" data-anchor-id="objectif">Objectif</h2>
-<p>L’objectif est de créer un site contenant une carte interactive permettant de voir la pollution en occitannie à une période donnée. Cette carte devra être lisible et facilement interprétable. Les données sont extraites du site <a href="https://data-atmo-occitanie.opendata.arcgis.com/pages/liste-des-flux">Atmo Occitanie</a> et concerneront la pollution de l’air, notamment les particules en suspension, les particules fines et le dioxyde d’azote.</p>
+<p>L’objectif est de créer un site contenant une carte interactive permettant de voir la pollution en Occitannie à une période donnée. Cette carte devra être lisible et facilement interprétable. Les données sont extraites du site <a href="https://data-atmo-occitanie.opendata.arcgis.com/pages/liste-des-flux">Atmo Occitanie</a> et concerneront la pollution de l’air, notamment les particules en suspension, les particules fines et le dioxyde d’azote.</p>
 </section>
 <section id="feuille-de-route" class="level2">
 <h2 class="anchored" data-anchor-id="feuille-de-route">Feuille de route</h2>
@@ -85,34 +85,31 @@ ul.task-list li input[type="checkbox"] {
         dateFormat YYYY-MM-DD
         title Diagramme de Gantt pour les avancées du projet
         
-        %% Ceci est provisoire
         section Pierre
-            familiatisation avec quarto  : done,     2023-10-01, 2023-10-07
-            création de l'ébauche du site : done,   2023-10-07, 2023-10-14
-            Programmation : active,         2023-10-23, 2023-12-10
+            Familiatisation avec quarto  : done,     2023-10-01, 2023-10-07
+            Création ébauche du site : done,   2023-10-07, 2023-10-14
             Aspect interactif de la carte : crit,         2023-10-14, 2023-12-10
             Rendre la carte cliquable par departements : crit,  2023-10-14, 2023-10-28
             Pollution sur les cartes selon légende : crit, 2023-10-28, 2023-11-18
             
         section Guillaume
-            Recherche concernant le projet  : done,     2023-10-01, 2023-10-23
-            Programmation : active,         2023-10-23, 2023-12-10
+            Création du site  : done,     2023-10-01, 2023-10-23
             Elaboration du site : crit,         2023-10-23, 2023-12-10
             Evolution pollution\ pop par année: crit,    2023-10-23, 2023-11-15
             Partie villes: crit,  2023-11-16, 2023-12-10
             
         section Maxence
             Recherche concernant le projet : done,     2023-10-01, 2023-10-23
-            Programmation : active,         2023-10-23, 2023-12-10
-            Création des classes : crit,         2023-10-23, 2023-11-10
+            Création des classes : crit,         2023-10-23, 2023-11-12
+            Interprétation des données avec météo (?) : crit, 2023-11-12, 2023-12-10
             
         section Quentin
-            Recherche concernant le projet : done,     2023-10-01, 2023-10-23
-            Programmation : active,         2023-10-23, 2023-12-10
-            Sélection des données : crit,         2023-10-23, 2023-11-10
-            Utilisation/interprétation des données : crit,         2023-11-10, 2023-12-10
+            Sélection des données : done,     2023-10-01, 2023-10-23
+            Création des graphiques : crit,         2023-10-23, 2023-11-10
+            Insertion des graphiques dans le site et interprétation : crit,         2023-11-10, 2023-12-10
+            
         section Groupe
-            Préparation de la presentation orale avec slides sur Quarto : crit, 2023-11-18, 2023-12-10
+            Préparation présentation orale avec slides Quarto : crit, 2023-11-18, 2023-12-10
         
         section Evaluation
             Présentation projet : active, milestone,     2023-10-23, 2023-10-23
