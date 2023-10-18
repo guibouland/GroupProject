@@ -76,7 +76,22 @@ Pour ne pas déranger nos travaux respectifs, nous feront évoluer le projet à 
 ![](https://github.com/guibouland/GroupProject/tree/main/images/objectifSchema.png)
 
 ## Site Web
-Le site internet de ce projet est disponible à l'URL suivante: [https://guibouland.github.io/GroupProject](https://guibouland.github.io/GroupProject/)
+Le site internet de ce projet est disponible à l'URL suivante: [https://guibouland.github.io/GroupProject](https://guibouland.github.io/GroupProject/).
+
+### Contents
+Il comportera une page principale d'accueil, qui comprtera une carte interactive de toute la région Occitanie ainsi qu'un graphique lui aussi interactif qui traitera des différents polluants dans les 13 départements. vous pourrez retirer des départements et choisir les polluants que vous voulez.
+
+Ensuite, dans la barre de navigation vous pouvez déjà trouver un menu déroulants nommé "Départements", contenant les 13 départemetns de la région Occitanie. Le but est, pour chaque département, de déployer une carte zoomable de la pollution selon divers polluants, ainsi qu'un graphique interactif sur les 5 dernières années de l'évolution de la concentration des différents polluants dans le département.
+La carte de la page d'accueil devra être cliquable et renvoyer vers les pages des départements respectifs.
+Nous souhaitons aussi ajouter une rubrique "À propos", qui contiendra un résumé sur comment prendre en main le site, parler du projet en général et donner nos sources.
+
+Vous trouverez aussi une page "Villes". Nous souhaitons voir l'état de la pollution en milieu ultra-urbain dans les 3 plus grandes villes de la région pour se rendre compte de la différence avec un milieu plus rural, tout cela à travers un graphique interactif comparant les taux de pollution, selon les polluants, dans ces 3 grandes villes, comparées à la moyenne régionale.
+
+En bonus, nous aimerions faire un lien avec les projets personnels, en évoquant, si il existe, un lien entre les conditions météorologiques et la pollution dans la région. Cela sera réalisé seulement si nous parvenons à finir à temps nos précédents objectifs.
+
+### Features
+Dans la barre de navigation, à droite, il existe une petite icone renvoyant directement au repository de ce projet. En bas de la page, vous trouverez aussi un lien renvoyant vers le code source et la page pour évoquer d'éventuels problèmes.
+
 
 ## Choix des données
 Les données du site [Atmo Occitanie](https://data-atmo-occitanie.opendata.arcgis.com/pages/liste-des-flux) sont nombreuses et ne nous seront pas toutes utiles. Nous allons donc utiliser les suivantes:
