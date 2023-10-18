@@ -36,6 +36,7 @@ Pour atteindre notre objectif, nous avons divisé le travail de la facon suivant
             Recherche concernant le projet  : done,     2023-10-01, 2023-10-23
             Programmation : active,         2023-10-23, 2023-12-10
             Elaboration du site : crit,         2023-10-23, 2023-12-10
+            Evolution de la pollution au fil des années par tranche de population: crit,    2023-10-23, 2023-12-10
             
         section Maxence
             Recherche concernant le projet : done,     2023-10-01, 2023-10-23
@@ -75,6 +76,7 @@ Les données du site [Atmo Occitanie](https://data-atmo-occitanie.opendata.arcgi
 * Les données de 2020
 * Les données d'il y a 5 ans
 
-
+## Concernant ce repository
+Nous avons eu un problème lors du déploiement de notre site au public, ce qui nous a contraint à devoir changer de repository pour repartir sur des bases plus saines, d'où l'inégalité entre certains commits. Si vous voulez en revanche consulter les commit fait avant ce retournement de situation vous pouvez le faire via [ce repository](https://github.com/guibouland/ProjetGroupe.git).
 
 
