@@ -10,6 +10,14 @@ Pour ce projet, nous allons avoir besoin d'un environnement contenant:
 * **Pytest** pour éliminer un maximum de bug possibles dans nos codes;
 * **Pooch**.
 
+L'objectif est de représenter l'évolution de différents types de polluants en Occitanie durant 3 périodes différents.
+
+Par exemple, on s'intéresse à l'évolution durant les 5 dernières années. Pour cela on utilise une base de donnée comportant uniquement la valeur moyenne de l'année de chaque polluant pour un bon nombres de villes, réparties équitablement dans chaque départements en Occitanie. 
+
+Pour modéliser ça on va utiliser pour commencer la bibliothèque Pandas afin d'ouvrir la base de donnée qui est un fichier csv avec la commande panda.read_csv("chemin/de/la/base/de/donnée.csv").
+Ensuite on utilise l'environnement plotly afin de créer de beau graphiques. On choisit de modéliser l'évolution moyenne par an des différents types de polluants au cours des 5 dernières années par département dans certaines villes. 
+Enfin afin de rendre le site intéractif on utilise l'environnement dash qui va nous permettre de créer un fichier html regroupant nos graphiques et de sélectionner le département que l'on veut afficher.
+
 ## Objectif
 L'objectif est de créer un site contenant une carte interactive permettant de voir la pollution en occitannie à une période donnée. Cette carte devra être lisible et facilement interprétable.
 Les données sont extraites du site [Atmo Occitanie](https://data-atmo-occitanie.opendata.arcgis.com/pages/liste-des-flux) et concerneront la pollution de l'air, notamment les particules en suspension, les particules fines et le dioxyde d'azote.
@@ -73,8 +81,9 @@ Le site internet de ce projet est disponible à l'URL suivante: [https://guiboul
 ## Choix des données
 Les données du site [Atmo Occitanie](https://data-atmo-occitanie.opendata.arcgis.com/pages/liste-des-flux) sont nombreuses et ne nous seront pas toutes utiles. Nous allons donc utiliser les suivantes:
 
-* Les données de 2020
-* Les données d'il y a 5 ans
+* Les données de 2020 année du covid.
+* les données concernant l'évolution durant les 5 dernières années. Pour cela on utilise une base de donnée comportant uniquement la valeur moyenne de l'année de chaque polluant pour un bon nombres de villes, réparties équitablement dans chaque départements en Occitanie. 
+* Les données sur l'année actuelle, plus précisemment le dernier mois.
 
 ## Concernant ce repository
 Nous avons eu un problème lors du déploiement de notre site au public, ce qui nous a contraint à devoir changer de repository pour repartir sur des bases plus saines, d'où l'inégalité entre certains commits. Si vous voulez en revanche consulter les commit fait avant ce retournement de situation vous pouvez le faire via [ce repository](https://github.com/guibouland/ProjetGroupe.git).
