@@ -34,15 +34,14 @@ Pour atteindre notre objectif, nous avons divisé le travail de la facon suivant
         section Pierre
             Familiatisation avec quarto  : done,     2023-10-01, 2023-10-07
             Création ébauche du site : done,   2023-10-07, 2023-10-14
-            Aspect interactif de la carte : crit,         2023-10-14, 2023-12-10
-            Rendre la carte cliquable par departements : crit,  2023-10-14, 2023-10-28
-            Pollution sur les cartes selon légende : crit, 2023-10-28, 2023-11-18
+            Aspect interactif de la carte : ,         2023-10-14, 2023-12-10
+            Rendre la carte cliquable par departements : active,  2023-10-14, 2023-10-28
+            Pollution sur les cartes selon légende : crit, 2023-10-28, 2023-11-30
             
         section Guillaume
             Création du site  : done,     2023-10-01, 2023-10-23
-            Elaboration du site : crit,         2023-10-23, 2023-12-10
             Evolution pollution\ pop par année: crit,    2023-10-23, 2023-11-15
-            Partie villes: crit,  2023-11-16, 2023-12-10
+            Pollution villes: crit,  2023-11-16, 2023-12-10
             
         section Maxence
             Vérification des informations : done,     2023-10-01, 2023-10-23
