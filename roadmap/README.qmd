@@ -8,15 +8,15 @@ Pour ce projet, nous allons avoir besoin d'un environnement contenant:
 * **Plotly** pour la modélisation des données;
 * **Dash** pour rendre les légendes des graphiques et des cartes intéractives;
 * **Pytest** pour éliminer un maximum de bug possibles dans nos codes;
-* **Pooch**.
+* **Seaborn** pour la modélisation de données au même titre que plotly.
 
-L'objectif est de représenter l'évolution de différents types de polluants en Occitanie durant 3 périodes différents.
+L'objectif est de représenter l'évolution de différents types de polluants en Occitanie durant 3 périodes différentes.
 
-Par exemple, on s'intéresse à l'évolution durant les 5 dernières années. Pour cela on utilise une base de donnée comportant uniquement la valeur moyenne de l'année de chaque polluant pour un bon nombres de villes, réparties équitablement dans chaque départements en Occitanie. 
+Par exemple, on s'intéresse à l'évolution durant les 5 dernières années. Pour cela on utilise une base de donnée comportant uniquement la valeur moyenne de l'année de chaque polluant pour un bon nombre de villes, réparties équitablement dans chaque département en Occitanie. 
 
-Pour modéliser ça on va utiliser pour commencer la bibliothèque Pandas afin d'ouvrir la base de donnée qui est un fichier csv avec la commande panda.read_csv("chemin/de/la/base/de/donnée.csv").
-Ensuite on utilise l'environnement plotly afin de créer de beau graphiques. On choisit de modéliser l'évolution moyenne par an des différents types de polluants au cours des 5 dernières années par département dans certaines villes. 
-Enfin afin de rendre le site intéractif on utilise l'environnement dash qui va nous permettre de créer un fichier html regroupant nos graphiques et de sélectionner le département que l'on veut afficher.
+Pour modéliser cela, nous allons utiliser la bibliothèque Pandas afin d'extraire les données de la base avec la commande panda.read_csv("chemin/de/la/base/de/donnée.csv").
+Ensuite on utilise l'environnement plotly afin de créer les graphiques. On choisit de modéliser l'évolution moyenne annuelle des différents types de polluants au cours des 5 dernières années par département et dans certaines villes. 
+Enfin, afin de rendre le site intéractif on utilise l'environnement dash qui va nous permettre de créer un fichier html regroupant nos graphiques et de sélectionner le département que l'on veut afficher.
 
 ## Objectif
 L'objectif est de créer un site contenant une carte interactive permettant de voir la pollution en occitannie à une période donnée. Cette carte devra être lisible et facilement interprétable.
@@ -34,15 +34,14 @@ Pour atteindre notre objectif, nous avons divisé le travail de la facon suivant
         section Pierre
             Familiatisation avec quarto  : done,     2023-10-01, 2023-10-07
             Création ébauche du site : done,   2023-10-07, 2023-10-14
-            Aspect interactif de la carte : crit,         2023-10-14, 2023-12-10
-            Rendre la carte cliquable par departements : crit,  2023-10-14, 2023-10-28
-            Pollution sur les cartes selon légende : crit, 2023-10-28, 2023-11-18
+            Aspect interactif de la carte : ,         2023-10-14, 2023-12-10
+            Rendre la carte cliquable par departements : active,  2023-10-14, 2023-10-28
+            Pollution sur les cartes selon légende : crit, 2023-10-28, 2023-11-30
             
         section Guillaume
             Création du site  : done,     2023-10-01, 2023-10-23
-            Elaboration du site : crit,         2023-10-23, 2023-12-10
             Evolution pollution\ pop par année: crit,    2023-10-23, 2023-11-15
-            Partie villes: crit,  2023-11-16, 2023-12-10
+            Pollution villes: crit,  2023-11-16, 2023-12-10
             
         section Maxence
             Vérification des informations : done,     2023-10-01, 2023-10-23
@@ -76,18 +75,18 @@ Pour ne pas déranger nos travaux respectifs, nous feront évoluer le projet à 
 ## Site Web
 Le site internet de ce projet est disponible à l'URL suivante: [https://guibouland.github.io/GroupProject](https://guibouland.github.io/GroupProject/).
 
-### Contents
+### Contenus
 Il comportera une page principale d'accueil, qui comportera une carte interactive de toute la région Occitanie ainsi qu'un graphique lui aussi interactif qui traitera des différents polluants dans les 13 départements. vous pourrez retirer des départements et choisir les polluants que vous voulez.
 
 Ensuite, dans la barre de navigation vous pouvez déjà trouver un menu déroulant nommé "Départements", contenant les 13 départements de la région Occitanie. Le but est, pour chaque département, de déployer une carte zoomable de la pollution selon divers polluants, ainsi qu'un graphique interactif sur les 5 dernières années de l'évolution de la concentration des différents polluants dans le département.
 La carte de la page d'accueil devra être cliquable et renvoyer vers les pages des départements respectifs.
 Nous souhaitons aussi ajouter une rubrique "À propos", qui contiendra un résumé sur la manière de prendre en main le site, parler du projet en général et donner nos sources.
 
-Vous trouverez aussi une page "Villes". Nous souhaitons voir l'état de la pollution en milieu ultra-urbain dans les 3 plus grandes villes de la région pour se rendre compte de la différence avec un milieu plus rural, tout cela à travers un graphique interactif comparant les taux de pollution, selon les polluants, dans ces 3 grandes villes, comparés à la moyenne régionale.
+Vous trouverez aussi une page "Villes". Nous souhaitons voir l'état de la pollution en milieu ultra-urbain dans les 3 plus grandes villes de la région pour se rendre compte de la différence avec un milieu plus rural, tout cela à travers un graphique interactif comparant les taux de pollution, selon les polluants, dans ces 3 grandes villes, comparés à la moyenne régionale. Pour cela nous allons principalement utiliser le package "seaborn" pour la modélisation des données et l'interactivité des graphiques.
 
 En bonus, nous aimerions faire un lien avec les projets personnels, en évoquant, s'il existe, un lien entre les conditions météorologiques et la pollution dans la région. Cela sera réalisé seulement si nous parvenons à finir à temps nos précédents objectifs.
 
-### Features
+### Petits ajouts
 Dans la barre de navigation, à droite, il existe une petite icone renvoyant directement au repository de ce projet. En bas de la page, vous trouverez aussi un lien renvoyant vers le code source et la page pour évoquer d'éventuels problèmes.
 
 
@@ -98,7 +97,7 @@ Les données du site [Atmo Occitanie](https://data-atmo-occitanie.opendata.arcgi
 * les données concernant l'évolution durant les 5 dernières années. Pour cela on utilise une base de donnée comportant uniquement la valeur moyenne de l'année de chaque polluant pour un bon nombres de villes, réparties équitablement dans chaque département en Occitanie. 
 * Les données sur l'année actuelle, plus précisément le dernier mois.
 
-## Concernant ce repository
-Nous avons eu un problème lors du déploiement de notre site au public, ce qui nous a contraint à devoir changer de repository pour repartir sur des bases plus saines, d'où l'inégalité entre certains commits. Si vous voulez en revanche consulter les commits fait avant ce retournement de situation vous pouvez le faire via [ce repository](https://github.com/guibouland/ProjetGroupe.git).
+## Concernant ce dépôt
+Nous avons eu un problème lors du déploiement de notre site au public, ce qui nous a contraint à devoir changer de repository pour repartir sur des bases plus saines, d'où l'inégalité entre certains commits. Si vous voulez en revanche consulter les commits fait avant ce retournement de situation vous pouvez le faire via [ce dépôt](https://github.com/guibouland/ProjetGroupe.git).
 
 
