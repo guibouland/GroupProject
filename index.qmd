@@ -22,3 +22,9 @@ y=x**2
 plt.plot(x, y)
 plt.show()
 ```
+
+
+```{python}
+import seaborn as sns
+sns.set_palette("colorblind")
+```
