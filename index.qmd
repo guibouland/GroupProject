@@ -6,9 +6,14 @@ execute:
 
 ## Carte de l'Occitanie
 
-Les départements sont contourés et cliquables
+```{python}
+import folium
+centre = [43.716671, 2.15]
+Occitanie = folium.Map(location = centre, zoom_start = 7)
+Occitanie
+```
+Les départements seront contourés et cliquables
 
-![](images/hHZ2EV01.svg)
 
 ceci est un test
 
