@@ -70,7 +70,7 @@ Pour ne pas déranger nos travaux respectifs, nous feront évoluer le projet à 
 * "carte" pour manipuler celles-ci.
 
 ### Visuel
-![](https://github.com/guibouland/GroupProject/tree/main/images/objectifSchema.png)
+![](objectifSchema.png)
 
 ## Site Web
 Le site internet de ce projet est disponible à l'URL suivante: [https://guibouland.github.io/GroupProject](https://guibouland.github.io/GroupProject/).
