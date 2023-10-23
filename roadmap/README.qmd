@@ -1,5 +1,5 @@
-# Projet Groupe 4
-# Projet Groupe Pollution en Occitanie groupe 4
+<h1 style="text-align: center;">Pollution Occitanie</h1>
+
 ## Environnement
 Pour ce projet, nous allons avoir besoin d'un environnement contenant:
 
