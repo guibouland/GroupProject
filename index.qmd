@@ -8,8 +8,11 @@ execute:
 
 ```{python}
 import folium
+#import json
 centre = [43.716671, 2.15]
 Occitanie = folium.Map(location = centre, zoom_start = 7)
+#ariege=json.load(open('departement-09-ariege.geojson').read())
+#print(ariege.keys())
 Occitanie
 ```
 Les départements seront contourés et cliquables
