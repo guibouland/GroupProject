@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 from plotly.offline import plot
 import numpy as np
-bdd = pd.read_csv("/home/qufst/projetgroupe2/GroupProject/basededonnee2020/Mesure_annuelle_Region_Occitanie_Polluants_Principaux.csv")
+bdd = pd.read_csv("/home/e20200016076/projet2/GroupProject/basededonnee2020/Mesure_annuelle_Region_Occitanie_Polluants_Principaux.csv")
 bdd['valeur'].fillna(0, inplace=True)
 bdd1 = bdd[bdd['nom_poll'] == 'NO']
 bdd2 = bdd[bdd['nom_poll'] == 'NO2']
@@ -47,15 +47,17 @@ fig.update_layout(
     yaxis_title='valeur ug.m-3')
 fig.show()
 #%%
-import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import html
+from dash import dcc
+#import dash
+#import dash_core_components as dcc
+#import dash_html_components as html
 from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.express as px
 
 # Charger les données depuis le fichier CSV
-bdd = pd.read_csv("/home/qufst/projetgroupe2/GroupProject/basededonnee2020/Mesure_annuelle_Region_Occitanie_Polluants_Principaux.csv")
+bdd = pd.read_csv("/home/e20200016076/projet2/GroupProject/basededonnee2020/Mesure_annuelle_Region_Occitanie_Polluants_Principaux.csv")
 bdd['valeur'].fillna(0, inplace=True)
 
 # Créer une application Dash
@@ -108,7 +110,7 @@ import pandas as pd
 import plotly.express as px
 
 # Charger les données
-bdd = pd.read_csv("/home/qufst/projetgroupe2/GroupProject/basededonnee2020/Mesure_annuelle_Region_Occitanie_Polluants_Principaux.csv")
+bdd = pd.read_csv("/home/e20200016076/projet2/GroupProject/basededonnee2020/Mesure_annuelle_Region_Occitanie_Polluants_Principaux.csv")
 bdd['valeur'].fillna(0, inplace=True)
 
 # Créer une application Dash
@@ -159,6 +161,8 @@ if __name__ == '__main__':
     app.run_server(debug=True)
 
 # %%
+
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -167,7 +171,7 @@ import pandas as pd
 import plotly.express as px
 
 # Charger les données
-bdd = pd.read_csv("/home/qufst/projetgroupe2/GroupProject/basededonnee2020/Mesure_annuelle_Region_Occitanie_Polluants_Principaux.csv")
+bdd = pd.read_csv("/home/e20200016076/projet2/GroupProject/basededonnee2020/Mesure_annuelle_Region_Occitanie_Polluants_Principaux.csv")
 bdd['valeur'].fillna(0, inplace=True)
 
 # Créer une application Dash
@@ -225,6 +229,7 @@ if __name__ == '__main__':
     app.run_server(debug=True)
 
 # %%
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -234,7 +239,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # Charger les données
-bdd = pd.read_csv("/home/qufst/projetgroupe2/GroupProject/basededonnee2020/Mesure_annuelle_Region_Occitanie_Polluants_Principaux.csv")
+bdd = pd.read_csv("/home/e20200016076/projet2/GroupProject/basededonnee2020/Mesure_annuelle_Region_Occitanie_Polluants_Principaux.csv")
 bdd['valeur'].fillna(0, inplace=True)
 
 # Créer une application Dash
@@ -297,3 +302,81 @@ if __name__ == '__main__':
 
 
 
+
+# %% intervertion des polluants avec les départements
+#{ojs} à la place de {py}
+#df_titanic_raw = df_titanic_raw.set_index('Name')
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+from dash.dependencies import Input, Output
+import pandas as pd
+import plotly.express as px
+
+# Charger les données
+bdd = pd.read_csv("/home/e20200016076/projet2/GroupProject/basededonnee2020/Mesure_annuelle_Region_Occitanie_Polluants_Principaux.csv")
+bdd['valeur'].fillna(0, inplace=True)
+
+# Créer une application Dash
+app = dash.Dash(__name__)
+
+# Créer la mise en page de l'application
+app.layout = html.Div([
+    html.H1("Évolution de la pollution en Occitanie"),
+    
+    # Sélection du polluant
+    dcc.Dropdown(
+        id='departement',
+        options=[
+            {'label': 'HAUTE-GARONNE', 'value': 'HAUTE-GARONNE cliquer pour changer'},
+            {'label': 'GERS', 'value': 'GERS cliquer pour changer'},
+            {'label': 'TARN', 'value': 'TARN cliquer pour changer'},
+            {'label': 'HAUTES-PYRENEES', 'value': 'HAUTES-PYRENEES cliquer pour changer'},
+            {'label': 'TARN-ET-GARONNE', 'value': 'TARN-ET-GARONNE cliquer pour changer'},
+            {'label': 'HERAULT', 'value': 'HERAULT cliquer pour changer'},
+            {'label': 'PO', 'value': 'PO cliquer pour changer'},
+            {'label': 'AVEYRON', 'value': 'AVEYRON cliquer pour changer'},
+            {'label': 'ARIEGE', 'value': 'ARIEGE cliquer pour changer'},
+            {'label': 'AUDE', 'value': 'AUDE cliquer pour changer'},
+            {'label': 'GARD', 'value': 'GARD cliquer pour changer'},
+            {'label': 'LOT', 'value': 'LOT cliquer pour changer'},
+            {'label': 'LOZERE', 'value': 'ARIEGE cliquer pour changer'},
+
+        ],
+        value='NO'
+    ),
+    
+    # Graphique interactif
+    dcc.Graph(id='pollution-graph')
+])
+
+# Mettre à jour le graphique en fonction de la sélection du polluant
+@app.callback(
+    Output('pollution-graph', 'figure'),
+    [Input('departement', 'value')]
+)
+def update_graph(selected_polluant):
+    filtered_data = bdd[bdd['nom_poll'] == selected_polluant]
+    fig = px.scatter(
+        filtered_data, x='date_debut', y='valeur',
+        animation_frame='date_debut', animation_group='nom_poll',
+        color='nom_dept', size='valeur', hover_name='date_debut',
+        log_x=False, range_x=(0, 5), range_y=(-1, 100)
+    )
+    
+    # Ralentir l'animation (1000 ms = 1 seconde)
+    fig.update_layout(
+        title=f'Évolution de la pollution moyenne des 5 dernières années en {selected_departement}',
+        xaxis_title='Année',
+        yaxis_title='Valeur ug.m-3'
+    )
+    
+    # Spécifier la durée de chaque frame (animation)
+    frame_duration = 1000  # Durée de chaque frame en millisecondes
+    fig.update_traces(marker=dict(size=filtered_data['valeur']))
+    fig.add_traces
+    return fig
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
+# %%
