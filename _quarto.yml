@@ -18,6 +18,8 @@ project:
     - Departements/Pyrenees-Orientales.qmd
     - Departements/Tarn-et-Garonne.qmd
     - Departements/Tarn.qmd
+    - villes.qmd
+    - meteo.qmd
 
 
 website:
@@ -50,9 +52,11 @@ website:
           - Departements/Pyrenees-Orientales.qmd
           - Departements/Tarn-et-Garonne.qmd
           - Departements/Tarn.qmd
+      - villes.qmd
+      - meteo.qmd
       - href: about.qmd
         text: À propos
-      - Avancee.qmd
+      
 
 
 

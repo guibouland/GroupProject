@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -48,11 +48,9 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="projet-groupe-4" class="level1">
-<h1>Projet Groupe 4</h1>
-</section>
-<section id="projet-groupe-pollution-en-occitanie-groupe-4" class="level1">
-<h1>Projet Groupe Pollution en Occitanie groupe 4</h1>
+<h1 style="text-align: center;">
+Pollution Occitanie
+</h1>
 <section id="environnement" class="level2">
 <h2 class="anchored" data-anchor-id="environnement">Environnement</h2>
 <p>Pour ce projet, nous allons avoir besoin d’un environnement contenant:</p>
@@ -60,14 +58,17 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Python</strong>;</li>
 <li><strong>Pandas</strong> pour la manipulation de données;</li>
 <li><strong>Plotly</strong> pour la modélisation des données;</li>
-<li><strong>Dash</strong> pour rendre les légendes des graphiques et des cartes intéractives;</li>
-<li><strong>Pytest</strong> pour éliminer un maximum de bug possibles dans nos codes;</li>
-<li><strong>Pooch</strong>.</li>
+<li><strong>Dash</strong> pour rendre les légendes des graphiques et des cartes interactives;</li>
+<li><strong>Pytest</strong> pour éliminer un maximum de bugs possibles dans nos codes;</li>
+<li><strong>Seaborn</strong> pour la modélisation de données au même titre que plotly.</li>
 </ul>
+<p>L’objectif est de représenter l’évolution de différents types de polluants en Occitanie durant 3 périodes différentes.</p>
+<p>Par exemple, on s’intéresse à l’évolution durant les 5 dernières années. Pour cela, on utilise une base de données comportant uniquement la valeur moyenne annuelle de chaque polluant pour plusieurs villes, réparties équitablement dans chaque département en Occitanie.</p>
+<p>Pour modéliser cela, nous allons utiliser la bibliothèque Pandas afin d’extraire les données de la base avec la commande panda.read_csv(“chemin/de/la/base/de/donnée.csv”). Ensuite on utilise l’environnement plotly afin de créer les graphiques. On choisit de modéliser l’évolution moyenne annuelle des différents types de polluants au cours des 5 dernières années par département et dans certaines villes. Enfin, afin de rendre le site interactif, on utilise l’environnement dash qui va nous permettre de créer un fichier html regroupant nos graphiques et de sélectionner le département que l’on veut afficher.</p>
 </section>
 <section id="objectif" class="level2">
 <h2 class="anchored" data-anchor-id="objectif">Objectif</h2>
-<p>L’objectif est de créer un site contenant une carte interactive permettant de voir la pollution en occitannie à une période donnée. Cette carte devra être lisible et facilement interprétable. Les données sont extraites du site <a href="https://data-atmo-occitanie.opendata.arcgis.com/pages/liste-des-flux">Atmo Occitanie</a> et concerneront la pollution de l’air, notamment les particules en suspension, les particules fines et le dioxyde d’azote.</p>
+<p>L’objectif est de créer un site contenant une carte interactive permettant de voir la pollution en Occitannie à une période donnée. Cette carte devra être lisible et facilement interprétable. Les données sont extraites du site <a href="https://data-atmo-occitanie.opendata.arcgis.com/pages/liste-des-flux">Atmo Occitanie</a> et concerneront la pollution de l’air, notamment les particules en suspension, les particules fines et le dioxyde d’azote.</p>
 </section>
 <section id="feuille-de-route" class="level2">
 <h2 class="anchored" data-anchor-id="feuille-de-route">Feuille de route</h2>
@@ -80,34 +81,33 @@ ul.task-list li input[type="checkbox"] {
 <div>
 <pre class="mermaid mermaid-js">    gantt
         dateFormat YYYY-MM-DD
-        title Diagramme de Gantt pour les avancées du projet
+        title Diagramme de Gantt sur les avancées du projet
         
-        %% Ceci est provisoire
         section Pierre
-            familiatisation avec quarto  : done,     2023-10-01, 2023-10-07
-            création de l'ébauche du site : done,   2023-10-07, 2023-10-14
-            Programmation : active,         2023-10-23, 2023-12-10
-            Aspect interactif de la carte : crit,         2023-10-14, 2023-12-10
-            Rendre la carte cliquable par departements : crit,  2023-10-14, 2023-10-28
-            Pollution sur les cartes selon légende : crit, 2023-10-28, 2023-11-18
+            Familiatisation avec quarto  : done,     2023-10-01, 2023-10-07
+            Création ébauche du site : done,   2023-10-07, 2023-10-14
+            Aspect interactif de la carte : ,         2023-10-14, 2023-12-10
+            Rendre la carte cliquable par departements : active,  2023-10-14, 2023-10-28
+            Pollution sur les cartes selon légende : crit, 2023-10-28, 2023-12-10
             
         section Guillaume
-            Recherche concernant le projet  : done,     2023-10-01, 2023-10-23
-            Programmation : active,         2023-10-23, 2023-12-10
-            Elaboration du site : crit,         2023-10-23, 2023-12-10
+            Création du site  : done,     2023-10-01, 2023-10-23
+            Evolution pollution\ pop par année: crit,    2023-10-23, 2023-11-15
+            Pollution villes: crit,  2023-11-15, 2023-12-10
             
         section Maxence
-            Recherche concernant le projet : done,     2023-10-01, 2023-10-23
-            Programmation : active,         2023-10-23, 2023-12-10
-            Création des classes : crit,         2023-10-23, 2023-11-10
+            Vérification des informations : done,     2023-10-01, 2023-10-23
+            Sélection des données météo + Création classes : crit,         2023-10-23, 2023-11-08
+            Lien météo avec polluants : crit, 2023-11-08, 2023-12-03
+            Formatage code + Pytest : crit, 2023-12-03, 2023-12-10
             
         section Quentin
-            Recherche concernant le projet : done,     2023-10-01, 2023-10-23
-            Programmation : active,         2023-10-23, 2023-12-10
-            Sélection des données : crit,         2023-10-23, 2023-11-10
-            Utilisation/interprétation des données : crit,         2023-11-10, 2023-12-10
+            Sélection des données polluants : done,     2023-10-01, 2023-10-23
+            Création des graphiques : crit,         2023-10-23, 2023-11-10
+            Insertion des graphiques dans le site et interprétation : crit,         2023-11-10, 2023-12-10
+            
         section Groupe
-            Préparation de la presentation orale avec slides sur Quarto : crit, 2023-11-18, 2023-12-10
+            Préparation présentation orale avec slides Quarto : crit, 2023-11-18, 2023-12-10
         
         section Evaluation
             Présentation projet : active, milestone,     2023-10-23, 2023-10-23
@@ -125,27 +125,42 @@ ul.task-list li input[type="checkbox"] {
 <p>Pour ne pas déranger nos travaux respectifs, nous feront évoluer le projet à l’aide de plusieurs branches:</p>
 <ul>
 <li>“site” qui sera attribuée à toutes les modifications concernant le site;</li>
-<li>“plot” specifique aux graphiques;</li>
+<li>“plot” spécifique aux graphiques;</li>
 <li>“carte” pour manipuler celles-ci.</li>
 </ul>
 </section>
 <section id="visuel" class="level3">
 <h3 class="anchored" data-anchor-id="visuel">Visuel</h3>
-<p><img src="https://github.com/guibouland/GroupProject/tree/main/images/objectifSchema.png" class="img-fluid"></p>
+<p><img src="objectifSchema.png" class="img-fluid"></p>
 </section>
 </section>
 <section id="site-web" class="level2">
 <h2 class="anchored" data-anchor-id="site-web">Site Web</h2>
-<p>Le site internet de ce projet est disponible à l’URL suivante: <a href="https://guibouland.github.io/GroupProject/">https://guibouland.github.io/GroupProject</a></p>
+<p>Le site internet de ce projet est disponible à l’URL suivante: <a href="https://guibouland.github.io/GroupProject/">https://guibouland.github.io/GroupProject</a>.</p>
+<section id="contenus" class="level3">
+<h3 class="anchored" data-anchor-id="contenus">Contenus</h3>
+<p>Il comportera une page principale d’accueil, qui comportera une carte interactive de toute la région Occitanie ainsi qu’un graphique lui aussi interactif qui traitera des différents polluants dans les 13 départements. Vous pourrez retirer des départements et choisir les polluants que vous voulez.</p>
+<p>Ensuite dans la barre de navigation, vous pouvez déjà trouver un menu déroulant nommé “Départements” contenant les 13 départements de la région Occitanie. Le but est, pour chaque département, de déployer une carte zoomable de la pollution selon divers polluants, ainsi qu’un graphique interactif sur les 5 dernières années de l’évolution de la concentration des différents polluants dans le département. La carte de la page d’accueil devra être cliquable et renvoyer vers les pages des départements respectifs. Nous souhaitons aussi ajouter une rubrique “À propos”, qui contiendra un résumé sur la manière de prendre en main le site, parler du projet en général et donner nos sources.</p>
+<p>Vous trouverez aussi une page “Villes”. Nous souhaitons voir l’état de la pollution en milieu ultra-urbain dans les 3 plus grandes villes de la région pour mettre en évidence la différence avec un milieu plus rural, tout cela à travers un graphique interactif comparant les taux de pollution, selon les polluants, dans ces 3 grandes villes, comparés à la moyenne régionale. Pour cela nous allons principalement utiliser le package “seaborn” pour la modélisation des données et l’interactivité des graphiques.</p>
+<p>En bonus, nous aimerions faire un lien avec les projets personnels en montrant, s’il existe, un lien entre les conditions météorologiques et la pollution dans au moins une ville majeure d’Occitanie qui se trouvera dans une page “Lien météo”. Le package “seaborn” sera également nécessaire pour cela.</p>
+</section>
+<section id="petits-ajouts" class="level3">
+<h3 class="anchored" data-anchor-id="petits-ajouts">Petits ajouts</h3>
+<p>Dans la barre de navigation, à droite, il existe une petite icône renvoyant directement au repository de ce projet. En bas de la page, vous trouverez aussi un lien renvoyant vers le code source et la page pour évoquer d’éventuels problèmes.</p>
+</section>
 </section>
 <section id="choix-des-données" class="level2">
 <h2 class="anchored" data-anchor-id="choix-des-données">Choix des données</h2>
 <p>Les données du site <a href="https://data-atmo-occitanie.opendata.arcgis.com/pages/liste-des-flux">Atmo Occitanie</a> sont nombreuses et ne nous seront pas toutes utiles. Nous allons donc utiliser les suivantes:</p>
 <ul>
-<li>Les données de 2020</li>
-<li>Les données d’il y a 5 ans</li>
+<li>Les données de 2020, année du covid.</li>
+<li>les données concernant l’évolution durant les 5 dernières années. Pour cela on utilise une base de données comportant uniquement la valeur moyenne annuelle de chaque polluant pour plusieurs villes, réparties équitablement dans chaque département en Occitanie.</li>
+<li>Les données sur l’année actuelle, plus précisément le dernier mois.</li>
 </ul>
 </section>
+<section id="concernant-ce-dépôt" class="level2">
+<h2 class="anchored" data-anchor-id="concernant-ce-dépôt">Concernant ce dépôt</h2>
+<p>Nous avons eu un problème lors du déploiement de notre site au public, ce qui nous a contraint à devoir changer de repository pour repartir sur de meilleures bases, d’où l’inégalité entre certains commits. Si vous voulez en revanche consulter les commits fait avant ce retournement de situation vous pouvez le faire via <a href="https://github.com/guibouland/ProjetGroupe.git">ce dépôt</a>.</p>
 </section>
 
 </main>

@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "La pollution en Occitanie",
     "section": "",
-    "text": "Les départements sont contourés et cliquables"
+    "text": "Make this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\nLes départements seront contourés et cliquables\nceci est un test"
   },
   {
     "objectID": "about.html",
@@ -18,7 +18,7 @@
     "href": "index.html#carte-de-loccitanie",
     "title": "La pollution en Occitanie",
     "section": "",
-    "text": "Les départements sont contourés et cliquables"
+    "text": "Make this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\nLes départements seront contourés et cliquables\nceci est un test"
   },
   {
     "objectID": "Departements/Tarn.html",
@@ -117,5 +117,19 @@
     "title": "Tarn-et-Garonne",
     "section": "",
     "text": "Back to top"
+  },
+  {
+    "objectID": "villes.html",
+    "href": "villes.html",
+    "title": "Villes",
+    "section": "",
+    "text": "Comparatifs entre grandes villes et petites villes\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "meteo.html",
+    "href": "meteo.html",
+    "title": "Lien météo",
+    "section": "",
+    "text": "Lien entre la météo et le taux de pollution\n\n\n\n\n Back to top"
   }
 ]
