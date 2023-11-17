@@ -12,11 +12,24 @@ sf = gpd.read_file('departements-version-simplifiee.geojson')
 #indexNames = sf[sf["code"] != ("09" or "11")].index
 indexNames = sf[(sf["code"] != "09") & (sf["code"] != "11") & (sf["code"] != "12") & (sf["code"] != "30") & (sf["code"] != "31") & (sf["code"] != "32") & (sf["code"] != "34") & (sf["code"] != "46")& (sf["code"] != "48")& (sf["code"] != "65")& (sf["code"] != "66")& (sf["code"] != "81")& (sf["code"] != "82")].index
 sf.drop(indexNames, inplace=True)
+#print(sf)
 import folium
 #import json
 centre = [43.716671, 2.15]
 Occitanie = folium.Map(location = centre, zoom_start = 7)
-folium.GeoJson(sf,zoom_on_click=True).add_to(Occitanie)
+folium.GeoJson(sf[["nom","geometry"]],zoom_on_click=True,style_function=lambda feature: {
+        "fillColor": "#bbbb00",
+        "color": "white",
+        "weight": 1,
+        "dashArray": "5, 5",
+        "fillOpacity": 0.01
+    },highlight_function=lambda x: {
+        'fillOpacity':0.2
+    },tooltip=folium.features.GeoJsonTooltip(
+        fields=['nom'],
+        aliases=['Département:'],
+    )
+).add_to(Occitanie)
 #ariege=json.load(open('departement-09-ariege.geojson').read())
 #print(ariege.keys())
 Occitanie
