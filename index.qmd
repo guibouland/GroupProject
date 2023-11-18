@@ -17,7 +17,7 @@ import folium
 centre = [43.716671, 2.15]
 Occitanie = folium.Map(location = centre, zoom_start = 7)
 folium.GeoJson(
-  sf[["nom","geometry"]],
+  sf[["nom","geometry"]],name='Départements',
   zoom_on_click=True,
   style_function=lambda feature: {
         "fillColor": "#003322",
@@ -46,9 +46,11 @@ heatPM=heatPM10.dropna()
 lng = heatPM['X'].tolist()
 lat = heatPM['Y'].tolist()
 val = heatPM['valeur'].tolist()
-pm10=HeatMap(list(zip(lat, lng, val)))
+pm10=HeatMap(list(zip(lat, lng, val)),name='PM10',gradient={0: '#97ECF0', 0.3: '#73B5FA', 0.5:"#9A73FA", 0.7:"#FF37C8", 1: 'red'})
 pm10.add_to(Occitanie)
 
+folium.TileLayer('CartoDB Positron').add_to(Occitanie)
+folium.LayerControl().add_to(Occitanie)
 
 Occitanie
 ```
