@@ -8,6 +8,8 @@ execute:
 
 ```{python}
 import geopandas as gpd
+import pandas as pd
+#base de la carte avec les départements
 sf = gpd.read_file('departements-version-simplifiee.geojson')
 indexNames = sf[(sf["code"] != "09") & (sf["code"] != "11") & (sf["code"] != "12") & (sf["code"] != "30") & (sf["code"] != "31") & (sf["code"] != "32") & (sf["code"] != "34") & (sf["code"] != "46")& (sf["code"] != "48")& (sf["code"] != "65")& (sf["code"] != "66")& (sf["code"] != "81")& (sf["code"] != "82")].index
 sf.drop(indexNames, inplace=True)
@@ -19,17 +21,40 @@ folium.GeoJson(
   zoom_on_click=True,
   style_function=lambda feature: {
         "fillColor": "#003322",
-        "color": "white",
+        "color": "grey",
         "weight": 2,
         "dashArray": "5, 5",
         "fillOpacity": 0.01},
-    highlight_function=lambda x: {
-        'line_opacity':1,
-        "fillOpacity": 0.2},
         tooltip=folium.features.GeoJsonTooltip(
         fields=['nom'],
         aliases=['Département:'],)
               ).add_to(Occitanie)
+
+#ajout layer pollution
+from folium.plugins import HeatMap
+
+polluants=pd.read_csv('bases_de_donnees/Mesure_5dernieresannees.csv',sep=",", na_values="", low_memory=False)
+
+polluants['Date_'] = pd.to_datetime(polluants['date_debut'])
+polluants['Date'] = polluants['Date_'].dt.strftime('%Y')
+PM = polluants[(polluants['nom_poll'] == 'PM10')]
+PM2023=PM[(PM['Date'] == '2022')]
+
+heatPM10 = PM2023[["X", "Y", "valeur"]].copy()
+heatPM0=heatPM10.dropna()
+m=heatPM0['valeur'].max()
+print(m)
+def divmax(x):
+  return x/m
+
+heatPM0bis=heatPM0[['valeur']].apply(divmax)
+print(heatPM0bis)
+heatPM=pd.concat([heatPM0[["X", "Y"]],heatPM0bis[['valeur']]],axis=1)
+print(heatPM[["X", "Y", "valeur"]])
+heatPM[["X", "Y", "valeur"]]
+folium.plugins.HeatMap(heatPM[["X", "Y", "valeur"]]).add_to(Occitanie)
+
+
 Occitanie
 ```
 
