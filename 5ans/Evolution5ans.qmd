@@ -1,6 +1,7 @@
-
 ---
 title: "Pollution en Occitanie durant les 5 années précédentes"
+execute:
+    echo: false
 ---
 
 ```{python}
@@ -11,7 +12,7 @@ import pandas as pd
 import plotly.express as px
 
 # Charger les données
-bdd = pd.read_csv("bases_de_donnees/Mesure_5dernieresannees.csv")
+bdd = pd.read_csv("../bases_de_donnees/Mesure_5dernieresannees.csv")
 bdd['valeur'].fillna(0, inplace=True)
 
 # Créer une application Dash

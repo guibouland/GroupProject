@@ -131,5 +131,19 @@
     "title": "Lien météo",
     "section": "",
     "text": "Lien entre la météo et le taux de pollution\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "villes/villes.html",
+    "href": "villes/villes.html",
+    "title": "Villes",
+    "section": "",
+    "text": "Comparatifs entre grandes villes et petites villes\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "5ans/Evolution5ans.html",
+    "href": "5ans/Evolution5ans.html",
+    "title": "Pollution en Occitanie durant les 5 années précédentes",
+    "section": "",
+    "text": "Le graphique précédent nous permet d’observer la variation de quantité de chaque polluant en moyenne par an durant les 5 dernières années dans chaque département de l’Occitanie. Certains département proposent de nombreuses données comme la Haute Garonne. Cependant d’autres départements comme le Lot ou l’Aude n’en proposent pas du tout, donc on ne peut pas traiter ces derniers. On a choisit d’afficher quand même les autres départements contenant peu de données cependant les graphiques sont peu instructifs. Les valeurs nulles dans les graphiques correspondent à un manque de donnée.\n\n\n\n Back to top"
   }
 ]
