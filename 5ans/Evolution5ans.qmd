@@ -100,3 +100,8 @@ if __name__ == '__main__':
     app.run_server(debug=True)
 
 ```
+
+Le graphique précédent nous permet d'observer la variation de quantité de chaque polluant en moyenne par an durant les 5 dernières années dans chaque département de l'Occitanie. 
+Certains département proposent de nombreuses données comme la Haute Garonne. Cependant d'autres départements comme le Lot ou l'Aude n'en proposent pas du tout, donc on ne peut pas traiter ces derniers. 
+On a choisit d'afficher quand même les autres départements contenant peu de données cependant les graphiques sont peu instructifs. 
+Les valeurs nulles dans les graphiques correspondent à un manque de donnée.
