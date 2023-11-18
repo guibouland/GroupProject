@@ -16,24 +16,31 @@ POLLUANTS
 """
 
 # Importer les valeurs
-polluants = pd.read_csv("bases_de_donnees/donnees_polluants_2022_2023.csv", sep=",", na_values="", low_memory=False)
+polluants = pd.read_csv("bases_de_donnees/donnees_polluants_2022_2023.csv",
+                        sep=",", na_values="", low_memory=False)
 
-# Extraire la date sans l'heure de 'date_debut'
+# Extraire le mois de chaque date
 polluants['Date_'] = pd.to_datetime(polluants['date_debut'])
 polluants['Date'] = polluants['Date_'].dt.strftime('%m')
 
 # Moyenne des valeurs des polluants par jour
-PM = polluants[(polluants['nom_poll'] == 'PM10')].groupby('Date')['valeur'].mean().reset_index()
+PM = polluants[(polluants['nom_poll'] == 'PM10')].groupby(
+    'Date')['valeur'].mean().reset_index()
 PM['nom'] = 'PM10'
-O = polluants[(polluants['nom_poll'] == 'O3')].groupby('Date')['valeur'].mean().reset_index()
+O = polluants[(polluants['nom_poll'] == 'O3')].groupby(
+    'Date')['valeur'].mean().reset_index()
 O['nom'] = '03'
-NOX = polluants[(polluants['nom_poll'] == 'NOX')].groupby('Date')['valeur'].mean().reset_index()
+NOX = polluants[(polluants['nom_poll'] == 'NOX')].groupby(
+    'Date')['valeur'].mean().reset_index()
 NOX['nom'] = 'NOX'
-NOO = polluants[(polluants['nom_poll'] == 'NO2')].groupby('Date')['valeur'].mean().reset_index()
+NOO = polluants[(polluants['nom_poll'] == 'NO2')].groupby(
+    'Date')['valeur'].mean().reset_index()
 NOO['nom'] = 'NO2'
-PMM = polluants[(polluants['nom_poll'] == 'PM2.5')].groupby('Date')['valeur'].mean().reset_index()
+PMM = polluants[(polluants['nom_poll'] == 'PM2.5')].groupby(
+    'Date')['valeur'].mean().reset_index()
 PMM['nom'] = 'PM2.5'
-NO = polluants[(polluants['nom_poll'] == 'NO')].groupby('Date')['valeur'].mean().reset_index()
+NO = polluants[(polluants['nom_poll'] == 'NO')].groupby(
+    'Date')['valeur'].mean().reset_index()
 NO['nom'] = 'NO'
 
 
@@ -57,13 +64,13 @@ mois_mapping = {
     "12": "décembre"
 }
 
-# Concaténer de toutes les informations
+# Concaténer tous les polluants
 resultat = pd.concat([PM, O, NOX, NOO, PMM, NO], ignore_index=True)
 
 # Remplacement des valeurs dans la colonne "Date"
 resultat['Date'] = resultat['Date'].replace(mois_mapping)
 
-# Paramétrer le graphique 
+# Paramétrer le graphique
 fig = px.line_polar(
     resultat,
     r="valeur",
@@ -72,7 +79,8 @@ fig = px.line_polar(
     line_close=True,
     range_r=[0, max(resultat["valeur"])],
     start_angle=90,
-    color_discrete_sequence=['blue', 'red','green','orange','grey','purple'],
+    color_discrete_sequence=['blue', 'red',
+                             'green', 'orange', 'grey', 'purple'],
     title="Niveau mensuel de pollution à Perpignan",
 )
 
@@ -97,7 +105,7 @@ fig.update_layout(
     paper_bgcolor="rgb(230, 230, 230)"
 )
 
-# Afficher le graphique 
+# Afficher le graphique
 fig.show()
 ```
 
@@ -108,20 +116,27 @@ fig.show()
 EVOLUTION QUOTIDIENNE POLUTION SUR 1 AN
 """
 
+# Extraire le jour de chaque date
 polluants['Jour'] = polluants['Date_'].dt.strftime('%A')
 
 # Moyenne des valeurs des polluants par jour
-PM = polluants[(polluants['nom_poll'] == 'PM10')].groupby('Jour')['valeur'].mean().reset_index()
+PM = polluants[(polluants['nom_poll'] == 'PM10')].groupby(
+    'Jour')['valeur'].mean().reset_index()
 PM['nom'] = 'PM10'
-O = polluants[(polluants['nom_poll'] == 'O3')].groupby('Jour')['valeur'].mean().reset_index()
+O = polluants[(polluants['nom_poll'] == 'O3')].groupby(
+    'Jour')['valeur'].mean().reset_index()
 O['nom'] = '03'
-NOX = polluants[(polluants['nom_poll'] == 'NOX')].groupby('Jour')['valeur'].mean().reset_index()
+NOX = polluants[(polluants['nom_poll'] == 'NOX')].groupby(
+    'Jour')['valeur'].mean().reset_index()
 NOX['nom'] = 'NOX'
-NOO = polluants[(polluants['nom_poll'] == 'NO2')].groupby('Jour')['valeur'].mean().reset_index()
+NOO = polluants[(polluants['nom_poll'] == 'NO2')].groupby(
+    'Jour')['valeur'].mean().reset_index()
 NOO['nom'] = 'NO2'
-PMM = polluants[(polluants['nom_poll'] == 'PM2.5')].groupby('Jour')['valeur'].mean().reset_index()
+PMM = polluants[(polluants['nom_poll'] == 'PM2.5')].groupby(
+    'Jour')['valeur'].mean().reset_index()
 PMM['nom'] = 'PM2.5'
-NO = polluants[(polluants['nom_poll'] == 'NO')].groupby('Jour')['valeur'].mean().reset_index()
+NO = polluants[(polluants['nom_poll'] == 'NO')].groupby(
+    'Jour')['valeur'].mean().reset_index()
 NO['nom'] = 'NO'
 
 
@@ -129,10 +144,10 @@ NO['nom'] = 'NO'
 GRAPHIQUE TEST
 """
 
-# Concaténer de toutes les informations
+# Concaténer tous les polluants
 resultat = pd.concat([PM, O, NOX, NOO, PMM, NO], ignore_index=True)
 
-# Paramétrer le graphique 
+# Paramétrer le graphique
 fig = px.line_polar(
     resultat,
     r="valeur",
@@ -141,7 +156,8 @@ fig = px.line_polar(
     line_close=True,
     range_r=[0, max(resultat["valeur"])],
     start_angle=90,
-    color_discrete_sequence=['blue', 'red','green','orange','grey','purple'],
+    color_discrete_sequence=['blue', 'red',
+                             'green', 'orange', 'grey', 'purple'],
     title="Niveau quotidien de pollution à Perpignan",
 )
 
@@ -166,7 +182,7 @@ fig.update_layout(
     paper_bgcolor="rgb(230, 230, 230)"
 )
 
-# Afficher le graphique 
+# Afficher le graphique
 fig.show()
 ```
 
@@ -178,11 +194,12 @@ VENT
 """
 
 # Importer les valeurs
-vent = pd.read_csv("bases_de_donnees/donnees_vent_09_2023.csv", sep=";", na_values="", low_memory=False)
+vent = pd.read_csv("bases_de_donnees/donnees_vent_09_2023.csv",
+                   sep=";", na_values="", low_memory=False)
 
 # Renommer colonnes
 colonne = {
-    "Vitesse du vent moyen 10 mn":"valeur"
+    "Vitesse du vent moyen 10 mn": "valeur"
 }
 vent.rename(columns=colonne, inplace=True)
 
@@ -192,60 +209,76 @@ vent["Date"] = vent["Date"].apply(lambda x: x.split("T")[0])
 vent['Date'] = pd.to_datetime(vent['Date'])
 vent['Date'] = vent['Date'].dt.strftime('%d')
 
-vent["valeur"] = vent["valeur"]
-
 # Vitesse moyenne du vent chaque jour
 moyenne = vent.groupby('Date')['valeur'].mean().reset_index()
 moyenne['nom'] = "vent"
+
 
 """
 POLLUANTS
 """
 
 # Importer les valeurs
-polluants = pd.read_csv("bases_de_donnees/donnees_polluants_09_2023.csv", sep=",", na_values="", low_memory=False)
+polluants = pd.read_csv("bases_de_donnees/donnees_polluants_09_2023.csv",
+                        sep=",", na_values="", low_memory=False)
 
 # Extraire la date sans l'heure de 'date_debut'
 polluants['Date'] = pd.to_datetime(polluants['date_debut'])
 polluants['Date'] = polluants['Date'].dt.strftime('%d')
 
 # Moyenne des valeurs des polluants par jour
-PM = polluants[(polluants['nom_poll'] == 'PM10')].groupby('Date')['valeur'].mean().reset_index()
-O = polluants[(polluants['nom_poll'] == 'O3')].groupby('Date')['valeur'].mean().reset_index()
-NOX = polluants[(polluants['nom_poll'] == 'NOX')].groupby('Date')['valeur'].mean().reset_index()
-NOO = polluants[(polluants['nom_poll'] == 'NO2')].groupby('Date')['valeur'].mean().reset_index()
-PMM = polluants[(polluants['nom_poll'] == 'PM2.5')].groupby('Date')['valeur'].mean().reset_index()
-NO = polluants[(polluants['nom_poll'] == 'NO')].groupby('Date')['valeur'].mean().reset_index()
+PM = polluants[(polluants['nom_poll'] == 'PM10')].groupby(
+    'Date')['valeur'].mean().reset_index()
+O = polluants[(polluants['nom_poll'] == 'O3')].groupby(
+    'Date')['valeur'].mean().reset_index()
+NOX = polluants[(polluants['nom_poll'] == 'NOX')].groupby(
+    'Date')['valeur'].mean().reset_index()
+NOO = polluants[(polluants['nom_poll'] == 'NO2')].groupby(
+    'Date')['valeur'].mean().reset_index()
+PMM = polluants[(polluants['nom_poll'] == 'PM2.5')].groupby(
+    'Date')['valeur'].mean().reset_index()
+NO = polluants[(polluants['nom_poll'] == 'NO')].groupby(
+    'Date')['valeur'].mean().reset_index()
+
 
 """
 GRAPHIQUE
 """
 
-# Création de la trace
-trace1 = go.Scatter(x=PM["Date"], y=PM["valeur"], mode='lines', line=dict(width=2, color='blue'), name='PM10')
-trace2 = go.Scatter(x=O["Date"], y=O["valeur"], mode='lines', line=dict(width=2, color='red'), name='O3')
-trace3 = go.Scatter(x=NOX["Date"], y=NOX["valeur"], mode='lines', line=dict(width=2, color='green'), name='NOX')
-trace4 = go.Scatter(x=NOO["Date"], y=NOO["valeur"], mode='lines', line=dict(width=2, color='orange'), name='NO2')
-trace5 = go.Scatter(x=PMM["Date"], y=PMM["valeur"], mode='lines', line=dict(width=2, color='grey'), name='PM2.5')
-trace6 = go.Scatter(x=NO["Date"], y=NO["valeur"], mode='lines', line=dict(width=2, color='purple'), name='NO')
+# Créer la trace
+trace1 = go.Scatter(x=PM["Date"], y=PM["valeur"], mode='lines', line=dict(
+    width=2, color='blue'), name='PM10')
+trace2 = go.Scatter(x=O["Date"], y=O["valeur"], mode='lines',
+                    line=dict(width=2, color='red'), name='O3')
+trace3 = go.Scatter(x=NOX["Date"], y=NOX["valeur"], mode='lines', line=dict(
+    width=2, color='green'), name='NOX')
+trace4 = go.Scatter(x=NOO["Date"], y=NOO["valeur"], mode='lines', line=dict(
+    width=2, color='orange'), name='NO2')
+trace5 = go.Scatter(x=PMM["Date"], y=PMM["valeur"], mode='lines', line=dict(
+    width=2, color='grey'), name='PM2.5')
+trace6 = go.Scatter(x=NO["Date"], y=NO["valeur"], mode='lines', line=dict(
+    width=2, color='purple'), name='NO')
 
-# Ajout de la trace pour le vecteur moyenne sur le deuxième axe Y
-trace_moyenne = go.Scatter(x=moyenne["Date"], y=moyenne["valeur"], mode='lines', line=dict(width=2, color='black'), name='Vitesse du vent', yaxis='y2')
+# Ajouter la trace pour le vecteur moyenne sur le deuxième axe Y
+trace_moyenne = go.Scatter(x=moyenne["Date"], y=moyenne["valeur"], mode='lines', line=dict(
+    width=2, color='black'), name='Vitesse du vent', yaxis='y2')
 
-# Création de la figure
-fig = go.Figure([trace1, trace2, trace3, trace4, trace5, trace6, trace_moyenne])
+# Créer de la figure
+fig = go.Figure([trace1, trace2, trace3, trace4,
+                trace5, trace6, trace_moyenne])
 
-# Personnalisation de la mise en page
+# Personnaliser la mise en page
 fig.update_layout(
     title='Vitesse du vent et niveau de pollution à Perpignan',
     xaxis=dict(title='Temps'),
     yaxis=dict(title='Polluants', side='left', position=0.1),
-    yaxis2=dict(title='Vitesse du vent', overlaying='y', side='right', position=0.9),
+    yaxis2=dict(title='Vitesse du vent', overlaying='y',
+                side='right', position=0.9),
     font_size=15,
     showlegend=True,
     paper_bgcolor="rgb(230, 230, 230)"
 )
 
-# Affichage du graphe
+# Afficher le graphique
 fig.show()
 ```
