@@ -72,9 +72,9 @@ app.layout = html.Div([
 )
 def update_graph(selected_departement, selected_pollutant, selected_periode):
     if selected_periode == '5ans':
-        bdd = bdd1
-    else:
         bdd = bdd2
+    else:
+        bdd = bdd1
 
     filtered_data = bdd[(bdd['nom_dept'] == selected_departement) & (bdd['nom_poll'] == selected_pollutant)]
     filtered_data = filtered_data.sort_values(by='date_debut')
