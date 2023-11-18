@@ -38,8 +38,6 @@ website:
     left:
       - href: index.qmd
         text: Accueil 
-      - href: anneeactuelle.qmd
-        text: "évolution de la pollution"
       - text: "Départements"
         menu:
           - Departements/Ariege.qmd
@@ -56,7 +54,7 @@ website:
           - Departements/Tarn-et-Garonne.qmd
           - Departements/Tarn.qmd
       - href: anneeactuelle.qmd
-        text: "Année Actuelle"
+        text: "évolution de la pollution"
       - villes/villes.qmd
       - meteo.qmd
       - href: about.qmd
