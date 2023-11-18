@@ -39,9 +39,8 @@ website:
     left:
       - href: index.qmd
         text: Accueil 
-      - text: "5ans"
-        menu:
-          - 5ans/Evolution5ans.qmd
+      - href: anneeactuelle.qmd
+        text: "évolution de la pollution"
       - text: "Départements"
         menu:
           - Departements/Ariege.qmd
