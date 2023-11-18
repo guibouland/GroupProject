@@ -109,7 +109,7 @@ def update_graph(selected_departement, selected_pollutant, selected_periode):
     return scatter_fig
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(port=8051,debug=True)
 
 
 ```
