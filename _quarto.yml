@@ -6,6 +6,7 @@ project:
     - about.qmd
     - Avancee.qmd
     - 5ans/Evolution5ans.qmd
+    - anneeactuelle.qmd
     - Departements/Ariege.qmd
     - Departements/Aude.qmd
     - Departements/Aveyron.qmd
@@ -42,6 +43,8 @@ website:
         menu:
           - 5ans/Evolution5ans.qmd
       - text: "Départements"
+      - href: anneeactuelle.qmd
+        text: "année actuelle"
         menu:
           - Departements/Ariege.qmd
           - Departements/Aude.qmd
