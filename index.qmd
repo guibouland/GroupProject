@@ -37,10 +37,12 @@ polluants=pd.read_csv('bases_de_donnees/Mesure_5dernieresannees.csv',sep=",", na
 
 polluants['Date_'] = pd.to_datetime(polluants['date_debut'])
 polluants['Date'] = polluants['Date_'].dt.strftime('%Y')
-PM = polluants[(polluants['nom_poll'] == 'PM10')]
-PM2023=PM[(PM['Date'] == '2023')]
 
-heatPM10 = PM2023[["Y", "X", "valeur"]].copy()
+#PM10
+PM = polluants[(polluants['nom_poll'] == 'PM10')]
+PM2022=PM[(PM['Date'] == '2023')]
+
+heatPM10 = PM2022[["Y", "X", "valeur"]].copy()
 heatPM=heatPM10.dropna()
 
 lng = heatPM['X'].tolist()
@@ -49,6 +51,19 @@ val = heatPM['valeur'].tolist()
 pm10=HeatMap(list(zip(lat, lng, val)),name='PM10',gradient={0: '#97ECF0', 0.3: '#73B5FA', 0.5:"#9A73FA", 0.7:"#FF37C8", 1: 'red'})
 pm10.add_to(Occitanie)
 
+
+#NOX
+NOX = polluants[(polluants['nom_poll'] == 'NOX')]
+NOX2022=NOX[(NOX['Date'] == '2023')]
+
+heatNOXnan = NOX2022[["Y", "X", "valeur"]].copy()
+heatNOX=heatNOXnan.dropna()
+
+lng = heatNOX['X'].tolist()
+lat = heatNOX['Y'].tolist()
+val = heatNOX['valeur'].tolist()
+nox=HeatMap(list(zip(lat, lng, val)),name='NOX',gradient={0: '#97ECF0', 0.3: '#73B5FA', 0.5:"#9A73FA", 0.7:"#FF37C8", 1: 'red'})
+nox.add_to(Occitanie)
 folium.TileLayer('CartoDB Positron').add_to(Occitanie)
 folium.LayerControl().add_to(Occitanie)
 
