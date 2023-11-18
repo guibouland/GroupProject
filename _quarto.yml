@@ -18,7 +18,7 @@ project:
     - Departements/Pyrenees-Orientales.qmd
     - Departements/Tarn-et-Garonne.qmd
     - Departements/Tarn.qmd
-    - annéeactuelle.qmd
+    - anneeactuelle.qmd
     - villes/villes.qmd
     - meteo.qmd
 
@@ -53,8 +53,8 @@ website:
           - Departements/Pyrenees-Orientales.qmd
           - Departements/Tarn-et-Garonne.qmd
           - Departements/Tarn.qmd
-      - href: annéeactuelle.qmd
-        text: "évolution de la pollution"
+      - href: anneeactuelle.qmd
+        text: "Évolution de la pollution"
       - villes/villes.qmd
       - meteo.qmd
       - href: about.qmd

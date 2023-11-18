@@ -1,3 +1,7 @@
+---
+execute:
+    echo: false
+---
 ```{python}
 import dash
 from dash import dcc, html
@@ -22,7 +26,7 @@ app.layout = html.Div([
         id='periode',
         options=[
             {'label': '5 dernières années', 'value': '5ans'},
-            {'label': 'année actuelle', 'value': 'annee_actuelle'},
+            {'label': 'Année actuelle', 'value': 'annee_actuelle'},
         ],
         value='5ans'
     ),
@@ -54,7 +58,8 @@ app.layout = html.Div([
             {'label': 'NO2', 'value': 'NO2'},
             {'label': 'NOX', 'value': 'NOX'},
             {'label': 'O3', 'value': 'O3'},
-            {'label': 'PM10', 'value': 'PM10'}
+            {'label': 'PM10', 'value': 'PM10'},
+            {'label': 'PM2.5', 'value': 'PM2.5 '}
         ],
         value='NO'
     ),
@@ -113,6 +118,7 @@ if __name__ == '__main__':
 
 
 ```
+
 Le graphique précédent nous permet d'observer la variation de quantité de chaque polluant en moyenne par mois durant l'année en cours dans chaque département de l'Occitanie. 
 Certains département proposent de nombreuses données comme la Haute Garonne. Cependant d'autres départements comme le Lot ou l'Aude n'en proposent pas du tout, donc on ne peut pas traiter ces derniers. 
 On a choisit d'afficher quand même les autres départements contenant peu de données cependant les graphiques sont peu instructifs. 
