@@ -6,8 +6,10 @@ import pandas as pd
 import plotly.express as px
 
 # Charger les données
-bdd = pd.read_csv("bases_de_donnees/Mesure_mensuelle_annee.csv")
-bdd['valeur'].fillna(0, inplace=True)
+bdd1 = pd.read_csv("bases_de_donnees/Mesure_mensuelle_annee.csv")
+bdd1['valeur'].fillna(0, inplace=True)
+bdd2 = pd.read_csv("bases_de_donnees/Mesure_5dernieresannees.csv")
+bdd2['valeur'].fillna(0, inplace=True)
 
 # Créer une application Dash
 app = dash.Dash(__name__)
@@ -15,7 +17,16 @@ app = dash.Dash(__name__)
 # Créer la mise en page de l'application
 app.layout = html.Div([
     html.H1("Évolution de la pollution en Occitanie"),
-    
+    # Sélection de la période étudiée
+    dcc.Dropdown(
+        id='periode',
+        options=[
+            {'label': '5 dernières années', 'value': '5ans'},
+            {'label': 'année actuelle', 'value': 'annee_actuelle'},
+        ],
+        value='5ans'
+    ),
+
     # Sélection du département
     dcc.Dropdown(
         id='departement',
@@ -56,9 +67,15 @@ app.layout = html.Div([
 @app.callback(
     Output('scatter-graph', 'figure'),
     [Input('departement', 'value'),
-     Input('polluant-dropdown', 'value')]
+     Input('polluant-dropdown', 'value'),
+     Input('periode', 'value')]
 )
-def update_graph(selected_departement, selected_pollutant):
+def update_graph(selected_departement, selected_pollutant, selected_periode):
+    if selected_periode == '5ans':
+        bdd = bdd1
+    else:
+        bdd = bdd2
+
     filtered_data = bdd[(bdd['nom_dept'] == selected_departement) & (bdd['nom_poll'] == selected_pollutant)]
     filtered_data = filtered_data.sort_values(by='date_debut')
 
@@ -93,6 +110,7 @@ def update_graph(selected_departement, selected_pollutant):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
 
 ```
 Le graphique précédent nous permet d'observer la variation de quantité de chaque polluant en moyenne par mois durant l'année en cours dans chaque département de l'Occitanie. 
