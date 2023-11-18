@@ -1,0 +1,102 @@
+
+---
+title: "Pollution en Occitanie durant les 5 années précédentes"
+---
+
+```{python}
+import dash
+from dash import dcc, html
+from dash.dependencies import Input, Output
+import pandas as pd
+import plotly.express as px
+
+# Charger les données
+bdd = pd.read_csv("Mesure_5dernieresannees.csv")
+bdd['valeur'].fillna(0, inplace=True)
+
+# Créer une application Dash
+app = dash.Dash(__name__)
+
+# Créer la mise en page de l'application
+app.layout = html.Div([
+    html.H1("Évolution de la pollution en Occitanie"),
+    
+    # Sélection du département
+    dcc.Dropdown(
+        id='departement',
+        options=[
+            {'label': 'HAUTE-GARONNE', 'value': 'HAUTE-GARONNE'},
+            {'label': 'GERS', 'value': 'GERS'},
+            {'label': 'TARN', 'value': 'TARN'},
+            {'label': 'HAUTES-PYRENEES', 'value': 'HAUTES-PYRENEES'},
+            {'label': 'TARN-ET-GARONNE', 'value': 'TARN-ET-GARONNE'},
+            {'label': 'HERAULT', 'value': 'HERAULT'},
+            {'label': 'PYRENEES-ORIENTALES', 'value': 'PYRENEES-ORIENTALES'},
+            {'label': 'AVEYRON', 'value': 'AVEYRON'},
+            {'label': 'ARIEGE', 'value': 'ARIEGE'},
+            {'label': 'GARD', 'value': 'GARD'},
+            {'label': 'LOZERE', 'value': 'LOZERE'},
+        ],
+        value='HAUTE-GARONNE'
+    ),
+
+    # Sélection du polluant
+    dcc.Dropdown(
+        id='polluant-dropdown',
+        options=[
+            {'label': 'NO', 'value': 'NO'},
+            {'label': 'NO2', 'value': 'NO2'},
+            {'label': 'NOX', 'value': 'NOX'},
+            {'label': 'O3', 'value': 'O3'},
+            {'label': 'PM10', 'value': 'PM10'}
+        ],
+        value='NO'
+    ),
+    
+    # Graphique interactif - Scatter Plot
+    dcc.Graph(id='scatter-graph'),
+])
+
+# Mettre à jour le graphique en fonction de la sélection du département et du type de polluant
+@app.callback(
+    Output('scatter-graph', 'figure'),
+    [Input('departement', 'value'),
+     Input('polluant-dropdown', 'value')]
+)
+def update_graph(selected_departement, selected_pollutant):
+    filtered_data = bdd[(bdd['nom_dept'] == selected_departement) & (bdd['nom_poll'] == selected_pollutant)]
+    filtered_data = filtered_data.sort_values(by='date_debut')
+
+    # Scatter Plot
+    scatter_fig = px.scatter(
+        filtered_data, x='date_debut', y='valeur',
+        color='nom_station', size='valeur', hover_name='date_debut'
+    )
+
+    scatter_fig.update_layout(
+        title=f'Évolution de la pollution pour {selected_pollutant} en {selected_departement}',
+        xaxis_title='Année',
+        yaxis_title=f'Valeur {selected_pollutant} ug.m-3'
+    )
+
+    # Ajouter une trace pour chaque station du département
+    for nom_station in filtered_data['nom_station'].unique():
+        trace_data = filtered_data[filtered_data['nom_station'] == nom_station]
+        scatter_fig.add_scatter(
+            x=trace_data['date_debut'],
+            y=trace_data['valeur'],
+            mode='markers+lines',  # Use 'markers+lines' to connect the points with lines
+            name=nom_station  # Utilisez le nom de la station comme nom de la trace
+        )
+
+    # Ajuster l'axe des ordonnées pour chaque graphique
+    scatter_fig.update_yaxes(
+        range=[filtered_data['valeur'].min(), filtered_data['valeur'].max() + 10]
+    )
+
+    return scatter_fig
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
+
+```
