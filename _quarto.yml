@@ -5,6 +5,8 @@ project:
     - index.qmd
     - about.qmd
     - Avancee.qmd
+    - 5ans/Evolution5ans.qmd
+    - anneeactuelle.qmd
     - Departements/Ariege.qmd
     - Departements/Aude.qmd
     - Departements/Aveyron.qmd
@@ -18,7 +20,7 @@ project:
     - Departements/Pyrenees-Orientales.qmd
     - Departements/Tarn-et-Garonne.qmd
     - Departements/Tarn.qmd
-    - villes.qmd
+    - villes/villes.qmd
     - meteo.qmd
 
 
@@ -36,8 +38,13 @@ website:
         text: GitHub
     left:
       - href: index.qmd
-        text: Accueil
+        text: Accueil 
+      - text: "5ans"
+        menu:
+          - 5ans/Evolution5ans.qmd
       - text: "Départements"
+      - href: anneeactuelle.qmd
+        text: "année actuelle"
         menu:
           - Departements/Ariege.qmd
           - Departements/Aude.qmd
@@ -52,7 +59,7 @@ website:
           - Departements/Pyrenees-Orientales.qmd
           - Departements/Tarn-et-Garonne.qmd
           - Departements/Tarn.qmd
-      - villes.qmd
+      - villes/villes.qmd
       - meteo.qmd
       - href: about.qmd
         text: À propos
