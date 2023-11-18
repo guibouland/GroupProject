@@ -38,42 +38,17 @@ polluants=pd.read_csv('bases_de_donnees/Mesure_5dernieresannees.csv',sep=",", na
 polluants['Date_'] = pd.to_datetime(polluants['date_debut'])
 polluants['Date'] = polluants['Date_'].dt.strftime('%Y')
 PM = polluants[(polluants['nom_poll'] == 'PM10')]
-PM2023=PM[(PM['Date'] == '2022')]
+PM2023=PM[(PM['Date'] == '2023')]
 
-heatPM10 = PM2023[["X", "Y", "valeur"]].copy()
-heatPM0=heatPM10.dropna()
-m=heatPM0['valeur'].max()
-print(m)
-def divmax(x):
-  return x/m
+heatPM10 = PM2023[["Y", "X", "valeur"]].copy()
+heatPM=heatPM10.dropna()
 
-heatPM0bis=heatPM0[['valeur']].apply(divmax)
-print(heatPM0bis)
-heatPM=pd.concat([heatPM0[["X", "Y"]],heatPM0bis[['valeur']]],axis=1)
-print(heatPM[["X", "Y", "valeur"]])
-heatPM[["X", "Y", "valeur"]]
-folium.plugins.HeatMap(heatPM[["X", "Y", "valeur"]]).add_to(Occitanie)
+lng = heatPM['X'].tolist()
+lat = heatPM['Y'].tolist()
+val = heatPM['valeur'].tolist()
+pm10=HeatMap(list(zip(lat, lng, val)))
+pm10.add_to(Occitanie)
 
 
 Occitanie
-```
-
-
-ceci est un test
-
-```{python}
-import numpy as np
-from matplotlib import pyplot
-import matplotlib.pyplot as plt
-
-x=np.linspace(-200, 200)
-y=x**2
-plt.plot(x, y)
-plt.show()
-```
-
-
-```{python}
-import seaborn as sns
-sns.set_palette("colorblind")
 ```
