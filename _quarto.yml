@@ -37,9 +37,10 @@ website:
         text: GitHub
     left:
       - href: index.qmd
-        text: Accueil
-      - href: 5ans/Evolution5ans.qmd
-        text: "5ans"
+        text: Accueil 
+      - text: "5ans"
+        menu:
+          - 5ans/Evolution5ans.qmd
       - text: "Départements"
         menu:
           - Departements/Ariege.qmd
