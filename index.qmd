@@ -8,47 +8,102 @@ execute:
 
 ```{python}
 import geopandas as gpd
+import pandas as pd
+#base de la carte avec les départements
 sf = gpd.read_file('departements-version-simplifiee.geojson')
 indexNames = sf[(sf["code"] != "09") & (sf["code"] != "11") & (sf["code"] != "12") & (sf["code"] != "30") & (sf["code"] != "31") & (sf["code"] != "32") & (sf["code"] != "34") & (sf["code"] != "46")& (sf["code"] != "48")& (sf["code"] != "65")& (sf["code"] != "66")& (sf["code"] != "81")& (sf["code"] != "82")].index
 sf.drop(indexNames, inplace=True)
 import folium
 centre = [43.716671, 2.15]
-Occitanie = folium.Map(location = centre, zoom_start = 7)
+Occitanie = folium.Map(location = centre, zoom_start = 6.5)
 folium.GeoJson(
-  sf[["nom","geometry"]],
+  sf[["nom","geometry"]],name='Départements',
   zoom_on_click=True,
   style_function=lambda feature: {
         "fillColor": "#003322",
-        "color": "white",
+        "color": "grey",
         "weight": 2,
         "dashArray": "5, 5",
         "fillOpacity": 0.01},
-    highlight_function=lambda x: {
-        'line_opacity':1,
-        "fillOpacity": 0.2},
         tooltip=folium.features.GeoJsonTooltip(
         fields=['nom'],
         aliases=['Département:'],)
               ).add_to(Occitanie)
+
+#ajout layer pollution
+from folium.plugins import HeatMap
+
+polluants=pd.read_csv('bases_de_donnees/Mesure_5dernieresannees.csv',sep=",", na_values="", low_memory=False)
+
+polluants['Date_'] = pd.to_datetime(polluants['date_debut'])
+polluants['Date'] = polluants['Date_'].dt.strftime('%Y')
+
+#PM10
+PM10 = polluants[(polluants['nom_poll'] == 'PM10')]
+PM102022=PM10[(PM10['Date'] == '2022')]
+
+heatPM10 = PM102022[["Y", "X", "valeur"]].copy()
+heatPM=heatPM10.dropna()
+
+lng = heatPM['X'].tolist()
+lat = heatPM['Y'].tolist()
+val = heatPM['valeur'].tolist()
+pm10=HeatMap(list(zip(lat, lng, val)),name='PM10',gradient={0: '#97ECF0', 0.3: '#73B5FA', 0.5:"#9A73FA", 0.7:"#FF37C8",0.85:"#FF0097", 1: 'red'})
+pm10.add_to(Occitanie)
+
+#PM2
+PM2 = polluants[(polluants['nom_poll'] == 'PM2.5')]
+PM22022=PM2[(PM2['Date'] == '2022')]
+
+heatPM2nan = PM22022[["Y", "X", "valeur"]].copy()
+heatPM2=heatPM2nan.dropna()
+lng = heatPM2['X'].tolist()
+lat = heatPM2['Y'].tolist()
+val = heatPM2['valeur'].tolist()
+pm2=HeatMap(list(zip(lat, lng, val)),name='PM2.5',gradient={0: '#97ECF0', 0.3: '#73B5FA', 0.5:"#9A73FA", 0.7:"#FF37C8",0.85:"#FF0097", 1: 'red'})
+pm2.add_to(Occitanie)
+#NOX
+NOX = polluants[(polluants['nom_poll'] == 'NOX')]
+NOX2022=NOX[(NOX['Date'] == '2022')]
+
+heatNOXnan = NOX2022[["Y", "X", "valeur"]].copy()
+heatNOX=heatNOXnan.dropna()
+
+lng = heatNOX['X'].tolist()
+lat = heatNOX['Y'].tolist()
+val = heatNOX['valeur'].tolist()
+nox=HeatMap(list(zip(lat, lng, val)),name='NOX',gradient={0: '#97ECF0', 0.3: '#73B5FA', 0.5:"#9A73FA", 0.7:"#FF37C8",0.85:"#FF0097", 1: 'red'})
+nox.add_to(Occitanie)
+
+#NO
+NO = polluants[(polluants['nom_poll'] == 'NO')]
+NO2022=NO[(NO['Date'] == '2022')]
+
+heatNOnan = NO2022[["Y", "X", "valeur"]].copy()
+heatNO=heatNOnan.dropna()
+
+lng = heatNO['X'].tolist()
+lat = heatNO['Y'].tolist()
+val = heatNO['valeur'].tolist()
+no=HeatMap(list(zip(lat, lng, val)),name='NO',gradient={0: '#97ECF0', 0.3: '#73B5FA', 0.5:"#9A73FA", 0.7:"#FF37C8", 0.85:"#FF0097", 1: 'red'})
+no.add_to(Occitanie)
+
+#O3
+O3 = polluants[(polluants['nom_poll'] == 'O3')]
+O32022=O3[(O3['Date'] == '2022')]
+
+heatO3nan = O32022[["Y", "X", "valeur"]].copy()
+heatO3=heatO3nan.dropna()
+
+lng = heatO3['X'].tolist()
+lat = heatO3['Y'].tolist()
+val = heatO3['valeur'].tolist()
+o3=HeatMap(list(zip(lat, lng, val)),name='O3',gradient={0: '#97ECF0', 0.3: '#73B5FA', 0.5:"#9A73FA", 0.7:"#FF37C8", 0.85:"#FF0097", 1: 'red'})
+o3.add_to(Occitanie)
+
+folium.TileLayer('CartoDB Positron',name="Clair").add_to(Occitanie)
+folium.TileLayer("Cartodb dark_matter",name="Sombre").add_to(Occitanie)
+folium.LayerControl().add_to(Occitanie)
+
 Occitanie
-```
-
-
-ceci est un test
-
-```{python}
-import numpy as np
-from matplotlib import pyplot
-import matplotlib.pyplot as plt
-
-x=np.linspace(-200, 200)
-y=x**2
-plt.plot(x, y)
-plt.show()
-```
-
-
-```{python}
-import seaborn as sns
-sns.set_palette("colorblind")
 ```
