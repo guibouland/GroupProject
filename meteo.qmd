@@ -207,11 +207,10 @@ vent.rename(columns=colonne, inplace=True)
 vent["Date"] = vent["Date"].apply(lambda x: x.split("T")[0])
 
 vent['Date'] = pd.to_datetime(vent['Date'])
-vent['Date'] = vent['Date'].dt.strftime('%d')
+vent['Date'] = vent['Date'].dt.strftime('%Y-%m-%d')
 
 # Vitesse moyenne du vent chaque jour
 moyenne = vent.groupby('Date')['valeur'].mean().reset_index()
-moyenne['nom'] = "vent"
 
 
 """
@@ -224,7 +223,7 @@ polluants = pd.read_csv("bases_de_donnees/donnees_polluants_09_2023.csv",
 
 # Extraire la date sans l'heure de 'date_debut'
 polluants['Date'] = pd.to_datetime(polluants['date_debut'])
-polluants['Date'] = polluants['Date'].dt.strftime('%d')
+polluants['Date'] = polluants['Date'].dt.strftime('%Y-%m-%d')
 
 # Moyenne des valeurs des polluants par jour
 PM = polluants[(polluants['nom_poll'] == 'PM10')].groupby(
