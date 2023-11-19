@@ -72,7 +72,6 @@ NOX2022=NOX[(NOX['Date'] == '2022')]
 
 heatNOXnan = NOX2022[["Y", "X", "valeur"]].copy()
 heatNOX=heatNOXnan.dropna()
-print(heatNOX)
 lng = heatNOX['X'].tolist()
 lat = heatNOX['Y'].tolist()
 val = heatNOX['valeur'].tolist()
@@ -86,7 +85,6 @@ NO2022=NO[(NO['Date'] == '2022')]
 
 heatNOnan = NO2022[["Y", "X", "valeur"]].copy()
 heatNO=heatNOnan.dropna()
-print(heatNO)
 lng = heatNO['X'].tolist()
 lat = heatNO['Y'].tolist()
 val = heatNO['valeur'].tolist()
@@ -114,6 +112,63 @@ Occitanie.add_child(fnox)
 Occitanie.add_child(fno)
 Occitanie.add_child(fo3)
 
+htmlT="""
+<p>Toulouse:<br>
+<a class=lien href = villes/villes.html style="text-decoration:none"> Comparatif </a>
+  """
+folium.Marker([43.6,1.43333],  
+        popup=htmlT,
+        icon=folium.Icon(color="darkpurple")
+).add_to(Occitanie)
+
+htmlM="""
+<p>Montpellier:<br>
+<a class=lien href = villes/villes.html style="text-decoration:none"> Comparatif </a>
+  """
+folium.Marker([43.62505,3.862038],  
+        popup=htmlM,
+        icon=folium.Icon(color="darkpurple")
+).add_to(Occitanie)
+
+htmlTar="""
+<p>Tarbes:<br>
+<a class=lien href = villes/villes.html style="text-decoration:none"> Comparatif </a>
+  """
+folium.Marker([43.23333,0.08333],  
+        popup=htmlTar,
+        icon=folium.Icon(color="darkpurple")
+).add_to(Occitanie)
+
+htmlMontau="""
+<p>Montauban:<br>
+<a class=lien href = villes/villes.html style="text-decoration:none"> Comparatif </a>
+  """
+folium.Marker([44.01667,1.35],  
+        popup=htmlMontau,
+        icon=folium.Icon(color="darkpurple")
+).add_to(Occitanie)
+folium.TileLayer('CartoDB Positron',name="Clair").add_to(Occitanie)
+folium.TileLayer("Cartodb dark_matter",name="Sombre").add_to(Occitanie)
+
+htmlPey="""
+<p>Peyrusse-Vieille:<br>
+<a class=lien href = villes/villes.html style="text-decoration:none"> Comparatif </a>
+  """
+folium.Marker([43.6333,0.1833],  
+        popup=htmlPey,
+        icon=folium.Icon(color="darkpurple")
+).add_to(Occitanie)
+folium.TileLayer('CartoDB Positron',name="Clair").add_to(Occitanie)
+folium.TileLayer("Cartodb dark_matter",name="Sombre").add_to(Occitanie)
+
+htmlArg="""
+<p>Argeles-Gazost:<br>
+<a class=lien href = villes/villes.html style="text-decoration:none"> Comparatif </a>
+  """
+folium.Marker([43.005028,-0.101087],  
+        popup=htmlArg,
+        icon=folium.Icon(color="darkpurple")
+).add_to(Occitanie)
 folium.TileLayer('CartoDB Positron',name="Clair").add_to(Occitanie)
 folium.TileLayer("Cartodb dark_matter",name="Sombre").add_to(Occitanie)
 
@@ -123,5 +178,18 @@ GroupedLayerControl(
     groups={'polluants': [fpm10,fpm2,fnox,fno,fo3] },
     collapsed=False, 
 ).add_to(Occitanie) 
+
+
+
+villes_choisies = [
+    "TOULOUSE",
+    "MONTPELLIER",
+    "TARBES",
+    "MONTAUBAN",
+    "PEYRUSSE-VIEILLE",
+    "ARGELES-GAZOST",
+]
+
+
 Occitanie
 ```
