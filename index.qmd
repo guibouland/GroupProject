@@ -30,9 +30,10 @@ folium.GeoJson(
         aliases=['Département:'],)
               ).add_to(Occitanie)
 
+
 #ajout layer pollution
 from folium.plugins import HeatMap
-
+from folium.plugins import GroupedLayerControl
 polluants=pd.read_csv('bases_de_donnees/Mesure_5dernieresannees.csv',sep=",", na_values="", low_memory=False)
 
 polluants['Date_'] = pd.to_datetime(polluants['date_debut'])
@@ -48,8 +49,9 @@ heatPM=heatPM10.dropna()
 lng = heatPM['X'].tolist()
 lat = heatPM['Y'].tolist()
 val = heatPM['valeur'].tolist()
-pm10=HeatMap(list(zip(lat, lng, val)),name='PM10',gradient={0: '#97ECF0', 0.3: '#73B5FA', 0.5:"#9A73FA", 0.7:"#FF37C8",0.85:"#FF0097", 1: 'red'})
-pm10.add_to(Occitanie)
+pm10=HeatMap(list(zip(lat, lng, val)),name='PM10',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'})
+fpm10= folium.FeatureGroup(name="PM10", show = True)
+pm10.add_to(fpm10)
 
 #PM2
 PM2 = polluants[(polluants['nom_poll'] == 'PM2.5')]
@@ -60,20 +62,23 @@ heatPM2=heatPM2nan.dropna()
 lng = heatPM2['X'].tolist()
 lat = heatPM2['Y'].tolist()
 val = heatPM2['valeur'].tolist()
-pm2=HeatMap(list(zip(lat, lng, val)),name='PM2.5',gradient={0: '#97ECF0', 0.3: '#73B5FA', 0.5:"#9A73FA", 0.7:"#FF37C8",0.85:"#FF0097", 1: 'red'})
-pm2.add_to(Occitanie)
+pm2=HeatMap(list(zip(lat, lng, val)),name='PM2.5',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'})
+fpm2= folium.FeatureGroup(name="PM2", show = False)
+pm2.add_to(fpm2)
+
 #NOX
 NOX = polluants[(polluants['nom_poll'] == 'NOX')]
 NOX2022=NOX[(NOX['Date'] == '2022')]
 
 heatNOXnan = NOX2022[["Y", "X", "valeur"]].copy()
 heatNOX=heatNOXnan.dropna()
-
+print(heatNOX)
 lng = heatNOX['X'].tolist()
 lat = heatNOX['Y'].tolist()
 val = heatNOX['valeur'].tolist()
-nox=HeatMap(list(zip(lat, lng, val)),name='NOX',gradient={0: '#97ECF0', 0.3: '#73B5FA', 0.5:"#9A73FA", 0.7:"#FF37C8",0.85:"#FF0097", 1: 'red'})
-nox.add_to(Occitanie)
+nox=HeatMap(list(zip(lat, lng, val)),name='NOX',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'})
+fnox= folium.FeatureGroup(name="NOX", show = False)
+nox.add_to(fnox)
 
 #NO
 NO = polluants[(polluants['nom_poll'] == 'NO')]
@@ -81,12 +86,13 @@ NO2022=NO[(NO['Date'] == '2022')]
 
 heatNOnan = NO2022[["Y", "X", "valeur"]].copy()
 heatNO=heatNOnan.dropna()
-
+print(heatNO)
 lng = heatNO['X'].tolist()
 lat = heatNO['Y'].tolist()
 val = heatNO['valeur'].tolist()
-no=HeatMap(list(zip(lat, lng, val)),name='NO',gradient={0: '#97ECF0', 0.3: '#73B5FA', 0.5:"#9A73FA", 0.7:"#FF37C8", 0.85:"#FF0097", 1: 'red'})
-no.add_to(Occitanie)
+no=HeatMap(list(zip(lat, lng, val)),name='NO',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'})
+fno= folium.FeatureGroup(name="NO", show = False)
+no.add_to(fno)
 
 #O3
 O3 = polluants[(polluants['nom_poll'] == 'O3')]
@@ -98,12 +104,24 @@ heatO3=heatO3nan.dropna()
 lng = heatO3['X'].tolist()
 lat = heatO3['Y'].tolist()
 val = heatO3['valeur'].tolist()
-o3=HeatMap(list(zip(lat, lng, val)),name='O3',gradient={0: '#97ECF0', 0.3: '#73B5FA', 0.5:"#9A73FA", 0.7:"#FF37C8", 0.85:"#FF0097", 1: 'red'})
-o3.add_to(Occitanie)
+o3=HeatMap(list(zip(lat, lng, val)),name='O3',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'})
+fo3= folium.FeatureGroup(name="O3", show = False)
+o3.add_to(fo3)
+
+Occitanie.add_child(fpm10)
+Occitanie.add_child(fpm2)
+Occitanie.add_child(fnox)
+Occitanie.add_child(fno)
+Occitanie.add_child(fo3)
 
 folium.TileLayer('CartoDB Positron',name="Clair").add_to(Occitanie)
 folium.TileLayer("Cartodb dark_matter",name="Sombre").add_to(Occitanie)
-folium.LayerControl().add_to(Occitanie)
 
+folium.LayerControl(collapsed=True).add_to(Occitanie)
+
+GroupedLayerControl(
+    groups={'polluants': [fpm10,fpm2,fnox,fno,fo3] },
+    collapsed=False, 
+).add_to(Occitanie) 
 Occitanie
 ```
