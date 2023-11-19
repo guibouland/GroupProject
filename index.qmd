@@ -114,7 +114,7 @@ Occitanie.add_child(fo3)
 
 htmlT="""
 <p>Toulouse:<br>
-<a class=lien href = villes/villes.html style="text-decoration:none"> Comparatif </a>
+<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
 folium.Marker([43.6,1.43333],  
         popup=htmlT,
@@ -123,7 +123,7 @@ folium.Marker([43.6,1.43333],
 
 htmlM="""
 <p>Montpellier:<br>
-<a class=lien href = villes/villes.html style="text-decoration:none"> Comparatif </a>
+<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
 folium.Marker([43.62505,3.862038],  
         popup=htmlM,
@@ -132,7 +132,7 @@ folium.Marker([43.62505,3.862038],
 
 htmlTar="""
 <p>Tarbes:<br>
-<a class=lien href = villes/villes.html style="text-decoration:none"> Comparatif </a>
+<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
 folium.Marker([43.23333,0.08333],  
         popup=htmlTar,
@@ -141,34 +141,31 @@ folium.Marker([43.23333,0.08333],
 
 htmlMontau="""
 <p>Montauban:<br>
-<a class=lien href = villes/villes.html style="text-decoration:none"> Comparatif </a>
+<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
 folium.Marker([44.01667,1.35],  
         popup=htmlMontau,
         icon=folium.Icon(color="darkpurple")
 ).add_to(Occitanie)
-folium.TileLayer('CartoDB Positron',name="Clair").add_to(Occitanie)
-folium.TileLayer("Cartodb dark_matter",name="Sombre").add_to(Occitanie)
 
 htmlPey="""
 <p>Peyrusse-Vieille:<br>
-<a class=lien href = villes/villes.html style="text-decoration:none"> Comparatif </a>
+<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
 folium.Marker([43.6333,0.1833],  
         popup=htmlPey,
         icon=folium.Icon(color="darkpurple")
 ).add_to(Occitanie)
-folium.TileLayer('CartoDB Positron',name="Clair").add_to(Occitanie)
-folium.TileLayer("Cartodb dark_matter",name="Sombre").add_to(Occitanie)
 
 htmlArg="""
 <p>Argeles-Gazost:<br>
-<a class=lien href = villes/villes.html style="text-decoration:none"> Comparatif </a>
+<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
 folium.Marker([43.005028,-0.101087],  
         popup=htmlArg,
         icon=folium.Icon(color="darkpurple")
 ).add_to(Occitanie)
+
 folium.TileLayer('CartoDB Positron',name="Clair").add_to(Occitanie)
 folium.TileLayer("Cartodb dark_matter",name="Sombre").add_to(Occitanie)
 
@@ -178,18 +175,6 @@ GroupedLayerControl(
     groups={'polluants': [fpm10,fpm2,fnox,fno,fo3] },
     collapsed=False, 
 ).add_to(Occitanie) 
-
-
-
-villes_choisies = [
-    "TOULOUSE",
-    "MONTPELLIER",
-    "TARBES",
-    "MONTAUBAN",
-    "PEYRUSSE-VIEILLE",
-    "ARGELES-GAZOST",
-]
-
 
 Occitanie
 ```
