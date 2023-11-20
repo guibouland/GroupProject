@@ -9,7 +9,7 @@ Pour ce projet, nous allons avoir besoin d'un environnement contenant:
 - Plotly
 - Pytest
 - Pooch
-- dash
+- Dash
 
 ## Objectif
 
@@ -30,6 +30,6 @@ Enfin, afin de rendre le site interactif on utilise l'environnement dash qui va 
 
 Le site internet de ce projet est disponible à l'URL suivante: [https://guibouland.github.io/GroupProject](https://guibouland.github.io/GroupProject/).
 
-## Liste des auteurs
+## Auteurs
 
 Ce projet a été réalisé par Guillaume Bouland, Pierre Dias, Maxence Lamure et Quentin Festor.
