@@ -9,6 +9,7 @@ execute:
 ```{python}
 import geopandas as gpd
 import pandas as pd
+import numpy as np
 #base de la carte avec les départements
 sf = gpd.read_file('departements-version-simplifiee.geojson')
 indexNames = sf[(sf["code"] != "09") & (sf["code"] != "11") & (sf["code"] != "12") & (sf["code"] != "30") & (sf["code"] != "31") & (sf["code"] != "32") & (sf["code"] != "34") & (sf["code"] != "46")& (sf["code"] != "48")& (sf["code"] != "65")& (sf["code"] != "66")& (sf["code"] != "81")& (sf["code"] != "82")].index
@@ -49,7 +50,7 @@ heatPM=heatPM10.dropna()
 lng = heatPM['X'].tolist()
 lat = heatPM['Y'].tolist()
 val = heatPM['valeur'].tolist()
-pm10=HeatMap(list(zip(lat, lng, val)),name='PM10',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'})
+pm10=HeatMap(list(zip(lat, lng, val)),name='PM10',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'},radius=40, blur=35)
 fpm10= folium.FeatureGroup(name="PM10", show = True)
 pm10.add_to(fpm10)
 
@@ -62,7 +63,7 @@ heatPM2=heatPM2nan.dropna()
 lng = heatPM2['X'].tolist()
 lat = heatPM2['Y'].tolist()
 val = heatPM2['valeur'].tolist()
-pm2=HeatMap(list(zip(lat, lng, val)),name='PM2.5',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'})
+pm2=HeatMap(list(zip(lat, lng, val)),name='PM2.5',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'},radius=40, blur=35)
 fpm2= folium.FeatureGroup(name="PM2", show = False)
 pm2.add_to(fpm2)
 
@@ -75,7 +76,7 @@ heatNOX=heatNOXnan.dropna()
 lng = heatNOX['X'].tolist()
 lat = heatNOX['Y'].tolist()
 val = heatNOX['valeur'].tolist()
-nox=HeatMap(list(zip(lat, lng, val)),name='NOX',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'})
+nox=HeatMap(list(zip(lat, lng, val)),name='NOX',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'},radius=40, blur=35)
 fnox= folium.FeatureGroup(name="NOX", show = False)
 nox.add_to(fnox)
 
@@ -88,7 +89,7 @@ heatNO=heatNOnan.dropna()
 lng = heatNO['X'].tolist()
 lat = heatNO['Y'].tolist()
 val = heatNO['valeur'].tolist()
-no=HeatMap(list(zip(lat, lng, val)),name='NO',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'})
+no=HeatMap(list(zip(lat, lng, val)),name='NO',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'},radius=40, blur=35)
 fno= folium.FeatureGroup(name="NO", show = False)
 no.add_to(fno)
 
@@ -102,7 +103,7 @@ heatO3=heatO3nan.dropna()
 lng = heatO3['X'].tolist()
 lat = heatO3['Y'].tolist()
 val = heatO3['valeur'].tolist()
-o3=HeatMap(list(zip(lat, lng, val)),name='O3',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'})
+o3=HeatMap(list(zip(lat, lng, val)),name='O3',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'},radius=40, blur=35)
 fo3= folium.FeatureGroup(name="O3", show = False)
 o3.add_to(fo3)
 
