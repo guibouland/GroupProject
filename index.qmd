@@ -6,96 +6,214 @@ execute:
 
 ## Carte de l'Occitanie
 
+### Moyenne des intensités de polluants de 2023
 ```{python}
 import geopandas as gpd
 import pandas as pd
 import numpy as np
-#base de la carte avec les départements
-sf = gpd.read_file('departements-version-simplifiee.geojson')
-indexNames = sf[(sf["code"] != "09") & (sf["code"] != "11") & (sf["code"] != "12") & (sf["code"] != "30") & (sf["code"] != "31") & (sf["code"] != "32") & (sf["code"] != "34") & (sf["code"] != "46")& (sf["code"] != "48")& (sf["code"] != "65")& (sf["code"] != "66")& (sf["code"] != "81")& (sf["code"] != "82")].index
+
+# base de la carte avec les départements
+sf = gpd.read_file("departements-version-simplifiee.geojson")
+indexNames = sf[
+    (sf["code"] != "09")
+    & (sf["code"] != "11")
+    & (sf["code"] != "12")
+    & (sf["code"] != "30")
+    & (sf["code"] != "31")
+    & (sf["code"] != "32")
+    & (sf["code"] != "34")
+    & (sf["code"] != "46")
+    & (sf["code"] != "48")
+    & (sf["code"] != "65")
+    & (sf["code"] != "66")
+    & (sf["code"] != "81")
+    & (sf["code"] != "82")
+].index
 sf.drop(indexNames, inplace=True)
 import folium
+
 centre = [43.716671, 2.15]
-Occitanie = folium.Map(location = centre, zoom_start = 6.5)
+Occitanie = folium.Map(location=centre, zoom_start=6.5)
 folium.GeoJson(
-  sf[["nom","geometry"]],name='Départements',
-  zoom_on_click=True,
-  style_function=lambda feature: {
+    sf[["nom", "geometry"]],
+    name="Départements",
+    zoom_on_click=True,
+    style_function=lambda feature: {
         "fillColor": "#003322",
         "color": "grey",
         "weight": 2,
         "dashArray": "5, 5",
-        "fillOpacity": 0.01},
-        tooltip=folium.features.GeoJsonTooltip(
-        fields=['nom'],
-        aliases=['Département:'],)
-              ).add_to(Occitanie)
+        "fillOpacity": 0.01,
+    },
+    tooltip=folium.features.GeoJsonTooltip(
+        fields=["nom"],
+        aliases=["Département:"],
+    ),
+).add_to(Occitanie)
 
 
-#ajout layer pollution
+# ajout layer pollution
 from folium.plugins import HeatMap
 from folium.plugins import HeatMapWithTime
 from folium.plugins import GroupedLayerControl
 
-polluant=pd.read_csv('bases_de_donnees/Mesure_mensuelle_annee.csv',sep=",", na_values="", low_memory=False)
-polluants=polluant.dropna()
-polluants['Date_'] = pd.to_datetime(polluants['date_debut'])
-polluants['Date'] = polluants['Date_'].dt.strftime('%Y %m')
-polluants=polluants.groupby(['X','Y','nom_poll'])['valeur'].mean().reset_index(name='valeur')
-print(polluants)
-#PM10
-PM10 = polluants[(polluants['nom_poll'] == 'PM10')]
+polluant = pd.read_csv(
+    "bases_de_donnees/Mesure_mensuelle_annee.csv",
+    sep=",",
+    na_values="",
+    low_memory=False,
+)
+polluants = polluant.dropna()
+
+polluants = (
+    polluants.groupby(["X", "Y", "nom_poll"])["valeur"]
+    .mean()
+    .reset_index(name="valeur")
+)
+
+# PM10
+PM10 = polluants[(polluants["nom_poll"] == "PM10")]
 
 heatPM10 = PM10[["Y", "X", "valeur"]].copy()
-lng = heatPM10['X'].tolist()
-lat = heatPM10['Y'].tolist()
-val = heatPM10['valeur'].tolist()
-pm10=HeatMap(list(zip(lat, lng, val)),name='PM10',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'},radius=40, blur=35)
-fpm10= folium.FeatureGroup(name="PM10", show = True)
+lng = heatPM10["X"].tolist()
+lat = heatPM10["Y"].tolist()
+val = heatPM10["valeur"].tolist()
+pm10 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="PM10",
+    gradient={
+        0: "#0d0887",
+        0.1: "#41049d",
+        0.2: "#6a00a8",
+        0.3: "#8f0da4",
+        0.4: "#b12a90",
+        0.5: "#cc4778",
+        0.6: "#e16462",
+        0.7: "#f2844b",
+        0.8: "#fca636",
+        0.9: "#fcce25",
+        1: "#f0f921",
+    },
+    radius=40,
+    blur=35,
+)
+fpm10 = folium.FeatureGroup(name="PM10", show=True)
 pm10.add_to(fpm10)
 
-#PM2
-PM2 = polluants[(polluants['nom_poll'] == 'PM2.5')]
+# PM2
+PM2 = polluants[(polluants["nom_poll"] == "PM2.5")]
 
 heatPM2 = PM2[["Y", "X", "valeur"]].copy()
-lng = heatPM2['X'].tolist()
-lat = heatPM2['Y'].tolist()
-val = heatPM2['valeur'].tolist()
-pm2=HeatMap(list(zip(lat, lng, val)),name='PM2.5',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'},radius=40, blur=35)
-fpm2= folium.FeatureGroup(name="PM2", show = False)
+lng = heatPM2["X"].tolist()
+lat = heatPM2["Y"].tolist()
+val = heatPM2["valeur"].tolist()
+pm2 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="PM2.5",
+    gradient={
+        0: "#0d0887",
+        0.1: "#41049d",
+        0.2: "#6a00a8",
+        0.3: "#8f0da4",
+        0.4: "#b12a90",
+        0.5: "#cc4778",
+        0.6: "#e16462",
+        0.7: "#f2844b",
+        0.8: "#fca636",
+        0.9: "#fcce25",
+        1: "#f0f921",
+    },
+    radius=40,
+    blur=35,
+)
+fpm2 = folium.FeatureGroup(name="PM2", show=False)
 pm2.add_to(fpm2)
 
-#NO
-NO = polluants[(polluants['nom_poll'] == 'NO')]
+# NO
+NO = polluants[(polluants["nom_poll"] == "NO")]
 
 heatNO = NO[["Y", "X", "valeur"]].copy()
-lng = heatNO['X'].tolist()
-lat = heatNO['Y'].tolist()
-val = heatNO['valeur'].tolist()
-no=HeatMap(list(zip(lat, lng, val)),name='NO',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'},radius=40, blur=35)
-fno= folium.FeatureGroup(name="NO", show = False)
+lng = heatNO["X"].tolist()
+lat = heatNO["Y"].tolist()
+val = heatNO["valeur"].tolist()
+no = HeatMap(
+    list(zip(lat, lng, val)),
+    name="NO",
+    gradient={
+        0: "#0d0887",
+        0.1: "#41049d",
+        0.2: "#6a00a8",
+        0.3: "#8f0da4",
+        0.4: "#b12a90",
+        0.5: "#cc4778",
+        0.6: "#e16462",
+        0.7: "#f2844b",
+        0.8: "#fca636",
+        0.9: "#fcce25",
+        1: "#f0f921",
+    },
+    radius=40,
+    blur=35,
+)
+fno = folium.FeatureGroup(name="NO", show=False)
 no.add_to(fno)
 
-#NO2
-NO2 = polluants[(polluants['nom_poll'] == 'NO2')]
+# NO2
+NO2 = polluants[(polluants["nom_poll"] == "NO2")]
 
 heatNO2 = NO2[["Y", "X", "valeur"]].copy()
-lng = heatNO2['X'].tolist()
-lat = heatNO2['Y'].tolist()
-val = heatNO2['valeur'].tolist()
-no2=HeatMap(list(zip(lat, lng, val)),name='NO2',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'},radius=40, blur=35)
-fno2= folium.FeatureGroup(name="NO2", show = False)
+lng = heatNO2["X"].tolist()
+lat = heatNO2["Y"].tolist()
+val = heatNO2["valeur"].tolist()
+no2 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="NO2",
+    gradient={
+        0: "#0d0887",
+        0.1: "#41049d",
+        0.2: "#6a00a8",
+        0.3: "#8f0da4",
+        0.4: "#b12a90",
+        0.5: "#cc4778",
+        0.6: "#e16462",
+        0.7: "#f2844b",
+        0.8: "#fca636",
+        0.9: "#fcce25",
+        1: "#f0f921",
+    },
+    radius=40,
+    blur=35,
+)
+fno2 = folium.FeatureGroup(name="NO2", show=False)
 no2.add_to(fno2)
 
-#O3
-O3 = polluants[(polluants['nom_poll'] == 'O3')]
+# O3
+O3 = polluants[(polluants["nom_poll"] == "O3")]
 
 heatO3 = O3[["Y", "X", "valeur"]].copy()
-lng = heatO3['X'].tolist()
-lat = heatO3['Y'].tolist()
-val = heatO3['valeur'].tolist()
-o3=HeatMap(list(zip(lat, lng, val)),name='O3',gradient={0: '#0d0887', 0.1: '#41049d',0.2: "#6a00a8",0.3:"#8f0da4",0.4:"#b12a90", 0.5:"#cc4778",0.6:"#e16462", 0.7:"#f2844b",0.8:"#fca636",0.9:"#fcce25", 1: '#f0f921'},radius=40, blur=35)
-fo3= folium.FeatureGroup(name="O3", show = False)
+lng = heatO3["X"].tolist()
+lat = heatO3["Y"].tolist()
+val = heatO3["valeur"].tolist()
+o3 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="O3",
+    gradient={
+        0: "#0d0887",
+        0.1: "#41049d",
+        0.2: "#6a00a8",
+        0.3: "#8f0da4",
+        0.4: "#b12a90",
+        0.5: "#cc4778",
+        0.6: "#e16462",
+        0.7: "#f2844b",
+        0.8: "#fca636",
+        0.9: "#fcce25",
+        1: "#f0f921",
+    },
+    radius=40,
+    blur=35,
+)
+fo3 = folium.FeatureGroup(name="O3", show=False)
 o3.add_to(fo3)
 
 Occitanie.add_child(fpm10)
@@ -104,69 +222,63 @@ Occitanie.add_child(fno)
 Occitanie.add_child(fno2)
 Occitanie.add_child(fo3)
 
-htmlT="""
+htmlT = """
 <p>Toulouse:<br>
 <a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
-folium.Marker([43.6,1.43333],  
-        popup=htmlT,
-        icon=folium.Icon(color="darkpurple")
+folium.Marker(
+    [43.6, 1.43333], popup=htmlT, icon=folium.Icon(color="darkpurple")
 ).add_to(Occitanie)
 
-htmlM="""
+htmlM = """
 <p>Montpellier:<br>
 <a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
-folium.Marker([43.62505,3.862038],  
-        popup=htmlM,
-        icon=folium.Icon(color="darkpurple")
+folium.Marker(
+    [43.62505, 3.862038], popup=htmlM, icon=folium.Icon(color="darkpurple")
 ).add_to(Occitanie)
 
-htmlTar="""
+htmlTar = """
 <p>Tarbes:<br>
 <a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
-folium.Marker([43.23333,0.08333],  
-        popup=htmlTar,
-        icon=folium.Icon(color="darkpurple")
+folium.Marker(
+    [43.23333, 0.08333], popup=htmlTar, icon=folium.Icon(color="darkpurple")
 ).add_to(Occitanie)
 
-htmlMontau="""
+htmlMontau = """
 <p>Montauban:<br>
 <a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
-folium.Marker([44.01667,1.35],  
-        popup=htmlMontau,
-        icon=folium.Icon(color="darkpurple")
+folium.Marker(
+    [44.01667, 1.35], popup=htmlMontau, icon=folium.Icon(color="darkpurple")
 ).add_to(Occitanie)
 
-htmlPey="""
+htmlPey = """
 <p>Peyrusse-Vieille:<br>
 <a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
-folium.Marker([43.6333,0.1833],  
-        popup=htmlPey,
-        icon=folium.Icon(color="darkpurple")
+folium.Marker(
+    [43.6333, 0.1833], popup=htmlPey, icon=folium.Icon(color="darkpurple")
 ).add_to(Occitanie)
 
-htmlArg="""
+htmlArg = """
 <p>Argeles-Gazost:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
+<a class=lien href = meteo.qmd style="text-decoration:none"> Comparatif </a>
   """
-folium.Marker([43.005028,-0.101087],  
-        popup=htmlArg,
-        icon=folium.Icon(color="darkpurple")
+folium.Marker(
+    [43.005028, -0.101087], popup=htmlArg, icon=folium.Icon(color="darkpurple")
 ).add_to(Occitanie)
 
-folium.TileLayer('CartoDB Positron',name="Clair").add_to(Occitanie)
-folium.TileLayer("Cartodb dark_matter",name="Sombre").add_to(Occitanie)
+folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)
+folium.TileLayer("Cartodb dark_matter", name="Sombre").add_to(Occitanie)
 
 folium.LayerControl(collapsed=True).add_to(Occitanie)
 
 GroupedLayerControl(
-    groups={'Polluants': [fpm10,fpm2,fno,fno2,fo3] },
-    collapsed=False, 
-).add_to(Occitanie) 
+    groups={"Polluants": [fpm10, fpm2, fno, fno2, fo3]},
+    collapsed=False,
+).add_to(Occitanie)
 
 Occitanie
 ```

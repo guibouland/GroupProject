@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "La pollution en Occitanie",
     "section": "",
-    "text": "X        Y nom_poll     valeur\n0   -0.095054  43.0075       NO   5.400000\n1   -0.095054  43.0075      NO2   9.900000\n2   -0.095054  43.0075      NOX  18.118182\n3   -0.095054  43.0075       O3  46.713333\n4   -0.095054  43.0075     PM10  12.940000\n..        ...      ...      ...        ...\n161  4.374220  43.8344      NO2  11.546667\n162  4.374220  43.8344       O3  59.906667\n163  4.374220  43.8344     PM10  14.306667\n164  4.374220  43.8344    PM2.5   8.246667\n165  4.679690  43.9429       O3  63.260000\n\n[166 rows x 4 columns]\n\n\nC:\\Users\\pierr\\AppData\\Local\\Temp\\ipykernel_29092\\1692502660.py:33: SettingWithCopyWarning:\n\n\nA value is trying to be set on a copy of a slice from a DataFrame.\nTry using .loc[row_indexer,col_indexer] = value instead\n\nSee the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n\nC:\\Users\\pierr\\AppData\\Local\\Temp\\ipykernel_29092\\1692502660.py:34: SettingWithCopyWarning:\n\n\nA value is trying to be set on a copy of a slice from a DataFrame.\nTry using .loc[row_indexer,col_indexer] = value instead\n\nSee the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n\n\n\n\nMake this Notebook Trusted to load map: File -&gt; Trust Notebook"
+    "text": "Make this Notebook Trusted to load map: File -&gt; Trust Notebook"
   },
   {
     "objectID": "about.html",
@@ -18,7 +18,7 @@
     "href": "index.html#carte-de-loccitanie",
     "title": "La pollution en Occitanie",
     "section": "",
-    "text": "X        Y nom_poll     valeur\n0   -0.095054  43.0075       NO   5.400000\n1   -0.095054  43.0075      NO2   9.900000\n2   -0.095054  43.0075      NOX  18.118182\n3   -0.095054  43.0075       O3  46.713333\n4   -0.095054  43.0075     PM10  12.940000\n..        ...      ...      ...        ...\n161  4.374220  43.8344      NO2  11.546667\n162  4.374220  43.8344       O3  59.906667\n163  4.374220  43.8344     PM10  14.306667\n164  4.374220  43.8344    PM2.5   8.246667\n165  4.679690  43.9429       O3  63.260000\n\n[166 rows x 4 columns]\n\n\nC:\\Users\\pierr\\AppData\\Local\\Temp\\ipykernel_29092\\1692502660.py:33: SettingWithCopyWarning:\n\n\nA value is trying to be set on a copy of a slice from a DataFrame.\nTry using .loc[row_indexer,col_indexer] = value instead\n\nSee the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n\nC:\\Users\\pierr\\AppData\\Local\\Temp\\ipykernel_29092\\1692502660.py:34: SettingWithCopyWarning:\n\n\nA value is trying to be set on a copy of a slice from a DataFrame.\nTry using .loc[row_indexer,col_indexer] = value instead\n\nSee the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n\n\n\n\nMake this Notebook Trusted to load map: File -&gt; Trust Notebook"
+    "text": "Make this Notebook Trusted to load map: File -&gt; Trust Notebook"
   },
   {
     "objectID": "Departements/Tarn.html",
