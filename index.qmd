@@ -8,7 +8,7 @@ execute:
 import geopandas as gpd
 import pandas as pd
 import numpy as np
-
+pd.options.mode.chained_assignment = None
 # base de la carte avec les départements
 sf = gpd.read_file("departements-version-simplifiee.geojson")
 indexNames = sf[
@@ -71,7 +71,6 @@ polluants = (
 
 # PM10
 PM10 = polluants[(polluants["nom_poll"] == "PM10")]
-
 heatPM10 = PM10[["Y", "X", "valeur"]].copy()
 lng = heatPM10["X"].tolist()
 lat = heatPM10["Y"].tolist()
@@ -92,8 +91,8 @@ pm10 = HeatMap(
         0.9: "#fcce25",
         1: "#f0f921",
     },
-    radius=40,
-    blur=35,
+    radius=35,
+    blur=40,
 )
 fpm10 = folium.FeatureGroup(name="PM10", show=True)
 pm10.add_to(fpm10)
@@ -121,8 +120,8 @@ pm2 = HeatMap(
         0.9: "#fcce25",
         1: "#f0f921",
     },
-    radius=40,
-    blur=35,
+    radius=35,
+    blur=40,
 )
 fpm2 = folium.FeatureGroup(name="PM2", show=False)
 pm2.add_to(fpm2)
@@ -150,8 +149,8 @@ no = HeatMap(
         0.9: "#fcce25",
         1: "#f0f921",
     },
-    radius=40,
-    blur=35,
+    radius=35,
+    blur=40,
 )
 fno = folium.FeatureGroup(name="NO", show=False)
 no.add_to(fno)
@@ -179,8 +178,8 @@ no2 = HeatMap(
         0.9: "#fcce25",
         1: "#f0f921",
     },
-    radius=40,
-    blur=35,
+    radius=35,
+    blur=40,
 )
 fno2 = folium.FeatureGroup(name="NO2", show=False)
 no2.add_to(fno2)
@@ -208,8 +207,8 @@ o3 = HeatMap(
         0.9: "#fcce25",
         1: "#f0f921",
     },
-    radius=40,
-    blur=35,
+    radius=35,
+    blur=40,
 )
 fo3 = folium.FeatureGroup(name="O3", show=False)
 o3.add_to(fo3)
@@ -272,12 +271,26 @@ folium.TileLayer("Cartodb dark_matter", name="Sombre").add_to(Occitanie)
 folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)
 folium.TileLayer("OpenStreetMap", name="Street Map").add_to(Occitanie)
 
-folium.LayerControl(collapsed=True,opacity=0.7).add_to(Occitanie)
+folium.LayerControl(position= 'topleft',collapsed=True,opacity=0.7).add_to(Occitanie)
 
-GroupedLayerControl(
+GroupedLayerControl(position='bottomleft',
     groups={"Polluants": [fpm10, fpm2, fno, fno2, fo3]},
     collapsed=False
 ).add_to(Occitanie)
 
 Occitanie
 ```
+Intensités
+```{python}
+from IPython.display import HTML
+res=f"""
+<table class= "table1-style">
+    <tr>  
+        <th  style="border-top-left-radius : 10px 10px;border-bottom-left-radius : 10px 10px;"> faible </th>
+        <th  style="border-top-right-radius : 10px 10px;border-bottom-right-radius : 10px 10px;"> forte </th>
+    </tr>
+</table>
+"""
+HTML(res)
+```
+
