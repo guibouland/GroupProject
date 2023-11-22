@@ -4,7 +4,12 @@ execute:
   echo: false
 ---
 
-Les données annuelles ont été mesurées entre le 01/10/2022 et le 30/09/2023
+# Etude de la concentration de la pollution à Perpignan
+
+Toutes les données ont été mesurées entre le 01/10/2022 et le 30/09/2023 et proviennent de [SYNOP data](https://public.opendatasoft.com/explore/dataset/donnees-synop-essentielles-omm/api/?sort=date) pour les données météorologiques et de [Atmo Occitanie](https://data-atmo-occitanie.opendata.arcgis.com/pages/liste-des-flux) pour les données des polluants.
+
+On étudie dans un premier temps la variation des moyennes des concentrations des polluants par mois puis par jour dans une période d'un an.
+Ensuite, On essaie de mettre en évidence un lien entre différents facteurs météorologiques comme le vent et la température et certains polluants.
 
 (TEMPORAIRE)<br>
 PM10 : particule en suspension de diamètre inférieur à 10 μm provoquant une altération de la santé respiratoire.<br>
@@ -13,7 +18,7 @@ O₃ : L'ozone est un polluant résultant de la transformation chimique d'autres
 NOx : Emissions d’oxydes d'azote émises par la combustion des carburants fossiles participant fortement à l'effet de serre et regroupant le monoxyde d'azote (NO), le dioxyde d’azote (NO₂) et le protoxyde d’azote (N₂O).<br>
 NO₂/NO : Le dioxyde d’azote (NO2) se forme dans l’atmosphère à partir du monoxyde d'azote (NO) qui se dégage essentiellement lors de la combustion de combustibles fossiles.
 
-# Taux mensuel de pollution sur une année
+## Concentration mensuelle de pollution sur une année
 
 ```{python}
 import pandas as pd
@@ -24,197 +29,147 @@ import plotly.graph_objects as go
 POLLUANTS
 """
 
+# Définir les polluants
+polluants_list = ['PM10', 'O3', 'NOX', 'NO2', 'PM2.5', 'NO']
+
+couleur = ['orange', 'green','purple', 'red', 'blue', 'grey']
+
+# Dictionnaire de correspondance entre les anciens et les nouveaux noms des mois
+mois_mapping = {"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre"}
+
+# Dictionnaire de correspondance entre les anciens et les nouveaux noms des jours
+jours_mapping = {"Monday": "Lundi", "Tuesday": "Mardi", "Wednesday": "Mercredi", "Thursday": "Jeudi", "Friday": "Vendredi", "Saturday": "Samedi", "Sunday": "Dimanche"}
+
+# Ordre jours
+jours_ordre = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
 # Importer les valeurs
 polluants = pd.read_csv("bases_de_donnees/donnees_polluants_2022_2023.csv", sep=",", na_values="", low_memory=False)
 
 # Extraire le mois de chaque date
 polluants['Date'] = pd.to_datetime(polluants['date_debut'])
-polluants['Mois'] = polluants['Date'].dt.strftime('%m')
 
-# Moyenne des valeurs des polluants par jour
-PM = polluants[(polluants['nom_poll'] == 'PM10')].groupby('Mois')['valeur'].mean().reset_index()
-PM['nom'] = 'PM₁₀'
-O = polluants[(polluants['nom_poll'] == 'O3')].groupby('Mois')['valeur'].mean().reset_index()
-O['nom'] = '0₃'
-NOX = polluants[(polluants['nom_poll'] == 'NOX')].groupby('Mois')['valeur'].mean().reset_index()
-NOX['nom'] = 'NOx'
-NOO = polluants[(polluants['nom_poll'] == 'NO2')].groupby('Mois')['valeur'].mean().reset_index()
-NOO['nom'] = 'NO₂'
-PMM = polluants[(polluants['nom_poll'] == 'PM2.5')].groupby('Mois')['valeur'].mean().reset_index()
-PMM['nom'] = 'PM2.5'
-NO = polluants[(polluants['nom_poll'] == 'NO')].groupby('Mois')['valeur'].mean().reset_index()
-NO['nom'] = 'NO'
+def graphique(fig, titre, xaxis_title):
+        fig.update_layout(
+            title=titre,
+            xaxis=dict(title=xaxis_title),
+            yaxis=dict(title='Concentration (µg.m⁻³)', side='left', position=0),
+            font_size=15,
+            showlegend=True,
+            paper_bgcolor="rgb(230, 230, 230)",
+            legend=dict(x=1, y=1)
+        )
+
+def graphique_polar(fig):
+        fig.update_layout(
+            font_size=15,
+            showlegend=True,
+            polar=dict(
+                bgcolor="rgb(223, 223, 223)",
+                angularaxis=dict(linewidth=3, showline=True, linecolor='black'),
+                radialaxis=dict(showline=True, linewidth=2, gridcolor="white", gridwidth=2,)
+            ),
+            paper_bgcolor="rgb(230, 230, 230)"
+        )
+
+def trace_mois(df, color, name, date):
+        return go.Scatter(x=df[date], y=df["valeur"], mode='lines', line=dict(width=2, color=color), name=name)
+
+def graphique_axe(fig, titre, yaxis2_title):
+    fig.update_layout(
+        title=titre,
+        xaxis=dict(title='Temps (jours)'),
+        yaxis=dict(title='Concentration (µg.m⁻³)', side='left', position=0),
+        yaxis2=dict(title=yaxis2_title, overlaying='y',side='right', position=1),
+        font_size=15,
+        showlegend=True,
+        paper_bgcolor="rgb(230, 230, 230)",
+        legend=dict(x=1, y=1)
+    )
+
+def concentration(date, format, mapping, titre, temps):
+    polluants[date] = polluants['Date'].dt.strftime(format)
+
+    resultat = []
+    if date == 'Jour':
+        # Moyenne des valeurs des polluants par jour
+        for polluant in polluants_list:
+            df_polluant = polluants[polluants['nom_poll'] == polluant].groupby(date)['valeur'].mean().reset_index()
+            df_polluant['nom'] = polluant
+            df_polluant['Jour'] = pd.Categorical(df_polluant['Jour'], categories=jours_ordre, ordered=True)
+            df_polluant = df_polluant.sort_values(date)
+            resultat.append(df_polluant)
+    else:
+        for polluant in polluants_list:
+            df_polluant = polluants[polluants['nom_poll'] == polluant].groupby(date)['valeur'].mean().reset_index()
+            df_polluant['nom'] = polluant
+            resultat.append(df_polluant)
 
 
-"""
-GRAPHIQUE TEST
-"""
+    """
+    GRAPHIQUE
+    """
+    # Récupérer les DataFrames individuels
+    PM, O, NOX, NOO, PMM, NO = resultat
 
-# Dictionnaire de correspondance entre les anciens et les nouveaux noms des mois
-mois_mapping = {"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre"}
+    # Concaténer tous les polluants
+    resultat = pd.concat([NOX, NOO, NO, O, PM, PMM], ignore_index=True)
 
-# Concaténer tous les polluants
-resultat = pd.concat([PM, O, NOX, NOO, PMM, NO], ignore_index=True)
+    # Remplacement des valeurs dans la colonne "Mois"
+    resultat[date] = resultat[date].replace(mapping)
+    
+    # Paramétrer le graphique polaire
+    fig_polar = px.line_polar(
+        resultat,
+        r="valeur",
+        theta=date,
+        color="nom",
+        line_close=True,
+        range_r=[0, max(resultat["valeur"])],
+        start_angle=90,
+        color_discrete_sequence=couleur,
+        title=titre,
+    )
 
-# Remplacement des valeurs dans la colonne "Mois"
-resultat['Mois'] = resultat['Mois'].replace(mois_mapping)
+    graphique_polar(fig_polar)
 
-# Paramétrer le graphique polaire
-fig_polar = px.line_polar(
-    resultat,
-    r="valeur",
-    theta="Mois",
-    color="nom",
-    line_close=True,
-    range_r=[0, max(resultat["valeur"])],
-    start_angle=90,
-    color_discrete_sequence=['blue', 'red','orange', 'green', 'grey', 'purple'],
-    title="Quantité moyenne mensuelle des polluants à Perpignan (en µg.m⁻³)",
-)
+    # Paramétrer le graphique cartésien
+    fig = go.Figure()
 
-fig_polar.update_layout(
-    font_size=15,
-    showlegend=True,
-    polar=dict(
-        bgcolor="rgb(223, 223, 223)",
-        angularaxis=dict(linewidth=3, showline=True, linecolor='black'),
-        radialaxis=dict(showline=True, linewidth=2, gridcolor="white", gridwidth=2,)
-    ),
-    paper_bgcolor="rgb(230, 230, 230)"
-)
+    graphique(fig, titre, temps)
 
-# Paramétrer le graphique cartésien
-fig = go.Figure()
+    # Ajouter les traces pour chaque polluant
+    fig.add_trace(trace_mois(NOX, 'orange', 'NOx', date))
+    fig.add_trace(trace_mois(NOO, 'green', 'NO₂', date))
+    fig.add_trace(trace_mois(NO, 'purple', 'NO', date))
+    fig.add_trace(trace_mois(O, 'red', 'O₃', date))
+    fig.add_trace(trace_mois(PM, 'blue', 'PM₁₀', date))
+    fig.add_trace(trace_mois(PMM, 'grey', 'PM2.5', date))
 
-fig.update_layout(
-    title='Quantité moyenne mensuelle des polluants à Perpignan',
-    xaxis=dict(title='Temps (mois)'),
-    yaxis=dict(title='Quantité (µg.m⁻³)', side='left', position=0),
-    font_size=15,
-    showlegend=True,
-    paper_bgcolor="rgb(230, 230, 230)",
-    legend=dict(x=1, y=1)
-)
+    # Afficher les graphiques
+    fig_polar.show()
+    fig.show()
 
-# Ajout des traces sur la figure initiale (à adapter selon votre DataFrame)
-fig.add_trace(go.Scatter(x=resultat["Mois"], y=PM["valeur"], mode='lines', line=dict(width=2, color='blue'), name='PM₁₀'))
-fig.add_trace(go.Scatter(x=resultat["Mois"], y=O["valeur"], mode='lines',line=dict(width=2, color='red'), name='O₃'))
-fig.add_trace(go.Scatter(x=resultat["Mois"], y=NOX["valeur"], mode='lines', line=dict(width=2, color='orange'), name='NOx'))
-fig.add_trace(go.Scatter(x=resultat["Mois"], y=NOO["valeur"], mode='lines', line=dict(width=2, color='green'), name='NO₂'))
-fig.add_trace(go.Scatter(x=resultat["Mois"], y=PMM["valeur"], mode='lines', line=dict(width=2, color='grey'), name='PM2.5'))
-fig.add_trace(go.Scatter(x=resultat["Mois"], y=NO["valeur"], mode='lines', line=dict(width=2, color='purple'), name='NO'))
-
-# Afficher les graphiques
-fig_polar.show()
-fig.show()
+concentration('Mois', '%m', mois_mapping, 'Concentration moyenne mensuelle des polluants (en µg.m⁻³)', 'Temps (mois)')
 ```
 <br>
-On remarque que l'émission des gaz à effet de serre (NOx, NO₂ et NO) est relativament stable entre Mars et Octobre (entre 51.5 et 79.5 µg.m⁻³ de NOx) mais beaucoup plus importante en période hivernale (entre 94.9 et 138.3 µg.m⁻³ de NOx entre Novembre et Février)
-Cela est dû à plusieurs facteurs comme le chauffage dans les foyers ou la préférence pour la voiture comme moyen de transport pour se protéger du froid.<br>
+On remarque que la concentration d'oxydes d'azote (NOx, NO₂ et NO) est relativament stable entre Mars et Octobre (entre 51.5 et 79.5 µg.m⁻³ de NOx par exemple) mais beaucoup plus importante en période hivernale (entre 94.9 et 138.3 µg.m⁻³ de NOx entre Novembre et Février)
+Cela peut être dû à plusieurs facteurs aussi bien artificiels (augmentation du chauffage, de la prise de véhicules, etc...) que naturels (augmentation des rejets automobiles, formation de particules fines par les cheminées, etc...).<br>
 <br>
 A contrario, la tendance est inversée concernant l'émission d'ozone (O₃) qui est stable mais importante entre Mars et Septembre (entre 71.2 et 79.0 µg.m⁻³ excepté en Juillet avec 62.3 µg.m⁻³) alors qu'elle est plus faible entre Octobre et Février (entre 44.8 et 56.3 µg.m⁻³ avec une baisse soudaine à 26.6 µg.m⁻³ en Décembre).
-Cela s'explique par la dépendance de la formation de l'ozone à l'ensoleillement et à la température qui sont plus faibles en période hivernale et qui donc régulent les transformations chimiques résultant à ce polluant.
+Cela s'explique par la dépendance de la formation de l'ozone à l'ensoleillement et à la chaleur qui varient selon les saisons et par conséquent régulent les transformations chimiques produisant le-dit polluant.
 
-# Taux quotidien de pollution sur une année
+## Concentration quotidienne de pollution sur une année
 
 ```{python}
-"""
-EVOLUTION QUOTIDIENNE POLUTION SUR 1 AN
-"""
-
-# Extraire le jour de chaque date
-polluants['Jour'] = polluants['Date'].dt.strftime('%A')
-
-# Moyenne des valeurs des polluants par jour
-PM = polluants[(polluants['nom_poll'] == 'PM10')].groupby('Jour')['valeur'].mean().reset_index()
-PM['nom'] = 'PM₁₀'
-O = polluants[(polluants['nom_poll'] == 'O3')].groupby('Jour')['valeur'].mean().reset_index()
-O['nom'] = '0₃'
-NOX = polluants[(polluants['nom_poll'] == 'NOX')].groupby('Jour')['valeur'].mean().reset_index()
-NOX['nom'] = 'NOx'
-NOO = polluants[(polluants['nom_poll'] == 'NO2')].groupby('Jour')['valeur'].mean().reset_index()
-NOO['nom'] = 'NO₂'
-PMM = polluants[(polluants['nom_poll'] == 'PM2.5')].groupby('Jour')['valeur'].mean().reset_index()
-PMM['nom'] = 'PM2.5'
-NO = polluants[(polluants['nom_poll'] == 'NO')].groupby('Jour')['valeur'].mean().reset_index()
-NO['nom'] = 'NO'
-
-
-"""
-GRAPHIQUE TEST
-"""
-
-# Dictionnaire de correspondance entre les anciens et les nouveaux noms des mois
-jours_mapping = {"Monday": "Lundi", "Tuesday": "Mardi", "Wednesday": "Mercredi", "Thursday": "Jeudi", "Friday": "Vendredi", "Saturday": "Samedi", "Sunday": "Dimanche"}
-
-# Concaténer tous les polluants
-resultat = pd.concat([PM, O, NOX, NOO, PMM, NO], ignore_index=True)
-
-# Remplacement des valeurs dans la colonne "Date"
-resultat['Jour'] = resultat['Jour'].replace(jours_mapping)
-
-# Ordonner les jours
-jours_ordre = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
-resultat['Jour'] = pd.Categorical(resultat['Jour'], categories=jours_ordre, ordered=True)
-
-# Trier le DataFrame par la colonne "Jour"
-resultat = resultat.sort_values(by='Jour')
-
-# Paramétrer le graphique polaire
-fig_polar = px.line_polar(
-    resultat,
-    r="valeur",
-    theta="Jour",
-    color="nom",
-    line_close=True,
-    range_r=[0, max(resultat["valeur"])],
-    start_angle=90,
-    color_discrete_sequence=['blue', 'purple', 'grey', 'red', 'green', 'orange'],
-    title="Quantité moyenne quotidienne des polluants à Perpignan (en µg.m⁻³)"
-)
-
-fig_polar.update_layout(
-    font_size=15,
-    showlegend=True,
-    polar=dict(
-        bgcolor="rgb(223, 223, 223)",
-        angularaxis=dict(linewidth=3, showline=True, linecolor='black'),
-        radialaxis=dict(showline=True, linewidth=2, gridcolor="white", gridwidth=2,)
-    ),
-    paper_bgcolor="rgb(230, 230, 230)"
-)
-
-# Paramétrer le graphique cartésien
-fig = go.Figure()
-
-fig.update_layout(
-    title='Quantité moyenne mensuelle des polluants à Perpignan',
-    xaxis=dict(title='Temps (jours)'),
-    yaxis=dict(title='Quantité (µg.m⁻³)', side='left', position=0),
-    font_size=15,
-    showlegend=True,
-    paper_bgcolor="rgb(230, 230, 230)",
-    legend=dict(x=1, y=1)
-)
-
-# Ajout des traces sur la figure initiale (à adapter selon votre DataFrame)
-fig.add_trace(go.Scatter(x=PM["Jour"], y=PM["valeur"], mode='lines', line=dict(width=2, color='blue'), name='PM₁₀'))
-fig.add_trace(go.Scatter(x=O["Jour"], y=O["valeur"], mode='lines',line=dict(width=2, color='red'), name='O₃'))
-fig.add_trace(go.Scatter(x=NOX["Jour"], y=NOX["valeur"], mode='lines', line=dict(width=2, color='orange'), name='NOx'))
-fig.add_trace(go.Scatter(x=NOO["Jour"], y=NOO["valeur"], mode='lines', line=dict(width=2, color='green'), name='NO₂'))
-fig.add_trace(go.Scatter(x=PMM["Jour"], y=PMM["valeur"], mode='lines', line=dict(width=2, color='grey'), name='PM2.5'))
-fig.add_trace(go.Scatter(x=NO["Jour"], y=NO["valeur"], mode='lines', line=dict(width=2, color='purple'), name='NO'))
-
-# Afficher les graphiques
-fig_polar.show()
-fig.show()
+concentration('Jour', '%A', jours_mapping, 'Concentration moyenne quotidienne des polluants (en µg.m⁻³)', 'Temps (jours)')
 ```
 <br>
-On remarque que l'émission des gaz à effet de serre (NOx, NO₂ et NO) et des particules PM10 est stable en semaine (entre 72.5 et 91.6 µg.m⁻³ de NOx par exemple) avec une baisse soudaine le Dimanche avec 51.3 µg.m⁻³ de NOx due au fait qu'en majorité les gens ne travaillent pas ce jour-là.<br>
+On remarque que les concentrations d'oxydes d'azote et des particules PM10 sont stables en semaine (entre 72.5 et 91.6 µg.m⁻³ de NOx par exemple) exceptée une baisse soudaine le Dimanche (51.3 µg.m⁻³ de NOx) probablement due au fait qu'en majorité les gens ne travaillent pas ce jour-là.<br>
 <br>
-La quantité d'ozone est quant à elle très stable variant entre 60.1 et 64.4 µg.m⁻³ toute la semaine. Ceci s'explique par le fait que l'ensoleillement et la température varient assez peu en une semaine. De même, la quantité de PM2.5 varie seulement entre 8.2 et 8.8 µg.m⁻³.
+La quantité d'ozone est quant à elle très stable variant entre 60.1 et 64.4 µg.m⁻³ toute la semaine. Ceci s'explique par le fait que l'ensoleillement et la température varient relativement peu en une semaine. De même, les concentrations de particules en suspension varient très peu (entre 15.9 et 19.8 µg.m⁻³ pour PM10 et entre 8.2 et 8.8 µg.m⁻³ pour PM2.5).
 
-# Lien entre le vent et le taux de pollution
+## Lien entre le vent et la concentration de pollution
 
 ```{python}
 # Importer les valeurs
@@ -278,17 +233,7 @@ trace_vent_moy = go.Scatter(x=vent_moy["Date"], y=vent_moy["valeur"], mode='line
 # Créer de la figure
 fig = go.Figure([trace1, trace2, trace3, trace_vent_moy])
 
-# Personnaliser la mise en page
-fig.update_layout(
-    title='Vitesse du vent et émissions de NOx à Perpignan (mars 2023)',
-    xaxis=dict(title='Temps (jours)'),
-    yaxis=dict(title='Quantité (µg.m⁻³)', side='left', position=0),
-    yaxis2=dict(title='Vitesse (km.h⁻¹)', overlaying='y',side='right', position=1),
-    font_size=15,
-    showlegend=True,
-    paper_bgcolor="rgb(230, 230, 230)",
-    legend=dict(x=1.1, y=1)
-)
+graphique_axe(fig, 'Vitesse du vent et émissions de NOx(mars 2023)', 'Vitesse (km.h⁻¹)')
 
 # Afficher le graphique
 fig.show()
@@ -297,81 +242,82 @@ fig.show()
 On remarque que lorsque la vitesse du vent augmente fortement et dépasse une certaine valeur (ici au moins 35 km.h⁻¹), la courbe d'émission des différents gaz diminue en conséquence.<br>
 En effet, les trois pics de vitesse du vent évalués à 39.6, 39.5 et 35.3 km.h⁻¹ correspondent respectivement aux trois valeurs les plus faibles d'émission de NOx par exemple, c'est-à-dire 26.1, 43.9 et 33.4 µg.m⁻³.
 
-# Lien entre la température et le taux de pollution
+## Lien entre la température et le taux de pollution
 
 ```{python}
-# Importer les valeurs
-donnees = pd.read_csv("bases_de_donnees/donnees_vent_2022_2023.csv", sep=";", na_values="", low_memory=False)
-polluants = pd.read_csv("bases_de_donnees/donnees_polluants_2022_2023.csv", sep=",", na_values="", low_memory=False)
+def tableau(mesure, titre, gaz, axe):
+    # Importer les valeurs
+    donnees = pd.read_csv("bases_de_donnees/donnees_vent_2022_2023.csv", sep=";", na_values="", low_memory=False)
+    polluants = pd.read_csv("bases_de_donnees/donnees_polluants_2022_2023.csv", sep=",", na_values="", low_memory=False)
+
+    # Renommer colonnes
+    colonne = {mesure: "valeur"}
+    donnees.rename(columns=colonne, inplace=True)
+
+    # Formater les dates
+    donnees["Date"] = donnees["Date"].apply(lambda x: x.split("T")[0])
+    donnees['Date'] = pd.to_datetime(donnees['Date'])
+    donnees['Date'] = donnees['Date'].dt.strftime(format_date)
 
 
-"""
-DONNEES
-"""
+    """
+    TEMPERATURE
+    """
+    # Vitesse moyenne du vent chaque jour de la période
+    temp_moy = donnees.groupby('Date')['valeur'].mean().reset_index()
 
-# Renommer colonnes
-colonne = {"Température": "valeur"}
-donnees.rename(columns=colonne, inplace=True)
+    """
+    POLLUANTS
+    """
 
-# Formater les dates
-donnees["Date"] = donnees["Date"].apply(lambda x: x.split("T")[0])
-donnees['Date'] = pd.to_datetime(donnees['Date'])
-donnees['Date'] = donnees['Date'].dt.strftime(format_date)
+    # Extraire la date sans l'heure de 'date_debut'
+    polluants['Date'] = pd.to_datetime(polluants['date_debut'])
 
+    # Sélectionnez uniquement les valeurs de l'année 2023
+    polluants = polluants.loc[polluants['Date'].dt.year == 2023]
 
-"""
-TEMPERATURE
-"""
-# Vitesse moyenne du vent chaque jour de la période
-temp_moy = donnees.groupby('Date')['valeur'].mean().reset_index()
+    polluants['Date'] = polluants['Date'].dt.strftime(format_date)
 
-# Conversion en degrés Celsius
-temp_moy['valeur'] = temp_moy['valeur'] - 273.15
-
-"""
-POLLUANTS
-"""
-
-# Extraire la date sans l'heure de 'date_debut'
-polluants['Date'] = pd.to_datetime(polluants['date_debut'])
-
-# Sélectionnez uniquement les valeurs de l'année 2023
-polluants = polluants.loc[polluants['Date'].dt.year == 2023]
-
-polluants['Date'] = polluants['Date'].dt.strftime(format_date)
-
-# Moyenne des valeurs des polluants par jour
-O = polluants[(polluants['nom_poll'] == 'O3')].groupby(
-    'Date')['valeur'].mean().reset_index()
+    # Moyenne des valeurs des polluants par jour
+    O = polluants[(polluants['nom_poll'] == 'O3')].groupby(
+        'Date')['valeur'].mean().reset_index()
 
 
-"""
-GRAPHIQUE
-"""
+    """
+    GRAPHIQUE
+    """
 
-# Créer la trace
-trace1 = go.Scatter(x=O["Date"], y=O["valeur"], mode='lines', line=dict(width=2, color='orange'), name='O₃')
+    # Créer la trace
+    trace1 = go.Scatter(x=O["Date"], y=O["valeur"], mode='lines', line=dict(width=2, color='orange'), name='O₃')
 
-# Ajouter la trace pour le vecteur vent_moy sur le deuxième axe Y
-trace_temp_moy = go.Scatter(x=temp_moy["Date"], y=temp_moy["valeur"], mode='lines', line=dict(width=2, color='black'), name='Temp', yaxis='y2')
+    # Ajouter la trace pour le vecteur vent_moy sur le deuxième axe Y
+    trace_temp_moy = go.Scatter(x=temp_moy["Date"], y=temp_moy["valeur"], mode='lines', line=dict(width=2, color='black'), name=titre, yaxis='y2')
 
-# Créer de la figure
-fig = go.Figure([trace1, trace_temp_moy])
+    # Créer de la figure
+    fig = go.Figure([trace1, trace_temp_moy])
 
-# Personnaliser la mise en page
-fig.update_layout(
-    title='Température et Ozone à Perpignan (2023)',
-    xaxis=dict(title='Temps (jours)'),
-    yaxis=dict(title='Quantité (µg.m⁻³)', side='left', position=0),
-    yaxis2=dict(title='Température (°C)', overlaying='y',side='right', position=1),
-    font_size=15,
-    showlegend=True,
-    paper_bgcolor="rgb(230, 230, 230)",
-    legend=dict(x=1.1, y=1)
-)
+    graphique_axe(fig, f'{titre} et {gaz}', axe)
 
-# Afficher le graphique
-fig.show()
+    # Afficher le graphique
+    fig.show()
+
+tableau('Température', 'Température', 'ozone', 'Température (°C)')
 ```
 <br>
 On ne remarque pas de lien particulier entre la température et la quantité d'ozone dans l'air.
+
+## Lien entre la pluie et le taux de pollution
+
+```{python}
+tableau("Précipitations dans les 24 dernières heures", 'Précipitations', "oxydes d'azote", 'Précipitations (mm)')
+```
+<br>
+Il faut que je rajoute les oxydes d'azote
+
+## Lien entre la pression et le taux de pollution
+
+```{python}
+tableau("Pression station", 'Pression', "oxydes d'azote", 'Pression (Pa)')
+```
+<br>
+idem
