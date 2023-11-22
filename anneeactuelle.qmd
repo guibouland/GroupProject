@@ -3,11 +3,11 @@ execute:
     echo: false
 ---
 ```{python}
-import dash
-from dash import dcc, html
-from dash.dependencies import Input, Output
 import pandas as pd
-import plotly.express as px
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import tkinter as tk
+from tkinter import ttk
 
 # Charger les données
 bdd1 = pd.read_csv("bases_de_donnees/Mesure_mensuelle_annee.csv")
@@ -15,108 +15,83 @@ bdd1['valeur'].fillna(0, inplace=True)
 bdd2 = pd.read_csv("bases_de_donnees/Mesure_5dernieresannees.csv")
 bdd2['valeur'].fillna(0, inplace=True)
 
-# Créer une application Dash
-app = dash.Dash(__name__)
+class PollutionApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Évolution de la pollution en Occitanie")
 
-# Créer la mise en page de l'application
-app.layout = html.Div([
-    html.H1("Évolution de la pollution en Occitanie"),
-    # Sélection de la période étudiée
-    dcc.Dropdown(
-        id='periode',
-        options=[
-            {'label': '5 dernières années', 'value': '5ans'},
-            {'label': 'Année actuelle', 'value': 'annee_actuelle'},
-        ],
-        value='5ans'
-    ),
+        # Frame principale
+        self.main_frame = ttk.Frame(self.root, padding="10")
+        self.main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
-    # Sélection du département
-    dcc.Dropdown(
-        id='departement',
-        options=[
-            {'label': 'HAUTE-GARONNE', 'value': 'HAUTE-GARONNE'},
-            {'label': 'GERS', 'value': 'GERS'},
-            {'label': 'TARN', 'value': 'TARN'},
-            {'label': 'HAUTES-PYRENEES', 'value': 'HAUTES-PYRENEES'},
-            {'label': 'TARN-ET-GARONNE', 'value': 'TARN-ET-GARONNE'},
-            {'label': 'HERAULT', 'value': 'HERAULT'},
-            {'label': 'PYRENEES-ORIENTALES', 'value': 'PYRENEES-ORIENTALES'},
-            {'label': 'AVEYRON', 'value': 'AVEYRON'},
-            {'label': 'ARIEGE', 'value': 'ARIEGE'},
-            {'label': 'GARD', 'value': 'GARD'},
-            {'label': 'LOZERE', 'value': 'LOZERE'},
-        ],
-        value='HAUTE-GARONNE'
-    ),
+        # Options de sélection
+        self.departement_label = ttk.Label(self.main_frame, text="Département:")
+        self.departement_label.grid(row=0, column=0, sticky=tk.W)
+        self.departement_var = tk.StringVar()
+        self.departement_dropdown = ttk.Combobox(self.main_frame, textvariable=self.departement_var, values=[
+            'HAUTE-GARONNE', 'GERS', 'TARN', 'HAUTES-PYRENEES', 'TARN-ET-GARONNE', 'HERAULT', 'PYRENEES-ORIENTALES',
+            'AVEYRON', 'ARIEGE', 'GARD', 'LOZERE'
+        ])
+        self.departement_dropdown.grid(row=0, column=1, sticky=tk.W)
+        self.departement_dropdown.set('HAUTE-GARONNE')
 
-    # Sélection du polluant
-    dcc.Dropdown(
-        id='polluant-dropdown',
-        options=[
-            {'label': 'NO', 'value': 'NO'},
-            {'label': 'NO2', 'value': 'NO2'},
-            {'label': 'NOX', 'value': 'NOX'},
-            {'label': 'O3', 'value': 'O3'},
-            {'label': 'PM10', 'value': 'PM10'},
-            {'label': 'PM2.5', 'value': 'PM2.5 '}
-        ],
-        value='NO'
-    ),
-    
-    # Graphique interactif - Scatter Plot
-    dcc.Graph(id='scatter-graph'),
-])
+        self.pollutant_label = ttk.Label(self.main_frame, text="Polluant:")
+        self.pollutant_label.grid(row=1, column=0, sticky=tk.W)
+        self.pollutant_var = tk.StringVar()
+        self.pollutant_dropdown = ttk.Combobox(self.main_frame, textvariable=self.pollutant_var, values=['NO', 'NO2', 'NOX', 'O3', 'PM10'])
+        self.pollutant_dropdown.grid(row=1, column=1, sticky=tk.W)
+        self.pollutant_dropdown.set('NO')
 
-# Mettre à jour le graphique en fonction de la sélection du département et du type de polluant
-@app.callback(
-    Output('scatter-graph', 'figure'),
-    [Input('departement', 'value'),
-     Input('polluant-dropdown', 'value'),
-     Input('periode', 'value')]
-)
-def update_graph(selected_departement, selected_pollutant, selected_periode):
-    if selected_periode == '5ans':
-        bdd = bdd2
-    else:
-        bdd = bdd1
+        self.periode_label = ttk.Label(self.main_frame, text="Période:")
+        self.periode_label.grid(row=2, column=0, sticky=tk.W)
+        self.periode_var = tk.StringVar()
+        self.periode_dropdown = ttk.Combobox(self.main_frame, textvariable=self.periode_var, values=['5ans', 'annee_actuelle'])
+        self.periode_dropdown.grid(row=2, column=1, sticky=tk.W)
+        self.periode_dropdown.set('5ans')
 
-    filtered_data = bdd[(bdd['nom_dept'] == selected_departement) & (bdd['nom_poll'] == selected_pollutant)]
-    filtered_data = filtered_data.sort_values(by='date_debut')
+        self.plot_button = ttk.Button(self.main_frame, text="Afficher le graphique", command=self.plot_graph)
+        self.plot_button.grid(row=3, column=0, columnspan=2, pady=10)
 
-    # Scatter Plot
-    scatter_fig = px.scatter(
-        filtered_data, x='date_debut', y='valeur',
-        color='nom_station', size='valeur', hover_name='date_debut'
-    )
+        # Initialiser la figure
+        self.fig, self.ax = plt.subplots()
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self.main_frame)
+        self.canvas.get_tk_widget().grid(row=4, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S))
 
-    scatter_fig.update_layout(
-        title=f'Évolution de la pollution pour {selected_pollutant} en {selected_departement}',
-        xaxis_title='Année',
-        yaxis_title=f'Valeur {selected_pollutant} ug.m-3'
-    )
+    def plot_graph(self):
+        selected_departement = self.departement_var.get()
+        selected_pollutant = self.pollutant_var.get()
+        selected_periode = self.periode_var.get()
 
-    # Ajouter une trace pour chaque station du département
-    for nom_station in filtered_data['nom_station'].unique():
-        trace_data = filtered_data[filtered_data['nom_station'] == nom_station]
-        scatter_fig.add_scatter(
-            x=trace_data['date_debut'],
-            y=trace_data['valeur'],
-            mode='markers+lines',  # Use 'markers+lines' to connect the points with lines
-            name=nom_station  # Utilisez le nom de la station comme nom de la trace
-        )
+        # Filtrer les données en fonction de la sélection
+        if selected_periode == '5ans':
+            bdd = bdd2
+        else:
+            bdd = bdd1
 
-    # Ajuster l'axe des ordonnées pour chaque graphique
-    scatter_fig.update_yaxes(
-        range=[filtered_data['valeur'].min(), filtered_data['valeur'].max() + 10]
-    )
+        filtered_data = bdd[(bdd['nom_dept'] == selected_departement) & (bdd['nom_poll'] == selected_pollutant)]
+        filtered_data = filtered_data.sort_values(by='date_debut')
 
-    return scatter_fig
+        # Effacer le graphique existant
+        self.ax.clear()
 
-if __name__ == '__main__':
-    app.run_server(port=8051,debug=True)
+        # Tracer le nouveau graphique
+        for nom_station in filtered_data['nom_station'].unique():
+            trace_data = filtered_data[filtered_data['nom_station'] == nom_station]
+            self.ax.plot(trace_data['date_debut'], trace_data['valeur'], marker='o', label=nom_station)
 
+        # Ajuster le style du graphique
+        self.ax.set_title(f'Évolution de la pollution pour {selected_pollutant} en {selected_departement}')
+        self.ax.set_xlabel('Année')
+        self.ax.set_ylabel(f'Valeur {selected_pollutant} ug.m-3')
+        self.ax.legend()
 
+        # Mettre à jour le canvas
+        self.canvas.draw()
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = PollutionApp(root)
+    root.mainloop()
 ```
 
 Le graphique précédent nous permet d'observer la variation de quantité de chaque polluant en moyenne par mois durant l'année en cours dans chaque département de l'Occitanie. 
