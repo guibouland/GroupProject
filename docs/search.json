@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Moyenne des intensités de polluants de 2023",
     "section": "",
-    "text": "Make this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\nIntensités\n\n\n\n\n\n\n\nfaible\nforte\n\n\n\n\n\n\n\n\n Back to top"
+    "text": "Make this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\n\n\n\nIntensité de concentration moyenne du polluant sélectionné\n\n\n\n\n\n\n\n\nfaible\nforte\n\n\n\n\n\n\nCes cartes de chaleurs sont prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte chaleure. On observe que la pollution se concentre principalement au niveau des métropoles.\n\n\n\n Back to top"
   },
   {
     "objectID": "about.html",
