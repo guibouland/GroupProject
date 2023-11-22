@@ -1,5 +1,4 @@
 ---
-title: "La pollution en Occitanie"
 execute: 
   echo: false
 ---
@@ -31,7 +30,7 @@ sf.drop(indexNames, inplace=True)
 import folium
 
 centre = [43.716671, 2.15]
-Occitanie = folium.Map(location=centre, zoom_start=6.5)
+Occitanie = folium.Map(location=centre, zoom_start=6.5,tiles=None)
 folium.GeoJson(
     sf[["nom", "geometry"]],
     name="Départements",
@@ -269,14 +268,15 @@ folium.Marker(
     [43.005028, -0.101087],tooltip="Argeles-Gazost", popup=htmlArg, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
 ).add_to(Occitanie)
 
-folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)
 folium.TileLayer("Cartodb dark_matter", name="Sombre").add_to(Occitanie)
+folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)
+folium.TileLayer("OpenStreetMap", name="Street Map").add_to(Occitanie)
 
-folium.LayerControl(collapsed=True).add_to(Occitanie)
+folium.LayerControl(collapsed=True,opacity=0.7).add_to(Occitanie)
 
 GroupedLayerControl(
     groups={"Polluants": [fpm10, fpm2, fno, fno2, fo3]},
-    collapsed=False,
+    collapsed=False
 ).add_to(Occitanie)
 
 Occitanie

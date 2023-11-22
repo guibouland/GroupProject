@@ -66,8 +66,8 @@ website:
 format:
   html:
     theme:
+      dark: [cosmo, custom.scss]
       light: cosmo
-      dark: [cosmo, custom.css]
     css: styles.css
     toc: false
 jupyter: python3
