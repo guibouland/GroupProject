@@ -4,9 +4,7 @@ execute:
   echo: false
 ---
 
-## Carte de l'Occitanie
-
-### Moyenne des intensités de polluants de 2023
+## Moyenne des intensités de polluants de 2023
 ```{python}
 import geopandas as gpd
 import pandas as pd
@@ -65,6 +63,7 @@ polluant = pd.read_csv(
 )
 polluants = polluant.dropna()
 
+#moyenne des polluants sur l'année
 polluants = (
     polluants.groupby(["X", "Y", "nom_poll"])["valeur"]
     .mean()
@@ -227,7 +226,7 @@ htmlT = """
 <a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
 folium.Marker(
-    [43.6, 1.43333], popup=htmlT, icon=folium.Icon(color="darkpurple")
+    [43.6, 1.43333],tooltip="Toulouse", popup=htmlT, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
 ).add_to(Occitanie)
 
 htmlM = """
@@ -235,7 +234,7 @@ htmlM = """
 <a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
 folium.Marker(
-    [43.62505, 3.862038], popup=htmlM, icon=folium.Icon(color="darkpurple")
+    [43.62505, 3.862038],tooltip="Montpellier", popup=htmlM, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
 ).add_to(Occitanie)
 
 htmlTar = """
@@ -243,7 +242,7 @@ htmlTar = """
 <a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
 folium.Marker(
-    [43.23333, 0.08333], popup=htmlTar, icon=folium.Icon(color="darkpurple")
+    [43.23333, 0.08333],tooltip="Tarbes", popup=htmlTar, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
 ).add_to(Occitanie)
 
 htmlMontau = """
@@ -251,7 +250,7 @@ htmlMontau = """
 <a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
 folium.Marker(
-    [44.01667, 1.35], popup=htmlMontau, icon=folium.Icon(color="darkpurple")
+    [44.01667, 1.35],tooltip="Montauban", popup=htmlMontau, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
 ).add_to(Occitanie)
 
 htmlPey = """
@@ -259,7 +258,7 @@ htmlPey = """
 <a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
   """
 folium.Marker(
-    [43.6333, 0.1833], popup=htmlPey, icon=folium.Icon(color="darkpurple")
+    [43.6333, 0.1833],tooltip="Peyrusse-Vieille", popup=htmlPey, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
 ).add_to(Occitanie)
 
 htmlArg = """
@@ -267,7 +266,7 @@ htmlArg = """
 <a class=lien href = meteo.qmd style="text-decoration:none"> Comparatif </a>
   """
 folium.Marker(
-    [43.005028, -0.101087], popup=htmlArg, icon=folium.Icon(color="darkpurple")
+    [43.005028, -0.101087],tooltip="Argeles-Gazost", popup=htmlArg, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
 ).add_to(Occitanie)
 
 folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)
