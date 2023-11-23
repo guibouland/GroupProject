@@ -37,7 +37,7 @@ website:
         text: GitHub
     left:
       - href: index.qmd
-        text: Accueil 
+        text: Carte 
       - text: "Départements"
         menu:
           - Departements/Ariege.qmd
@@ -70,6 +70,8 @@ format:
       light: [cosmo, customlight.scss]
     css: styles.css
     toc: false
+    grid:
+      margin-width:	175px
 jupyter: python3
 
 editor: visual

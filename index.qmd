@@ -221,7 +221,7 @@ Occitanie.add_child(fo3)
 
 htmlT = """
 <p>Toulouse:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
+500 000 habitants </p>
   """
 folium.Marker(
     [43.6, 1.43333],tooltip="Toulouse", popup=htmlT, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
@@ -229,7 +229,7 @@ folium.Marker(
 
 htmlM = """
 <p>Montpellier:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
+300 000 habitants</p>
   """
 folium.Marker(
     [43.62505, 3.862038],tooltip="Montpellier", popup=htmlM, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
@@ -237,7 +237,7 @@ folium.Marker(
 
 htmlTar = """
 <p>Tarbes:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
+Plus de 40 000 habitants</p>
   """
 folium.Marker(
     [43.23333, 0.08333],tooltip="Tarbes", popup=htmlTar, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
@@ -245,7 +245,7 @@ folium.Marker(
 
 htmlMontau = """
 <p>Montauban:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
+Plus de 60 000 habitants</p>
   """
 folium.Marker(
     [44.01667, 1.35],tooltip="Montauban", popup=htmlMontau, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
@@ -253,7 +253,7 @@ folium.Marker(
 
 htmlPey = """
 <p>Peyrusse-Vieille:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
+65 habitants </p>
   """
 folium.Marker(
     [43.6333, 0.1833],tooltip="Peyrusse-Vieille", popup=htmlPey, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
@@ -261,7 +261,7 @@ folium.Marker(
 
 htmlArg = """
 <p>Argeles-Gazost:<br>
-<a class=lien href = meteo.qmd style="text-decoration:none"> Comparatif </a>
+Moins de 3000 habitants</p>
   """
 folium.Marker(
     [43.005028, -0.101087],tooltip="Argeles-Gazost", popup=htmlArg, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
@@ -289,8 +289,7 @@ from IPython.display import HTML
 res=f"""
 <table class= "table1-style">
     <tr class="tr">  
-        <th class="faible" style="color:white;"> faible </th>
-        <th class="forte" style="color:black;"> forte </th>
+        <th class="th"> <span class="faible" style="color:white;"> faible </span><span class="forte" style="color:black;"> forte </span></th>
     </tr>
 </table>
 """
