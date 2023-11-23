@@ -27,7 +27,14 @@ import plotly.graph_objects as go
 
 """
 DEFINITIONS ET FONCTIONS
+DEFINITIONS ET FONCTIONS
 """
+
+# Importer les valeurs
+polluants = pd.read_csv("bases_de_donnees/donnees_polluants_2022_2023.csv", sep=",", na_values="", low_memory=False)
+
+# Extraire le mois de chaque date
+polluants['Date'] = pd.to_datetime(polluants['date_debut'])
 
 # Importer les valeurs
 polluants = pd.read_csv("bases_de_donnees/donnees_polluants_2022_2023.csv", sep=",", na_values="", low_memory=False)
@@ -37,9 +44,8 @@ polluants['Date'] = pd.to_datetime(polluants['date_debut'])
 
 # Définir les polluants
 polluants_tous = ['PM10', 'O3', 'NOX', 'NO2', 'PM2.5', 'NO']
-polluants_ozone = ['O3']
-polluants_NOx = ['O3', 'NOX', 'NO2', 'NO']
 
+# Définir les couleurs correspondantes
 couleur = ['orange', 'green','purple', 'red', 'blue', 'grey']
 
 # Dictionnaire de correspondance entre les anciens et les nouveaux noms des mois
@@ -168,7 +174,7 @@ def concentration(date, format, mapping, titre, temps):
 concentration('Mois', '%m', mois_mapping, 'Concentration moyenne mensuelle des polluants (en µg.m⁻³)', 'Temps (mois)')
 ```
 <br>
-On remarque que la concentration d'oxydes d'azote (NOx, NO₂ et NO) est relativament stable entre Mars et Octobre (entre 51.5 et 79.5 µg.m⁻³ de NOx par exemple) mais beaucoup plus importante en période hivernale (entre 94.9 et 138.3 µg.m⁻³ de NOx entre Novembre et Février)
+On remarque que la concentration d'oxydes d'azote (NOx, NO₂ et NO) est relativement stable entre Mars et Octobre (entre 51.5 et 79.5 µg.m⁻³ de NOx par exemple) mais beaucoup plus importante en période hivernale (entre 94.9 et 138.3 µg.m⁻³ de NOx entre Novembre et Février)
 Cela peut être dû à plusieurs facteurs aussi bien artificiels (augmentation du chauffage, de la prise de véhicules, etc...) que naturels (augmentation des rejets automobiles, formation de particules fines par les cheminées, etc...).<br>
 <br>
 A contrario, la tendance est inversée concernant l'émission d'ozone (O₃) qui est stable mais importante entre Mars et Septembre (entre 71.2 et 79.0 µg.m⁻³ excepté en Juillet avec 62.3 µg.m⁻³) alors qu'elle est plus faible entre Octobre et Février (entre 44.8 et 56.3 µg.m⁻³ avec une baisse soudaine à 26.6 µg.m⁻³ en Décembre).
@@ -255,7 +261,7 @@ fig.show()
 On remarque que lorsque la vitesse du vent augmente fortement et dépasse une certaine valeur (ici au moins 35 km.h⁻¹), la courbe d'émission des différents gaz diminue en conséquence.<br>
 En effet, les trois pics de vitesse du vent évalués à 39.6, 39.5 et 35.3 km.h⁻¹ correspondent respectivement aux trois valeurs les plus faibles d'émission de NOx par exemple, c'est-à-dire 26.1, 43.9 et 33.4 µg.m⁻³.
 
-## Lien entre la température et la concentration d'ozone'
+## Lien entre la température et la concentration d'ozone
 
 ```{python}
 # Graphique faisant le lien entre une donnée météorologique et certains polluants en 2023
