@@ -1,11 +1,16 @@
 ---
 title: 'Ariège'
+execute:
+    echo: false
 ---
 ```{python}
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-
+import warnings
+# Désactiver temporairement les avertissements spécifiques
+warnings.filterwarnings("ignore", category=UserWarning, message="Converting to PeriodArray/Index representation will drop timezone information.")
+pd.options.mode.chained_assignment = None
 # Charger les données
 bdd1 = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
 bdd1['valeur'].fillna(0, inplace=True)
@@ -14,25 +19,22 @@ bdd1['valeur'].fillna(0, inplace=True)
 polluants = ['NO', 'NOX', 'O3', 'PM10', 'NO2']
 
 # Plages des ordonnées pour chaque polluant
-ordonnee_ranges = {'NO': [0, 85], 'NOX': [0, 180], 'O3': [0, 90], 'PM10': [0, 45], 'NO2': [0, 70]}
-
-# Créer une liste pour stocker les graphiques de chaque polluant
-graphs = []
+ordonnee_ranges = {'NO': [0, 15], 'NOX': [0, 25], 'O3': [0, 90], 'PM10': [0, 30], 'NO2': [0, 20]}
 
 # Boucle à travers les polluants pour créer les graphiques
 for polluant in polluants:
-    # Filtrer les données pour le polluant et le département HAUTE-GARONNE
+    # Filtrer les données pour le polluant et le département ARIEGE
     filtered_data = bdd1[(bdd1['nom_dept'] == 'ARIEGE') & (bdd1['nom_poll'] == polluant)]
     filtered_data = filtered_data.sort_values(by='date_debut')
 
-    # Convertir la colonne de dates au format aaaa/mm sans générer de warnings
+    # Convertir la colonne de dates au format aaaa/mm
     filtered_data['date_debut'] = pd.to_datetime(filtered_data['date_debut']).dt.to_period('M').astype(str)
 
     # Créer un graphique interactif avec Plotly Express
     fig = px.scatter(
         filtered_data, x='date_debut', y='valeur',
         color='nom_station', size='valeur', hover_name='date_debut',
-        title=f'Évolution de la pollution {polluant} en Haute-Garonne',
+        title=f'Évolution de la pollution {polluant} en ARIEGE',
         labels={'valeur': f'Valeur {polluant} (ug.m-3)', 'date_debut': 'Année'}
     )
 
@@ -55,51 +57,13 @@ for polluant in polluants:
         xaxis_tickformat="%Y/%m",  # Format de l'axe des x
         legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5, traceorder='reversed'),
         margin=dict(l=10, r=10, t=70, b=10),  # Ajustements des marges
-        paper_bgcolor='rgb(171, 235, 198)',  # Couleur de fond
-        plot_bgcolor='rgb(174, 214, 241)',   # Couleur du graphique
+        paper_bgcolor='rgba(32,32,32,50)',  # Couleur de fond
+        plot_bgcolor='rgba(255, 244, 238, 88)',   # Couleur du graphique
         yaxis=dict(range=ordonnee_ranges[polluant])  # Ajuster l'axe des ordonnées
     )
 
-    # Ajouter le graphique à la liste
-    graphs.append(fig)
+    # Afficher le graphique
+    fig.show()
 
-    # Sauvegarder chaque graphique en tant que fichier HTML
-    fig.write_html(f'{polluant}_graph.html')
-
-# Placeholder pour le code HTML
-html_code_placeholder = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <title>Graphiques Interactifs</title>
-</head>
-<body>
-
-<div id="graph-container"></div>
-<div id="buttons-container">
-  <!-- Insérer des boutons ici -->
-</div>
-
-<script>
-  // Charger le graphique initial
-  showGraph(0);
-
-  function showGraph(index) {
-    <!-- Charger le graphique en fonction du polluant sélectionné -->
-    var graphPath = polluants[index] + '_graph.html';
-    document.getElementById('graph-container').innerHTML = '<iframe src="' + graphPath + '" width="800" height="600"></iframe>';
-  }
-</script>
-
-</body>
-</html>
-"""
-
-# Écrire le code HTML dans un fichier
-with open('interactive_graphs.html', 'w') as html_file:
-    html_file.write(html_code_placeholder)
 
 ```

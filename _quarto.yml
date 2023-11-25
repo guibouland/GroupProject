@@ -6,15 +6,12 @@ project:
     - about.qmd
     - Avancee.qmd
     - Departements/Ariege.qmd
-    - Departements/Aude.qmd
     - Departements/Aveyron.qmd
     - Departements/Gard.qmd
     - Departements/Gers.qmd
-    - Haute-Garonne.qmd
+    - Departements/Haute-Garonne.qmd
     - Departements/Hautes-Pyrenees.qmd
     - Departements/Herault.qmd
-    - Departements/Lot.qmd
-    - Departements/Lozere.qmd
     - Departements/Pyrenees-Orientales.qmd
     - Departements/Tarn-et-Garonne.qmd
     - Departements/Tarn.qmd
@@ -41,15 +38,12 @@ website:
       - text: "Départements"
         menu:
           - Departements/Ariege.qmd
-          - Departements/Aude.qmd
           - Departements/Aveyron.qmd
           - Departements/Gard.qmd
           - Departements/Gers.qmd
-          - Haute-Garonne.qmd
+          - Departements/Haute-Garonne.qmd
           - Departements/Hautes-Pyrenees.qmd
           - Departements/Herault.qmd
-          - Departements/Lot.qmd
-          - Departements/Lozere.qmd
           - Departements/Pyrenees-Orientales.qmd
           - Departements/Tarn-et-Garonne.qmd
           - Departements/Tarn.qmd

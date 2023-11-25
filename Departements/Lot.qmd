@@ -1,3 +1,137 @@
 ---
 title: 'Lot'
+execute:
+    echo: false
 ---
+```{python}
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import warnings
+
+# Désactiver temporairement les avertissements spécifiques
+warnings.filterwarnings("ignore", category=UserWarning, message="Converting to PeriodArray/Index representation will drop timezone information.")
+
+# Charger les données
+bdd1 = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+bdd1['valeur'].fillna(0, inplace=True)
+
+# Liste des polluants à afficher
+polluants = ['NO', 'NOX', 'O3', 'PM10', 'NO2']
+
+# Plages des ordonnées pour chaque polluant
+ordonnee_ranges = {'NO': [0, 85], 'NOX': [0, 180], 'O3': [0, 90], 'PM10': [0, 45], 'NO2': [0, 70]}
+
+# Boucle à travers les polluants pour créer les graphiques
+for polluant in polluants:
+    # Filtrer les données pour le polluant et le département LOT
+    filtered_data = bdd1[(bdd1['nom_dept'] == 'LOT') & (bdd1['nom_poll'] == polluant)]
+    filtered_data = filtered_data.sort_values(by='date_debut')
+
+    # Convertir la colonne de dates au format aaaa/mm
+    filtered_data['date_debut'] = pd.to_datetime(filtered_data['date_debut']).dt.to_period('M').astype(str)
+
+    # Créer un graphique interactif avec Plotly Express
+    fig = px.scatter(
+        filtered_data, x='date_debut', y='valeur',
+        color='nom_station', size='valeur', hover_name='date_debut',
+        title=f'Évolution de la pollution {polluant} dans le LOT',
+        labels={'valeur': f'Valeur {polluant} (ug.m-3)', 'date_debut': 'Année'}
+    )
+
+    # Ajouter des lignes reliant les points pour chaque station
+    for nom_station in filtered_data['nom_station'].unique():
+        trace_data = filtered_data[filtered_data['nom_station'] == nom_station]
+        fig.add_trace(go.Scatter(
+            x=trace_data['date_debut'],
+            y=trace_data['valeur'],
+            mode='lines',  # Utilisez 'lines' pour ajouter des lignes reliant les points
+            showlegend=False
+        ))
+
+    # Mise en forme et personnalisation
+    fig.update_layout(
+        title_text=f'Évolution de la pollution {polluant} dans le LOT',
+        title_x=0.5,  # Centrer le titre
+        xaxis_title="Année",
+        yaxis_title=f'Valeur {polluant} (ug.m-3)',
+        xaxis_tickformat="%Y/%m",  # Format de l'axe des x
+        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5, traceorder='reversed'),
+        margin=dict(l=10, r=10, t=70, b=10),  # Ajustements des marges
+        paper_bgcolor='rgba(32,32,32,50)',  # Couleur de fond
+        plot_bgcolor='rgba(255, 244, 238, 88)',   # Couleur du graphique
+        yaxis=dict(range=ordonnee_ranges[polluant])  # Ajuster l'axe des ordonnées
+    )
+
+    # Afficher le graphique
+    fig.show()
+
+
+```
+
+Evolution des 5 types de polluants au cours des 5 dernières années :
+```{python}
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import warnings
+# Désactiver temporairement les avertissements spécifiques
+warnings.filterwarnings("ignore", category=UserWarning, message="Converting to PeriodArray/Index representation will drop timezone information.")
+
+pd.options.mode.chained_assignment = None
+# Charger les données
+bdd1 = pd.read_csv("../bases_de_donnees/Mesure_5dernieresannees.csv")
+bdd1['valeur'].fillna(0, inplace=True)
+
+# Liste des polluants à afficher
+polluants = ['NO', 'NOX', 'O3', 'PM10', 'NO2']
+
+# Plages des ordonnées pour chaque polluant
+ordonnee_ranges = {'NO': [0, 85], 'NOX': [0, 180], 'O3': [0, 90], 'PM10': [0, 45], 'NO2': [0, 70]}
+
+# Boucle à travers les polluants pour créer les graphiques
+for polluant in polluants:
+    # Filtrer les données pour le polluant et le département du LOT
+    filtered_data = bdd1[(bdd1['nom_dept'] == 'LOT') & (bdd1['nom_poll'] == polluant)]
+    filtered_data = filtered_data.sort_values(by='date_debut')
+
+    # Convertir la colonne de dates au format aaaa/mm
+    filtered_data['date_debut'] = pd.to_datetime(filtered_data['date_debut']).dt.to_period('M').astype(str)
+
+    # Créer un graphique interactif avec Plotly Express
+    fig = px.scatter(
+        filtered_data, x='date_debut', y='valeur',
+        color='nom_station', size='valeur', hover_name='date_debut',
+        title=f'Évolution de la pollution {polluant} dans le LOT',
+        labels={'valeur': f'Valeur {polluant} (ug.m-3)', 'date_debut': 'Année'}
+    )
+
+    # Ajouter des lignes reliant les points pour chaque station
+    for nom_station in filtered_data['nom_station'].unique():
+        trace_data = filtered_data[filtered_data['nom_station'] == nom_station]
+        fig.add_trace(go.Scatter(
+            x=trace_data['date_debut'],
+            y=trace_data['valeur'],
+            mode='lines',  # Utilisez 'lines' pour ajouter des lignes reliant les points
+            showlegend=False
+        ))
+
+    # Mise en forme et personnalisation
+    fig.update_layout(
+        title_text=f'Évolution de la pollution {polluant} dans le LOT',
+        title_x=0.5,  # Centrer le titre
+        xaxis_title="Année",
+        yaxis_title=f'Valeur {polluant} (ug.m-3)',
+        xaxis_tickformat="%Y/%m",  # Format de l'axe des x
+        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5, traceorder='reversed'),
+        margin=dict(l=10, r=10, t=70, b=10),  # Ajustements des marges
+        paper_bgcolor='rgba(32,32,32,50)',  # Couleur de fond
+        plot_bgcolor='rgba(255, 244, 238, 88)',   # Couleur du graphique
+        yaxis=dict(range=ordonnee_ranges[polluant])  # Ajuster l'axe des ordonnées
+    )
+
+    # Afficher le graphique
+    fig.show()
+
+
+```
