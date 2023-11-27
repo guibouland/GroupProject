@@ -60,7 +60,9 @@ format:
       dark: [cosmo, customdark.scss]
       light: [cosmo, customlight.scss]
     css: styles.css
-    toc: false
+    toc: true
+    grid:
+      margin-width: 175px
 jupyter: python3
 
 editor: visual
