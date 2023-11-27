@@ -9,6 +9,7 @@ import geopandas as gpd
 import pandas as pd
 import numpy as np
 pd.options.mode.chained_assignment = None
+
 # base de la carte avec les départements
 sf = gpd.read_file("departements-version-simplifiee.geojson")
 indexNames = sf[
@@ -68,6 +69,8 @@ polluants = (
     .mean()
     .reset_index(name="valeur")
 )
+
+#gradient de couleurs adapté aux daltoniens, jaune chaud, bleu froid.
 grad={
         0: "#0d0887",
         0.1: "#41049d",
@@ -172,53 +175,58 @@ Occitanie.add_child(fno)
 Occitanie.add_child(fno2)
 Occitanie.add_child(fo3)
 
-htmlT = """
+class Markero(object):
+    """Classe pour faire les points folium facilement"""
+
+    def __init__(self, lat, long, texte, popup):
+        """créé un point"""
+        self.lat = lat
+        self.long = long
+        self.texte = texte
+        self.popup = popup
+
+    def SurCarte(self,carte):
+        """Met le point sur la carte"""
+        folium.Marker(
+        [self.lat, self.long],tooltip=self.texte, popup=self.popup, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
+        ).add_to(carte)
+
+Toul=Markero(43.6, 1.43333,"Toulouse","""
 <p>Toulouse:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
-  """
-folium.Marker(
-    [43.6, 1.43333],tooltip="Toulouse", popup=htmlT, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
-).add_to(Occitanie)
+500 000 habitants </p>
+  """) 
 
-htmlM = """
+
+Mtp=Markero(43.62505, 3.862038,"Montpellier","""
 <p>Montpellier:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
-  """
-folium.Marker(
-    [43.62505, 3.862038],tooltip="Montpellier", popup=htmlM, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
-).add_to(Occitanie)
+300 000 habitants</p>
+  """)
 
-htmlTar = """
+Tarbes=Markero(43.23333, 0.08333,"Tarbes","""
 <p>Tarbes:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
-  """
-folium.Marker(
-    [43.23333, 0.08333],tooltip="Tarbes", popup=htmlTar, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
-).add_to(Occitanie)
+Plus de 40 000 habitants</p>
+  """)
 
-htmlMontau = """
+Montauban=Markero(44.01667, 1.35,"Montauban","""
 <p>Montauban:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
-  """
-folium.Marker(
-    [44.01667, 1.35],tooltip="Montauban", popup=htmlMontau, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
-).add_to(Occitanie)
+Plus de 60 000 habitants</p>
+  """)
 
-htmlPey = """
+Pey=Markero(43.6333, 0.1833,"Peyrusse-Vieille","""
 <p>Peyrusse-Vieille:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
-  """
-folium.Marker(
-    [43.6333, 0.1833],tooltip="Peyrusse-Vieille", popup=htmlPey, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
-).add_to(Occitanie)
+65 habitants </p>
+  """)
 
-htmlArg = """
+Arg=Markero(43.005028, -0.101087,"Argeles-Gazost","""
 <p>Argeles-Gazost:<br>
-<a class=lien href = meteo.qmd style="text-decoration:none"> Comparatif </a>
-  """
-folium.Marker(
-    [43.005028, -0.101087],tooltip="Argeles-Gazost", popup=htmlArg, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
-).add_to(Occitanie)
+Moins de 3000 habitants</p>
+  """)
+Toul.SurCarte(Occitanie)
+Mtp.SurCarte(Occitanie)
+Tarbes.SurCarte(Occitanie)
+Montauban.SurCarte(Occitanie)
+Pey.SurCarte(Occitanie)
+Arg.SurCarte(Occitanie)
 
 folium.TileLayer("Cartodb dark_matter", name="Sombre").add_to(Occitanie)
 folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)

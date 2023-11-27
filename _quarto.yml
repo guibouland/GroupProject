@@ -33,7 +33,7 @@ website:
         text: GitHub
     left:
       - href: index.qmd
-        text: Accueil 
+        text: Carte 
       - text: "Départements"
         menu:
           - Departements/Ariege.qmd

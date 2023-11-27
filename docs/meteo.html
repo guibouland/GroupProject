@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Pollution en Occitanie - Lien météo</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-2.27.0.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script>
+
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Pollution en Occitanie</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Carte</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-départements" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Départements</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-départements">    
+        <li>
+    <a class="dropdown-item" href="./Departements/Ariege.html" rel="" target="">
+ <span class="dropdown-text">Ariège</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Departements/Aude.html" rel="" target="">
+ <span class="dropdown-text">Aude</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Departements/Aveyron.html" rel="" target="">
+ <span class="dropdown-text">Aveyron</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Departements/Gard.html" rel="" target="">
+ <span class="dropdown-text">Gard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Departements/Gers.html" rel="" target="">
+ <span class="dropdown-text">Gers</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Haute-Garonne.html" rel="" target="">
+ <span class="dropdown-text">Charger les données</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Departements/Hautes-Pyrenees.html" rel="" target="">
+ <span class="dropdown-text">Hautes-Pyrénées</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Departements/Herault.html" rel="" target="">
+ <span class="dropdown-text">Hérault</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Departements/Lot.html" rel="" target="">
+ <span class="dropdown-text">Lot</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Departements/Lozere.html" rel="" target="">
+ <span class="dropdown-text">Lozère</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Departements/Pyrenees-Orientales.html" rel="" target="">
+ <span class="dropdown-text">Pyrénées-Orientales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Departements/Tarn-et-Garonne.html" rel="" target="">
+ <span class="dropdown-text">Tarn-et-Garonne</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Departements/Tarn.html" rel="" target="">
+ <span class="dropdown-text">Tarn</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./anneeactuelle.html" rel="" target="">
+ <span class="menu-text">Évolution de la pollution</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./villes/villes.html" rel="" target="">
+ <span class="menu-text">Villes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./meteo.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Lien météo</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html" rel="" target="">
+ <span class="menu-text">À propos</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+    <a href="https://github.com/guibouland/GroupProject" rel="" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#etude-de-la-concentration-de-la-pollution-à-perpignan" id="toc-etude-de-la-concentration-de-la-pollution-à-perpignan" class="nav-link active" data-scroll-target="#etude-de-la-concentration-de-la-pollution-à-perpignan">Etude de la concentration de la pollution à Perpignan</a>
+  <ul class="collapse">
+  <li><a href="#concentration-mensuelle-de-pollution-sur-une-année" id="toc-concentration-mensuelle-de-pollution-sur-une-année" class="nav-link" data-scroll-target="#concentration-mensuelle-de-pollution-sur-une-année">Concentration mensuelle de pollution sur une année</a></li>
+  <li><a href="#concentration-quotidienne-de-pollution-sur-une-année" id="toc-concentration-quotidienne-de-pollution-sur-une-année" class="nav-link" data-scroll-target="#concentration-quotidienne-de-pollution-sur-une-année">Concentration quotidienne de pollution sur une année</a></li>
+  <li><a href="#lien-entre-le-vent-et-la-concentration-de-pollution" id="toc-lien-entre-le-vent-et-la-concentration-de-pollution" class="nav-link" data-scroll-target="#lien-entre-le-vent-et-la-concentration-de-pollution">Lien entre le vent et la concentration de pollution</a></li>
+  <li><a href="#lien-entre-la-température-et-la-concentration-dozone" id="toc-lien-entre-la-température-et-la-concentration-dozone" class="nav-link" data-scroll-target="#lien-entre-la-température-et-la-concentration-dozone">Lien entre la température et la concentration d’ozone</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/guibouland/GroupProject/blob/main/meteo.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/guibouland/GroupProject/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lien météo</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="etude-de-la-concentration-de-la-pollution-à-perpignan" class="level1">
+<h1>Etude de la concentration de la pollution à Perpignan</h1>
+<p>Toutes les données ont été mesurées entre le 01/10/2022 et le 30/09/2023 et proviennent de <a href="https://public.opendatasoft.com/explore/dataset/donnees-synop-essentielles-omm/api/?sort=date">SYNOP data</a> pour les données météorologiques et de <a href="https://data-atmo-occitanie.opendata.arcgis.com/pages/liste-des-flux">Atmo Occitanie</a> pour les données des polluants.</p>
+<p>On étudie dans un premier temps la variation des moyennes des concentrations des polluants par mois puis par jour dans une période d’un an. Ensuite, On essaie de mettre en évidence un lien entre différents facteurs météorologiques comme le vent et la température et certains polluants.</p>
+<p>(TEMPORAIRE)<br> PM10 : particule en suspension de diamètre inférieur à 10 μm provoquant une altération de la santé respiratoire.<br> PM2.5 : particule fine en suspension de diamètre inférieur à 2,5 μm entraînant de plus une altération de la santé cardiovasculaire.<br> O₃ : L’ozone est un polluant résultant de la transformation chimique d’autres polluants présents dans l’atmosphère (notamment NO, NO₂ et COV) sous l’action des rayonnements solaires.<br> NOx : Emissions d’oxydes d’azote émises par la combustion des carburants fossiles participant fortement à l’effet de serre et regroupant le monoxyde d’azote (NO), le dioxyde d’azote (NO₂) et le protoxyde d’azote (N₂O).<br> NO₂/NO : Le dioxyde d’azote (NO2) se forme dans l’atmosphère à partir du monoxyde d’azote (NO) qui se dégage essentiellement lors de la combustion de combustibles fossiles.</p>
+<section id="concentration-mensuelle-de-pollution-sur-une-année" class="level2">
+<h2 class="anchored" data-anchor-id="concentration-mensuelle-de-pollution-sur-une-année">Concentration mensuelle de pollution sur une année</h2>
+<div class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+
+<div>                            <div id="3eebc276-c51a-4959-afbf-33e647ccb370" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("3eebc276-c51a-4959-afbf-33e647ccb370")) {                    Plotly.newPlot(                        "3eebc276-c51a-4959-afbf-33e647ccb370",                        [{"hovertemplate":"nom=NOX\u003cbr\u003evaleur=%{r}\u003cbr\u003eMois=%{theta}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"NOX","line":{"color":"orange","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"NOX","r":[94.88387096774194,97.29285714285713,69.65483870967742,68.60666666666665,62.074999999999996,66.30333333333333,51.480000000000004,52.71290322580645,79.52,79.30322580645162,105.33666666666666,138.33870967741936,94.88387096774194],"showlegend":true,"subplot":"polar","theta":["Janvier","F\u00e9vrier","Mars","Avril","Mai","Juin","Juillet","Ao\u00fbt","Septembre","Octobre","Novembre","D\u00e9cembre","Janvier"],"type":"scatterpolar"},{"hovertemplate":"nom=NO2\u003cbr\u003evaleur=%{r}\u003cbr\u003eMois=%{theta}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"NO2","line":{"color":"green","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"NO2","r":[25.788709677419355,29.962500000000002,22.820967741935487,22.31,19.59090909090909,22.351666666666667,16.729508196721312,18.666129032258063,25.948333333333334,26.429032258064513,30.52758620689655,36.14677419354839,25.788709677419355],"showlegend":true,"subplot":"polar","theta":["Janvier","F\u00e9vrier","Mars","Avril","Mai","Juin","Juillet","Ao\u00fbt","Septembre","Octobre","Novembre","D\u00e9cembre","Janvier"],"type":"scatterpolar"},{"hovertemplate":"nom=NO\u003cbr\u003evaleur=%{r}\u003cbr\u003eMois=%{theta}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"NO","line":{"color":"purple","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"NO","r":[37.932258064516134,36.46785714285714,24.412903225806453,22.459999999999997,18.229166666666668,19.81,15.976666666666667,15.2,25.866666666666667,27.529032258064515,40.556666666666665,59.67741935483871,37.932258064516134],"showlegend":true,"subplot":"polar","theta":["Janvier","F\u00e9vrier","Mars","Avril","Mai","Juin","Juillet","Ao\u00fbt","Septembre","Octobre","Novembre","D\u00e9cembre","Janvier"],"type":"scatterpolar"},{"hovertemplate":"nom=O3\u003cbr\u003evaleur=%{r}\u003cbr\u003eMois=%{theta}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"O3","line":{"color":"red","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"O3","r":[52.04838709677419,56.25,72.52903225806452,78.89333333333335,79.01935483870967,75.61333333333333,62.309677419354834,76.51612903225806,71.19333333333334,44.83870967741935,47.60666666666667,26.55806451612903,52.04838709677419],"showlegend":true,"subplot":"polar","theta":["Janvier","F\u00e9vrier","Mars","Avril","Mai","Juin","Juillet","Ao\u00fbt","Septembre","Octobre","Novembre","D\u00e9cembre","Janvier"],"type":"scatterpolar"},{"hovertemplate":"nom=PM10\u003cbr\u003evaleur=%{r}\u003cbr\u003eMois=%{theta}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"PM10","line":{"color":"blue","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"PM10","r":[13.940677966101696,23.539285714285715,20.044067796610168,13.89322033898305,15.630645161290323,18.471666666666668,18.251666666666665,16.58225806451613,15.943859649122807,28.129310344827587,15.46551724137931,19.780327868852456,13.940677966101696],"showlegend":true,"subplot":"polar","theta":["Janvier","F\u00e9vrier","Mars","Avril","Mai","Juin","Juillet","Ao\u00fbt","Septembre","Octobre","Novembre","D\u00e9cembre","Janvier"],"type":"scatterpolar"},{"hovertemplate":"nom=PM2.5\u003cbr\u003evaleur=%{r}\u003cbr\u003eMois=%{theta}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"PM2.5","line":{"color":"grey","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"PM2.5","r":[7.035483870967742,12.507142857142856,9.489285714285714,4.616666666666666,6.648387096774194,8.683333333333334,7.187096774193549,7.4,7.333333333333333,12.05185185185185,6.210714285714286,12.480645161290322,7.035483870967742],"showlegend":true,"subplot":"polar","theta":["Janvier","F\u00e9vrier","Mars","Avril","Mai","Juin","Juillet","Ao\u00fbt","Septembre","Octobre","Novembre","D\u00e9cembre","Janvier"],"type":"scatterpolar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"polar":{"domain":{"x":[0.0,1.0],"y":[0.0,1.0]},"angularaxis":{"direction":"clockwise","rotation":90,"linewidth":3,"showline":true,"linecolor":"black"},"radialaxis":{"range":[0,138.33870967741936],"showline":true,"linewidth":2,"gridcolor":"white","gridwidth":2},"bgcolor":"rgb(223, 223, 223)"},"legend":{"title":{"text":"nom"},"tracegroupgap":0},"title":{"text":"Concentration moyenne mensuelle des polluants (en \u00b5g.m\u207b\u00b3)"},"font":{"size":15},"showlegend":true,"paper_bgcolor":"rgb(230, 230, 230)"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('3eebc276-c51a-4959-afbf-33e647ccb370');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+<div class="cell-output cell-output-display">
+
+<div>                            <div id="298c219e-8754-4e0c-9b0f-0ab67fb64a91" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("298c219e-8754-4e0c-9b0f-0ab67fb64a91")) {                    Plotly.newPlot(                        "298c219e-8754-4e0c-9b0f-0ab67fb64a91",                        [{"line":{"color":"orange","width":2},"mode":"lines","name":"NOx","x":["Janvier","F\u00e9vrier","Mars","Avril","Mai","Juin","Juillet","Ao\u00fbt","Septembre","Octobre","Novembre","D\u00e9cembre"],"y":[94.88387096774194,97.29285714285713,69.65483870967742,68.60666666666665,62.074999999999996,66.30333333333333,51.480000000000004,52.71290322580645,79.52,79.30322580645162,105.33666666666666,138.33870967741936],"type":"scatter"},{"line":{"color":"green","width":2},"mode":"lines","name":"NO\u2082","x":["Janvier","F\u00e9vrier","Mars","Avril","Mai","Juin","Juillet","Ao\u00fbt","Septembre","Octobre","Novembre","D\u00e9cembre"],"y":[25.788709677419355,29.962500000000002,22.820967741935487,22.31,19.59090909090909,22.351666666666667,16.729508196721312,18.666129032258063,25.948333333333334,26.429032258064513,30.52758620689655,36.14677419354839],"type":"scatter"},{"line":{"color":"purple","width":2},"mode":"lines","name":"NO","x":["Janvier","F\u00e9vrier","Mars","Avril","Mai","Juin","Juillet","Ao\u00fbt","Septembre","Octobre","Novembre","D\u00e9cembre"],"y":[37.932258064516134,36.46785714285714,24.412903225806453,22.459999999999997,18.229166666666668,19.81,15.976666666666667,15.2,25.866666666666667,27.529032258064515,40.556666666666665,59.67741935483871],"type":"scatter"},{"line":{"color":"red","width":2},"mode":"lines","name":"O\u2083","x":["Janvier","F\u00e9vrier","Mars","Avril","Mai","Juin","Juillet","Ao\u00fbt","Septembre","Octobre","Novembre","D\u00e9cembre"],"y":[52.04838709677419,56.25,72.52903225806452,78.89333333333335,79.01935483870967,75.61333333333333,62.309677419354834,76.51612903225806,71.19333333333334,44.83870967741935,47.60666666666667,26.55806451612903],"type":"scatter"},{"line":{"color":"blue","width":2},"mode":"lines","name":"PM\u2081\u2080","x":["Janvier","F\u00e9vrier","Mars","Avril","Mai","Juin","Juillet","Ao\u00fbt","Septembre","Octobre","Novembre","D\u00e9cembre"],"y":[13.940677966101696,23.539285714285715,20.044067796610168,13.89322033898305,15.630645161290323,18.471666666666668,18.251666666666665,16.58225806451613,15.943859649122807,28.129310344827587,15.46551724137931,19.780327868852456],"type":"scatter"},{"line":{"color":"grey","width":2},"mode":"lines","name":"PM2.5","x":["Janvier","F\u00e9vrier","Mars","Avril","Mai","Juin","Juillet","Ao\u00fbt","Septembre","Octobre","Novembre","D\u00e9cembre"],"y":[7.035483870967742,12.507142857142856,9.489285714285714,4.616666666666666,6.648387096774194,8.683333333333334,7.187096774193549,7.4,7.333333333333333,12.05185185185185,6.210714285714286,12.480645161290322],"type":"scatter"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"yaxis":{"title":{"text":"Concentration (\u00b5g.m\u207b\u00b3)"},"side":"left","position":0},"font":{"size":15},"legend":{"x":1,"y":1},"title":{"text":"Concentration moyenne mensuelle des polluants (en \u00b5g.m\u207b\u00b3)"},"xaxis":{"title":{"text":"Temps (mois)"}},"showlegend":true,"paper_bgcolor":"rgb(230, 230, 230)"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('298c219e-8754-4e0c-9b0f-0ab67fb64a91');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+<p><br> On remarque que la concentration d’oxydes d’azote (NOx, NO₂ et NO) est relativement stable entre Mars et Octobre (entre 51.5 et 79.5 µg.m⁻³ de NOx par exemple) mais beaucoup plus importante en période hivernale (entre 94.9 et 138.3 µg.m⁻³ de NOx entre Novembre et Février) Cela peut être dû à plusieurs facteurs aussi bien artificiels (augmentation du chauffage, de la prise de véhicules, etc…) que naturels (augmentation des rejets automobiles, formation de particules fines par les cheminées, etc…).<br> <br> A contrario, la tendance est inversée concernant l’émission d’ozone (O₃) qui est stable mais importante entre Mars et Septembre (entre 71.2 et 79.0 µg.m⁻³ excepté en Juillet avec 62.3 µg.m⁻³) alors qu’elle est plus faible entre Octobre et Février (entre 44.8 et 56.3 µg.m⁻³ avec une baisse soudaine à 26.6 µg.m⁻³ en Décembre). Cela s’explique par la dépendance de la formation de l’ozone à l’ensoleillement et à la chaleur qui varient selon les saisons et par conséquent régulent les transformations chimiques produisant le-dit polluant.</p>
+</section>
+<section id="concentration-quotidienne-de-pollution-sur-une-année" class="level2">
+<h2 class="anchored" data-anchor-id="concentration-quotidienne-de-pollution-sur-une-année">Concentration quotidienne de pollution sur une année</h2>
+<div class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+
+<div>                            <div id="c4fe0289-62d8-49eb-8a85-e5f8edb657e9" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("c4fe0289-62d8-49eb-8a85-e5f8edb657e9")) {                    Plotly.newPlot(                        "c4fe0289-62d8-49eb-8a85-e5f8edb657e9",                        [{"hovertemplate":"nom=NOX\u003cbr\u003evaleur=%{r}\u003cbr\u003eJour=%{theta}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"NOX","line":{"color":"orange","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"NOX","r":[81.72549019607843,88.056,91.56666666666666,89.81764705882352,90.74705882352941,72.46538461538461,51.28235294117647,81.72549019607843],"showlegend":true,"subplot":"polar","theta":["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche","Lundi"],"type":"scatterpolar"},{"hovertemplate":"nom=NO2\u003cbr\u003evaleur=%{r}\u003cbr\u003eJour=%{theta}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"NO2","line":{"color":"green","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"NO2","r":[24.803883495145634,25.991176470588233,26.867961165048545,26.992156862745095,26.780392156862746,23.534285714285712,18.492233009708738,24.803883495145634],"showlegend":true,"subplot":"polar","theta":["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche","Lundi"],"type":"scatterpolar"},{"hovertemplate":"nom=NO\u003cbr\u003evaleur=%{r}\u003cbr\u003eJour=%{theta}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"NO","line":{"color":"purple","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"NO","r":[29.42549019607843,32.338,33.692156862745094,32.86078431372549,33.347058823529416,24.484615384615385,16.084313725490194,29.42549019607843],"showlegend":true,"subplot":"polar","theta":["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche","Lundi"],"type":"scatterpolar"},{"hovertemplate":"nom=O3\u003cbr\u003evaleur=%{r}\u003cbr\u003eJour=%{theta}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"O3","line":{"color":"red","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"O3","r":[61.58461538461539,60.073076923076925,60.97115384615385,61.82884615384615,64.40384615384616,63.471698113207545,61.111538461538466,61.58461538461539],"showlegend":true,"subplot":"polar","theta":["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche","Lundi"],"type":"scatterpolar"},{"hovertemplate":"nom=PM10\u003cbr\u003evaleur=%{r}\u003cbr\u003eJour=%{theta}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"PM10","line":{"color":"blue","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"PM10","r":[18.445098039215686,19.08019801980198,19.297,19.752525252525253,18.67156862745098,16.844761904761906,15.888235294117646,18.445098039215686],"showlegend":true,"subplot":"polar","theta":["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche","Lundi"],"type":"scatterpolar"},{"hovertemplate":"nom=PM2.5\u003cbr\u003evaleur=%{r}\u003cbr\u003eJour=%{theta}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"PM2.5","line":{"color":"grey","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"PM2.5","r":[8.158823529411766,8.666,8.34,8.780392156862746,8.25686274509804,8.365384615384615,8.376470588235295,8.158823529411766],"showlegend":true,"subplot":"polar","theta":["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche","Lundi"],"type":"scatterpolar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"polar":{"domain":{"x":[0.0,1.0],"y":[0.0,1.0]},"angularaxis":{"direction":"clockwise","rotation":90,"linewidth":3,"showline":true,"linecolor":"black"},"radialaxis":{"range":[0,91.56666666666666],"showline":true,"linewidth":2,"gridcolor":"white","gridwidth":2},"bgcolor":"rgb(223, 223, 223)"},"legend":{"title":{"text":"nom"},"tracegroupgap":0},"title":{"text":"Concentration moyenne quotidienne des polluants (en \u00b5g.m\u207b\u00b3)"},"font":{"size":15},"showlegend":true,"paper_bgcolor":"rgb(230, 230, 230)"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('c4fe0289-62d8-49eb-8a85-e5f8edb657e9');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+<div class="cell-output cell-output-display">
+
+<div>                            <div id="a6e1eac1-8e8a-4ccc-85b1-9aa82de9f116" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("a6e1eac1-8e8a-4ccc-85b1-9aa82de9f116")) {                    Plotly.newPlot(                        "a6e1eac1-8e8a-4ccc-85b1-9aa82de9f116",                        [{"line":{"color":"orange","width":2},"mode":"lines","name":"NOx","x":["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"],"y":[81.72549019607843,88.056,91.56666666666666,89.81764705882352,90.74705882352941,72.46538461538461,51.28235294117647],"type":"scatter"},{"line":{"color":"green","width":2},"mode":"lines","name":"NO\u2082","x":["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"],"y":[24.803883495145634,25.991176470588233,26.867961165048545,26.992156862745095,26.780392156862746,23.534285714285712,18.492233009708738],"type":"scatter"},{"line":{"color":"purple","width":2},"mode":"lines","name":"NO","x":["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"],"y":[29.42549019607843,32.338,33.692156862745094,32.86078431372549,33.347058823529416,24.484615384615385,16.084313725490194],"type":"scatter"},{"line":{"color":"red","width":2},"mode":"lines","name":"O\u2083","x":["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"],"y":[61.58461538461539,60.073076923076925,60.97115384615385,61.82884615384615,64.40384615384616,63.471698113207545,61.111538461538466],"type":"scatter"},{"line":{"color":"blue","width":2},"mode":"lines","name":"PM\u2081\u2080","x":["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"],"y":[18.445098039215686,19.08019801980198,19.297,19.752525252525253,18.67156862745098,16.844761904761906,15.888235294117646],"type":"scatter"},{"line":{"color":"grey","width":2},"mode":"lines","name":"PM2.5","x":["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"],"y":[8.158823529411766,8.666,8.34,8.780392156862746,8.25686274509804,8.365384615384615,8.376470588235295],"type":"scatter"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"yaxis":{"title":{"text":"Concentration (\u00b5g.m\u207b\u00b3)"},"side":"left","position":0},"font":{"size":15},"legend":{"x":1,"y":1},"title":{"text":"Concentration moyenne quotidienne des polluants (en \u00b5g.m\u207b\u00b3)"},"xaxis":{"title":{"text":"Temps (jours)"}},"showlegend":true,"paper_bgcolor":"rgb(230, 230, 230)"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('a6e1eac1-8e8a-4ccc-85b1-9aa82de9f116');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+<p><br> On remarque que les concentrations d’oxydes d’azote et des particules PM10 sont stables en semaine (entre 72.5 et 91.6 µg.m⁻³ de NOx par exemple) exceptée une baisse soudaine le Dimanche (51.3 µg.m⁻³ de NOx) probablement due au fait qu’en majorité les gens ne travaillent pas ce jour-là.<br> <br> La quantité d’ozone est quant à elle très stable variant entre 60.1 et 64.4 µg.m⁻³ toute la semaine. Ceci s’explique par le fait que l’ensoleillement et la température varient relativement peu en une semaine. De même, les concentrations de particules en suspension varient très peu (entre 15.9 et 19.8 µg.m⁻³ pour PM10 et entre 8.2 et 8.8 µg.m⁻³ pour PM2.5).</p>
+</section>
+<section id="lien-entre-le-vent-et-la-concentration-de-pollution" class="level2">
+<h2 class="anchored" data-anchor-id="lien-entre-le-vent-et-la-concentration-de-pollution">Lien entre le vent et la concentration de pollution</h2>
+<div class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+
+<div>                            <div id="1d985a75-60be-4b64-870c-849a3f973072" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("1d985a75-60be-4b64-870c-849a3f973072")) {                    Plotly.newPlot(                        "1d985a75-60be-4b64-870c-849a3f973072",                        [{"line":{"color":"orange","width":2},"mode":"lines","name":"NOx","x":["2023-03-01","2023-03-02","2023-03-03","2023-03-04","2023-03-05","2023-03-06","2023-03-07","2023-03-08","2023-03-09","2023-03-10","2023-03-11","2023-03-12","2023-03-13","2023-03-14","2023-03-15","2023-03-16","2023-03-17","2023-03-18","2023-03-19","2023-03-20","2023-03-21","2023-03-22","2023-03-23","2023-03-24","2023-03-25","2023-03-26","2023-03-27","2023-03-28","2023-03-29","2023-03-30","2023-03-31"],"y":[79.9,79.2,79.6,80.0,71.6,132.6,88.1,96.9,121.7,62.0,26.1,35.8,62.8,43.9,67.7,63.7,54.2,49.3,51.3,72.0,93.5,71.7,60.3,84.2,65.8,33.4,57.3,64.2,70.2,65.0,75.3],"type":"scatter"},{"line":{"color":"green","width":2},"mode":"lines","name":"NO\u2082","x":["2023-03-01","2023-03-02","2023-03-03","2023-03-04","2023-03-05","2023-03-06","2023-03-07","2023-03-08","2023-03-09","2023-03-10","2023-03-11","2023-03-12","2023-03-13","2023-03-14","2023-03-15","2023-03-16","2023-03-17","2023-03-18","2023-03-19","2023-03-20","2023-03-21","2023-03-22","2023-03-23","2023-03-24","2023-03-25","2023-03-26","2023-03-27","2023-03-28","2023-03-29","2023-03-30","2023-03-31"],"y":[22.299999999999997,23.2,24.7,26.4,31.5,38.9,27.200000000000003,32.650000000000006,34.65,19.1,7.5,13.700000000000001,19.05,11.600000000000001,19.2,19.1,20.45,21.25,18.2,24.200000000000003,32.1,22.5,22.2,26.349999999999998,23.5,13.3,16.95,22.85,26.7,24.5,21.65],"type":"scatter"},{"line":{"color":"purple","width":2},"mode":"lines","name":"NO","x":["2023-03-01","2023-03-02","2023-03-03","2023-03-04","2023-03-05","2023-03-06","2023-03-07","2023-03-08","2023-03-09","2023-03-10","2023-03-11","2023-03-12","2023-03-13","2023-03-14","2023-03-15","2023-03-16","2023-03-17","2023-03-18","2023-03-19","2023-03-20","2023-03-21","2023-03-22","2023-03-23","2023-03-24","2023-03-25","2023-03-26","2023-03-27","2023-03-28","2023-03-29","2023-03-30","2023-03-31"],"y":[29.1,28.3,27.2,26.1,20.1,51.2,35.1,37.0,51.7,21.9,10.3,10.9,23.7,16.8,24.3,24.9,15.6,12.9,15.7,24.1,33.9,26.4,18.7,28.6,19.5,9.9,19.1,22.8,22.4,20.5,28.1],"type":"scatter"},{"line":{"color":"black","width":2},"mode":"lines","name":"Vent","x":["2023-03-01","2023-03-02","2023-03-03","2023-03-04","2023-03-05","2023-03-06","2023-03-07","2023-03-08","2023-03-09","2023-03-10","2023-03-11","2023-03-12","2023-03-13","2023-03-14","2023-03-15","2023-03-16","2023-03-17","2023-03-18","2023-03-19","2023-03-20","2023-03-21","2023-03-22","2023-03-23","2023-03-24","2023-03-25","2023-03-26","2023-03-27","2023-03-28","2023-03-29","2023-03-30","2023-03-31"],"y":[19.035,25.695,23.535,19.62,11.925,15.659999999999998,13.455,6.39,12.285,29.205000000000002,39.55500000000001,19.98,12.24,39.465,20.475,15.57,17.009999999999998,12.555,16.290000000000003,15.171428571428573,7.5600000000000005,11.295000000000002,9.675,9.225,12.195,28.53,35.28,9.18,8.19,8.55,21.6],"yaxis":"y2","type":"scatter"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"yaxis":{"title":{"text":"Concentration (\u00b5g.m\u207b\u00b3)"},"side":"left","position":0},"yaxis2":{"title":{"text":"Vitesse (km.h\u207b\u00b9)"},"overlaying":"y","side":"right","position":1},"font":{"size":15},"legend":{"x":1,"y":1},"title":{"text":"Vitesse du vent et \u00e9missions d'oxydes d'azote (mars 2023)"},"xaxis":{"title":{"text":"Temps (jours)"}},"showlegend":true,"paper_bgcolor":"rgb(230, 230, 230)"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('1d985a75-60be-4b64-870c-849a3f973072');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+<p><br> On remarque que lorsque la vitesse du vent augmente fortement et dépasse une certaine valeur (ici au moins 35 km.h⁻¹), la courbe d’émission des différents gaz diminue en conséquence.<br> En effet, les trois pics de vitesse du vent évalués à 39.6, 39.5 et 35.3 km.h⁻¹ correspondent respectivement aux trois valeurs les plus faibles d’émission de NOx par exemple, c’est-à-dire 26.1, 43.9 et 33.4 µg.m⁻³.</p>
+</section>
+<section id="lien-entre-la-température-et-la-concentration-dozone" class="level2">
+<h2 class="anchored" data-anchor-id="lien-entre-la-température-et-la-concentration-dozone">Lien entre la température et la concentration d’ozone</h2>
+<div class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+
+<div>                            <div id="0964c439-1e3b-4947-8d5b-f149fd9da97b" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("0964c439-1e3b-4947-8d5b-f149fd9da97b")) {                    Plotly.newPlot(                        "0964c439-1e3b-4947-8d5b-f149fd9da97b",                        [{"line":{"color":"orange","width":2},"mode":"lines","name":"O\u2083","x":["2022-10-01T00:00:00+00:00","2022-10-02T00:00:00+00:00","2022-10-03T00:00:00+00:00","2022-10-04T00:00:00+00:00","2022-10-05T00:00:00+00:00","2022-10-06T00:00:00+00:00","2022-10-07T00:00:00+00:00","2022-10-08T00:00:00+00:00","2022-10-09T00:00:00+00:00","2022-10-10T00:00:00+00:00","2022-10-11T00:00:00+00:00","2022-10-12T00:00:00+00:00","2022-10-13T00:00:00+00:00","2022-10-14T00:00:00+00:00","2022-10-15T00:00:00+00:00","2022-10-16T00:00:00+00:00","2022-10-17T00:00:00+00:00","2022-10-18T00:00:00+00:00","2022-10-19T00:00:00+00:00","2022-10-20T00:00:00+00:00","2022-10-21T00:00:00+00:00","2022-10-22T00:00:00+00:00","2022-10-23T00:00:00+00:00","2022-10-24T00:00:00+00:00","2022-10-25T00:00:00+00:00","2022-10-26T00:00:00+00:00","2022-10-27T00:00:00+00:00","2022-10-28T00:00:00+00:00","2022-10-29T00:00:00+00:00","2022-10-30T00:00:00+00:00","2022-10-31T00:00:00+00:00","2022-11-01T00:00:00+00:00","2022-11-02T00:00:00+00:00","2022-11-03T00:00:00+00:00","2022-11-04T00:00:00+00:00","2022-11-05T00:00:00+00:00","2022-11-06T00:00:00+00:00","2022-11-07T00:00:00+00:00","2022-11-08T00:00:00+00:00","2022-11-09T00:00:00+00:00","2022-11-10T00:00:00+00:00","2022-11-11T00:00:00+00:00","2022-11-12T00:00:00+00:00","2022-11-13T00:00:00+00:00","2022-11-14T00:00:00+00:00","2022-11-15T00:00:00+00:00","2022-11-16T00:00:00+00:00","2022-11-17T00:00:00+00:00","2022-11-18T00:00:00+00:00","2022-11-19T00:00:00+00:00","2022-11-20T00:00:00+00:00","2022-11-21T00:00:00+00:00","2022-11-22T00:00:00+00:00","2022-11-23T00:00:00+00:00","2022-11-24T00:00:00+00:00","2022-11-25T00:00:00+00:00","2022-11-26T00:00:00+00:00","2022-11-27T00:00:00+00:00","2022-11-28T00:00:00+00:00","2022-11-29T00:00:00+00:00","2022-11-30T00:00:00+00:00","2022-12-01T00:00:00+00:00","2022-12-02T00:00:00+00:00","2022-12-03T00:00:00+00:00","2022-12-04T00:00:00+00:00","2022-12-05T00:00:00+00:00","2022-12-06T00:00:00+00:00","2022-12-07T00:00:00+00:00","2022-12-08T00:00:00+00:00","2022-12-09T00:00:00+00:00","2022-12-10T00:00:00+00:00","2022-12-11T00:00:00+00:00","2022-12-12T00:00:00+00:00","2022-12-13T00:00:00+00:00","2022-12-14T00:00:00+00:00","2022-12-15T00:00:00+00:00","2022-12-16T00:00:00+00:00","2022-12-17T00:00:00+00:00","2022-12-18T00:00:00+00:00","2022-12-19T00:00:00+00:00","2022-12-20T00:00:00+00:00","2022-12-21T00:00:00+00:00","2022-12-22T00:00:00+00:00","2022-12-23T00:00:00+00:00","2022-12-24T00:00:00+00:00","2022-12-25T00:00:00+00:00","2022-12-26T00:00:00+00:00","2022-12-27T00:00:00+00:00","2022-12-28T00:00:00+00:00","2022-12-29T00:00:00+00:00","2022-12-30T00:00:00+00:00","2022-12-31T00:00:00+00:00","2023-01-01T00:00:00+00:00","2023-01-02T00:00:00+00:00","2023-01-03T00:00:00+00:00","2023-01-04T00:00:00+00:00","2023-01-05T00:00:00+00:00","2023-01-06T00:00:00+00:00","2023-01-07T00:00:00+00:00","2023-01-08T00:00:00+00:00","2023-01-09T00:00:00+00:00","2023-01-10T00:00:00+00:00","2023-01-11T00:00:00+00:00","2023-01-12T00:00:00+00:00","2023-01-13T00:00:00+00:00","2023-01-14T00:00:00+00:00","2023-01-15T00:00:00+00:00","2023-01-16T00:00:00+00:00","2023-01-17T00:00:00+00:00","2023-01-18T00:00:00+00:00","2023-01-19T00:00:00+00:00","2023-01-20T00:00:00+00:00","2023-01-21T00:00:00+00:00","2023-01-22T00:00:00+00:00","2023-01-23T00:00:00+00:00","2023-01-24T00:00:00+00:00","2023-01-25T00:00:00+00:00","2023-01-26T00:00:00+00:00","2023-01-27T00:00:00+00:00","2023-01-28T00:00:00+00:00","2023-01-29T00:00:00+00:00","2023-01-30T00:00:00+00:00","2023-01-31T00:00:00+00:00","2023-02-01T00:00:00+00:00","2023-02-02T00:00:00+00:00","2023-02-03T00:00:00+00:00","2023-02-04T00:00:00+00:00","2023-02-05T00:00:00+00:00","2023-02-06T00:00:00+00:00","2023-02-07T00:00:00+00:00","2023-02-08T00:00:00+00:00","2023-02-09T00:00:00+00:00","2023-02-10T00:00:00+00:00","2023-02-11T00:00:00+00:00","2023-02-12T00:00:00+00:00","2023-02-13T00:00:00+00:00","2023-02-14T00:00:00+00:00","2023-02-15T00:00:00+00:00","2023-02-16T00:00:00+00:00","2023-02-17T00:00:00+00:00","2023-02-18T00:00:00+00:00","2023-02-19T00:00:00+00:00","2023-02-20T00:00:00+00:00","2023-02-21T00:00:00+00:00","2023-02-22T00:00:00+00:00","2023-02-23T00:00:00+00:00","2023-02-24T00:00:00+00:00","2023-02-25T00:00:00+00:00","2023-02-26T00:00:00+00:00","2023-02-27T00:00:00+00:00","2023-02-28T00:00:00+00:00","2023-03-01T00:00:00+00:00","2023-03-02T00:00:00+00:00","2023-03-03T00:00:00+00:00","2023-03-04T00:00:00+00:00","2023-03-05T00:00:00+00:00","2023-03-06T00:00:00+00:00","2023-03-07T00:00:00+00:00","2023-03-08T00:00:00+00:00","2023-03-09T00:00:00+00:00","2023-03-10T00:00:00+00:00","2023-03-11T00:00:00+00:00","2023-03-12T00:00:00+00:00","2023-03-13T00:00:00+00:00","2023-03-14T00:00:00+00:00","2023-03-15T00:00:00+00:00","2023-03-16T00:00:00+00:00","2023-03-17T00:00:00+00:00","2023-03-18T00:00:00+00:00","2023-03-19T00:00:00+00:00","2023-03-20T00:00:00+00:00","2023-03-21T00:00:00+00:00","2023-03-22T00:00:00+00:00","2023-03-23T00:00:00+00:00","2023-03-24T00:00:00+00:00","2023-03-25T00:00:00+00:00","2023-03-26T00:00:00+00:00","2023-03-27T00:00:00+00:00","2023-03-28T00:00:00+00:00","2023-03-29T00:00:00+00:00","2023-03-30T00:00:00+00:00","2023-03-31T00:00:00+00:00","2023-04-01T00:00:00+00:00","2023-04-02T00:00:00+00:00","2023-04-03T00:00:00+00:00","2023-04-04T00:00:00+00:00","2023-04-05T00:00:00+00:00","2023-04-06T00:00:00+00:00","2023-04-07T00:00:00+00:00","2023-04-08T00:00:00+00:00","2023-04-09T00:00:00+00:00","2023-04-10T00:00:00+00:00","2023-04-11T00:00:00+00:00","2023-04-12T00:00:00+00:00","2023-04-13T00:00:00+00:00","2023-04-14T00:00:00+00:00","2023-04-15T00:00:00+00:00","2023-04-16T00:00:00+00:00","2023-04-17T00:00:00+00:00","2023-04-18T00:00:00+00:00","2023-04-19T00:00:00+00:00","2023-04-20T00:00:00+00:00","2023-04-21T00:00:00+00:00","2023-04-22T00:00:00+00:00","2023-04-23T00:00:00+00:00","2023-04-24T00:00:00+00:00","2023-04-25T00:00:00+00:00","2023-04-26T00:00:00+00:00","2023-04-27T00:00:00+00:00","2023-04-28T00:00:00+00:00","2023-04-29T00:00:00+00:00","2023-04-30T00:00:00+00:00","2023-05-01T00:00:00+00:00","2023-05-02T00:00:00+00:00","2023-05-03T00:00:00+00:00","2023-05-04T00:00:00+00:00","2023-05-05T00:00:00+00:00","2023-05-06T00:00:00+00:00","2023-05-07T00:00:00+00:00","2023-05-08T00:00:00+00:00","2023-05-09T00:00:00+00:00","2023-05-10T00:00:00+00:00","2023-05-11T00:00:00+00:00","2023-05-12T00:00:00+00:00","2023-05-13T00:00:00+00:00","2023-05-14T00:00:00+00:00","2023-05-15T00:00:00+00:00","2023-05-16T00:00:00+00:00","2023-05-17T00:00:00+00:00","2023-05-18T00:00:00+00:00","2023-05-19T00:00:00+00:00","2023-05-20T00:00:00+00:00","2023-05-21T00:00:00+00:00","2023-05-22T00:00:00+00:00","2023-05-23T00:00:00+00:00","2023-05-24T00:00:00+00:00","2023-05-25T00:00:00+00:00","2023-05-26T00:00:00+00:00","2023-05-27T00:00:00+00:00","2023-05-28T00:00:00+00:00","2023-05-29T00:00:00+00:00","2023-05-30T00:00:00+00:00","2023-05-31T00:00:00+00:00","2023-06-01T00:00:00+00:00","2023-06-02T00:00:00+00:00","2023-06-03T00:00:00+00:00","2023-06-04T00:00:00+00:00","2023-06-05T00:00:00+00:00","2023-06-06T00:00:00+00:00","2023-06-07T00:00:00+00:00","2023-06-08T00:00:00+00:00","2023-06-09T00:00:00+00:00","2023-06-10T00:00:00+00:00","2023-06-11T00:00:00+00:00","2023-06-12T00:00:00+00:00","2023-06-13T00:00:00+00:00","2023-06-14T00:00:00+00:00","2023-06-15T00:00:00+00:00","2023-06-16T00:00:00+00:00","2023-06-17T00:00:00+00:00","2023-06-18T00:00:00+00:00","2023-06-19T00:00:00+00:00","2023-06-20T00:00:00+00:00","2023-06-21T00:00:00+00:00","2023-06-22T00:00:00+00:00","2023-06-23T00:00:00+00:00","2023-06-24T00:00:00+00:00","2023-06-25T00:00:00+00:00","2023-06-26T00:00:00+00:00","2023-06-27T00:00:00+00:00","2023-06-28T00:00:00+00:00","2023-06-29T00:00:00+00:00","2023-06-30T00:00:00+00:00","2023-07-01T00:00:00+00:00","2023-07-02T00:00:00+00:00","2023-07-03T00:00:00+00:00","2023-07-04T00:00:00+00:00","2023-07-05T00:00:00+00:00","2023-07-06T00:00:00+00:00","2023-07-07T00:00:00+00:00","2023-07-08T00:00:00+00:00","2023-07-09T00:00:00+00:00","2023-07-10T00:00:00+00:00","2023-07-11T00:00:00+00:00","2023-07-12T00:00:00+00:00","2023-07-13T00:00:00+00:00","2023-07-14T00:00:00+00:00","2023-07-15T00:00:00+00:00","2023-07-16T00:00:00+00:00","2023-07-17T00:00:00+00:00","2023-07-18T00:00:00+00:00","2023-07-19T00:00:00+00:00","2023-07-20T00:00:00+00:00","2023-07-21T00:00:00+00:00","2023-07-22T00:00:00+00:00","2023-07-23T00:00:00+00:00","2023-07-24T00:00:00+00:00","2023-07-25T00:00:00+00:00","2023-07-26T00:00:00+00:00","2023-07-27T00:00:00+00:00","2023-07-28T00:00:00+00:00","2023-07-29T00:00:00+00:00","2023-07-30T00:00:00+00:00","2023-07-31T00:00:00+00:00","2023-08-01T00:00:00+00:00","2023-08-02T00:00:00+00:00","2023-08-03T00:00:00+00:00","2023-08-04T00:00:00+00:00","2023-08-05T00:00:00+00:00","2023-08-06T00:00:00+00:00","2023-08-07T00:00:00+00:00","2023-08-08T00:00:00+00:00","2023-08-09T00:00:00+00:00","2023-08-10T00:00:00+00:00","2023-08-11T00:00:00+00:00","2023-08-12T00:00:00+00:00","2023-08-13T00:00:00+00:00","2023-08-14T00:00:00+00:00","2023-08-15T00:00:00+00:00","2023-08-16T00:00:00+00:00","2023-08-17T00:00:00+00:00","2023-08-18T00:00:00+00:00","2023-08-19T00:00:00+00:00","2023-08-20T00:00:00+00:00","2023-08-21T00:00:00+00:00","2023-08-22T00:00:00+00:00","2023-08-23T00:00:00+00:00","2023-08-24T00:00:00+00:00","2023-08-25T00:00:00+00:00","2023-08-26T00:00:00+00:00","2023-08-27T00:00:00+00:00","2023-08-28T00:00:00+00:00","2023-08-29T00:00:00+00:00","2023-08-30T00:00:00+00:00","2023-08-31T00:00:00+00:00","2023-09-01T00:00:00+00:00","2023-09-02T00:00:00+00:00","2023-09-03T00:00:00+00:00","2023-09-04T00:00:00+00:00","2023-09-05T00:00:00+00:00","2023-09-06T00:00:00+00:00","2023-09-07T00:00:00+00:00","2023-09-08T00:00:00+00:00","2023-09-09T00:00:00+00:00","2023-09-10T00:00:00+00:00","2023-09-11T00:00:00+00:00","2023-09-12T00:00:00+00:00","2023-09-13T00:00:00+00:00","2023-09-14T00:00:00+00:00","2023-09-15T00:00:00+00:00","2023-09-16T00:00:00+00:00","2023-09-17T00:00:00+00:00","2023-09-18T00:00:00+00:00","2023-09-19T00:00:00+00:00","2023-09-20T00:00:00+00:00","2023-09-21T00:00:00+00:00","2023-09-22T00:00:00+00:00","2023-09-23T00:00:00+00:00","2023-09-24T00:00:00+00:00","2023-09-25T00:00:00+00:00","2023-09-26T00:00:00+00:00","2023-09-27T00:00:00+00:00","2023-09-28T00:00:00+00:00","2023-09-29T00:00:00+00:00","2023-09-30T00:00:00+00:00"],"y":[44.1,43.3,44.1,46.9,43.0,50.6,48.7,38.3,43.3,47.2,51.4,39.8,41.1,39.3,43.5,62.4,56.7,39.5,43.9,38.4,41.6,34.2,39.7,39.8,31.7,38.2,51.2,58.4,52.2,41.5,56.0,55.8,49.7,40.7,68.9,57.1,36.4,35.5,17.3,41.1,59.7,48.3,47.4,27.1,31.2,21.8,44.8,38.0,66.1,69.4,72.5,45.3,58.8,49.1,35.8,49.4,52.6,32.7,65.1,69.6,41.0,34.5,26.6,24.9,34.1,34.4,29.9,28.6,23.5,17.1,54.7,42.4,28.5,26.0,20.1,18.6,22.0,24.5,30.6,18.0,17.7,40.0,30.0,23.5,24.4,22.2,21.7,27.4,17.0,23.8,14.7,21.9,18.1,40.3,58.4,49.1,53.9,30.4,28.1,34.2,80.3,54.8,50.2,46.4,52.8,33.7,60.6,59.7,65.5,68.7,62.7,64.5,64.9,56.2,50.1,43.1,49.1,47.0,55.7,54.9,50.6,56.4,73.1,71.9,75.7,77.9,78.2,71.8,50.5,55.7,34.7,38.1,48.3,46.5,52.7,48.4,47.7,49.4,46.8,47.0,51.2,58.3,46.8,53.5,32.0,50.1,66.5,68.4,73.8,64.3,68.8,73.3,71.8,77.0,77.1,64.9,60.7,61.8,42.0,46.8,81.0,55.2,57.7,51.9,93.1,82.8,70.5,88.2,79.6,68.6,76.6,57.2,75.1,82.3,80.5,83.1,82.6,101.2,73.5,74.3,77.8,80.2,101.1,93.5,79.6,81.3,93.9,79.4,86.1,86.9,85.9,83.9,74.5,77.9,99.1,85.6,93.5,97.2,88.3,76.6,76.3,78.3,87.3,79.4,64.2,73.4,50.8,49.5,56.7,63.7,56.7,66.2,72.6,85.4,82.7,79.9,78.1,76.9,63.9,74.1,63.3,84.9,86.5,85.5,72.2,89.9,100.6,86.4,86.0,86.9,86.5,86.8,74.4,65.3,72.7,78.8,67.0,68.6,69.7,76.0,74.9,91.6,81.5,79.4,81.6,73.4,61.4,55.4,51.7,56.9,56.4,59.4,52.7,64.2,70.9,59.8,83.3,96.9,116.7,101.1,77.2,80.0,63.9,68.6,71.1,87.7,102.8,96.0,66.9,80.4,93.4,84.6,74.6,57.1,51.8,61.7,53.5,55.5,51.5,57.6,69.2,64.9,53.6,38.0,48.0,54.6,53.5,48.0,64.3,65.8,43.6,67.5,82.6,61.3,74.1,78.7,63.7,71.0,71.8,69.2,90.2,84.1,48.1,77.1,68.8,63.8,73.4,72.2,81.7,77.4,79.4,73.5,79.5,82.6,87.9,79.9,68.7,70.4,67.9,67.1,71.4,78.5,81.1,68.1,88.9,90.0,104.2,95.7,73.1,69.4,64.6,68.7,82.5,69.2,72.4,68.5,62.0,92.2,88.9,84.9,96.2,98.4,103.1,92.9,71.8,68.9,74.9,62.9,63.6,55.3,70.9,77.3,61.2,73.1,57.0,58.4,64.8,74.2,61.6,57.5,63.7,65.2,63.3,47.0,56.1],"type":"scatter"},{"line":{"color":"black","width":2},"mode":"lines","name":"Temp\u00e9rature","x":["2022-10-01","2022-10-02","2022-10-03","2022-10-04","2022-10-05","2022-10-06","2022-10-07","2022-10-08","2022-10-09","2022-10-10","2022-10-11","2022-10-12","2022-10-13","2022-10-14","2022-10-15","2022-10-16","2022-10-17","2022-10-18","2022-10-19","2022-10-20","2022-10-21","2022-10-22","2022-10-23","2022-10-24","2022-10-25","2022-10-26","2022-10-27","2022-10-28","2022-10-29","2022-10-30","2022-10-31","2022-11-01","2022-11-02","2022-11-03","2022-11-04","2022-11-05","2022-11-06","2022-11-07","2022-11-08","2022-11-09","2022-11-10","2022-11-11","2022-11-12","2022-11-13","2022-11-14","2022-11-15","2022-11-16","2022-11-17","2022-11-18","2022-11-19","2022-11-20","2022-11-21","2022-11-22","2022-11-23","2022-11-24","2022-11-25","2022-11-26","2022-11-27","2022-11-28","2022-11-29","2022-11-30","2022-12-01","2022-12-02","2022-12-03","2022-12-04","2022-12-05","2022-12-06","2022-12-07","2022-12-08","2022-12-09","2022-12-10","2022-12-11","2022-12-12","2022-12-13","2022-12-14","2022-12-15","2022-12-16","2022-12-17","2022-12-18","2022-12-19","2022-12-20","2022-12-21","2022-12-22","2022-12-23","2022-12-24","2022-12-25","2022-12-26","2022-12-27","2022-12-28","2022-12-29","2022-12-30","2022-12-31","2023-01-01","2023-01-02","2023-01-03","2023-01-04","2023-01-05","2023-01-06","2023-01-07","2023-01-08","2023-01-09","2023-01-10","2023-01-11","2023-01-12","2023-01-13","2023-01-14","2023-01-15","2023-01-16","2023-01-17","2023-01-18","2023-01-19","2023-01-20","2023-01-21","2023-01-22","2023-01-23","2023-01-24","2023-01-25","2023-01-26","2023-01-27","2023-01-28","2023-01-29","2023-01-30","2023-01-31","2023-02-01","2023-02-02","2023-02-03","2023-02-04","2023-02-05","2023-02-06","2023-02-07","2023-02-08","2023-02-09","2023-02-10","2023-02-11","2023-02-12","2023-02-13","2023-02-14","2023-02-15","2023-02-16","2023-02-17","2023-02-18","2023-02-19","2023-02-20","2023-02-21","2023-02-22","2023-02-23","2023-02-24","2023-02-25","2023-02-26","2023-02-27","2023-02-28","2023-03-01","2023-03-02","2023-03-03","2023-03-04","2023-03-05","2023-03-06","2023-03-07","2023-03-08","2023-03-09","2023-03-10","2023-03-11","2023-03-12","2023-03-13","2023-03-14","2023-03-15","2023-03-16","2023-03-17","2023-03-18","2023-03-19","2023-03-20","2023-03-21","2023-03-22","2023-03-23","2023-03-24","2023-03-25","2023-03-26","2023-03-27","2023-03-28","2023-03-29","2023-03-30","2023-03-31","2023-04-01","2023-04-02","2023-04-03","2023-04-04","2023-04-05","2023-04-06","2023-04-07","2023-04-08","2023-04-09","2023-04-10","2023-04-11","2023-04-12","2023-04-13","2023-04-14","2023-04-15","2023-04-16","2023-04-17","2023-04-18","2023-04-19","2023-04-20","2023-04-21","2023-04-22","2023-04-23","2023-04-24","2023-04-25","2023-04-26","2023-04-27","2023-04-28","2023-04-29","2023-04-30","2023-05-01","2023-05-02","2023-05-03","2023-05-04","2023-05-05","2023-05-06","2023-05-07","2023-05-08","2023-05-09","2023-05-10","2023-05-11","2023-05-12","2023-05-13","2023-05-14","2023-05-15","2023-05-16","2023-05-17","2023-05-18","2023-05-19","2023-05-20","2023-05-21","2023-05-22","2023-05-23","2023-05-24","2023-05-25","2023-05-26","2023-05-27","2023-05-28","2023-05-29","2023-05-30","2023-05-31","2023-06-01","2023-06-02","2023-06-03","2023-06-04","2023-06-05","2023-06-06","2023-06-07","2023-06-08","2023-06-09","2023-06-10","2023-06-11","2023-06-12","2023-06-13","2023-06-14","2023-06-15","2023-06-16","2023-06-17","2023-06-18","2023-06-19","2023-06-20","2023-06-21","2023-06-22","2023-06-23","2023-06-24","2023-06-25","2023-06-26","2023-06-27","2023-06-28","2023-06-29","2023-06-30","2023-07-01","2023-07-02","2023-07-03","2023-07-04","2023-07-05","2023-07-06","2023-07-07","2023-07-08","2023-07-09","2023-07-10","2023-07-11","2023-07-12","2023-07-13","2023-07-14","2023-07-15","2023-07-16","2023-07-17","2023-07-18","2023-07-19","2023-07-20","2023-07-21","2023-07-22","2023-07-23","2023-07-24","2023-07-25","2023-07-26","2023-07-27","2023-07-28","2023-07-29","2023-07-30","2023-07-31","2023-08-01","2023-08-02","2023-08-03","2023-08-04","2023-08-05","2023-08-06","2023-08-07","2023-08-08","2023-08-09","2023-08-10","2023-08-11","2023-08-12","2023-08-13","2023-08-14","2023-08-15","2023-08-16","2023-08-17","2023-08-18","2023-08-19","2023-08-20","2023-08-21","2023-08-22","2023-08-23","2023-08-24","2023-08-25","2023-08-26","2023-08-27","2023-08-28","2023-08-29","2023-08-30","2023-08-31","2023-09-01","2023-09-02","2023-09-03","2023-09-04","2023-09-05","2023-09-06","2023-09-07","2023-09-08","2023-09-09","2023-09-10","2023-09-11","2023-09-12","2023-09-13","2023-09-14","2023-09-15","2023-09-16","2023-09-17","2023-09-18","2023-09-19","2023-09-20","2023-09-21","2023-09-22","2023-09-23","2023-09-24","2023-09-25","2023-09-26","2023-09-27","2023-09-28","2023-09-29","2023-09-30"],"y":[291.6375,293.77500000000003,294.425,291.85,291.675,293.75,291.6625,291.3,291.0125,292.0,291.75,291.7625,292.55,295.25,291.55,294.825,294.675,293.5625,294.0625,295.3125,295.35,291.9375,292.7375,294.8,291.3125,291.4125,292.9875,292.775,291.625,291.1125,293.475,292.575,291.725,287.9625,287.9125,287.0875,284.575,286.5375,287.05,289.4625,288.9625,289.3,290.0125,286.7375,288.0125,288.125,287.975,288.325,287.2125,284.375,285.8875,283.975,284.6375,286.275,285.6875,285.3125,285.7875,282.2,284.7125,284.4875,282.3625,280.4875,279.15,279.9,281.1875,279.6125,283.1375,284.6,281.9,283.8875,281.325,276.525,279.5,280.475,283.2,285.175,285.075,282.825,283.5625,284.0125,283.3875,286.8875,288.3875,287.775,285.925,285.225,285.3625,284.8875,282.575,282.7,284.4125,286.2375,283.5625,285.8,286.3125,285.77500000000003,286.075,282.8625,281.9125,282.3375,284.85,284.0,283.15,284.25,286.1125,282.1125,282.6875,281.125,281.5625,279.9125,279.7625,277.9125,277.5875,276.3125,276.25,277.05,278.5375,278.225,278.4,278.675,278.6625,279.4875,282.4375,283.06666666666666,283.775,286.9625,286.1125,284.65,280.7,280.25,279.4875,278.925,280.6375,277.9875,279.0125,279.3625,281.2375,281.5625,282.15,284.7,285.8625,288.7625,285.0125,283.7375,286.49,285.05,284.45,282.625,281.2625,276.4875,278.9625,279.575,280.3625,282.2125,282.9,282.8875,282.65,282.025,284.2,286.6625,289.3375,293.2875,291.725,286.9875,287.0,287.575,284.5875,286.4625,284.9875,287.4125,286.5214285714286,285.2,286.4375,287.3125,288.3625,287.725,286.675,286.725,283.5,284.8125,288.075,288.2875,287.6,286.05,286.46250000000003,287.325,288.125,287.375,289.3625,286.4375,286.0125,288.525,291.125,287.9875,285.0875,287.0625,288.4375,288.3,289.1625,288.7375,287.425,289.175,289.025,288.95,287.8625,290.475,290.825,292.5,292.35,289.7625,292.9375,292.1875,292.025,293.2875,290.8,291.8,290.4,290.15,292.0375,293.3125,293.275,290.825,289.525,289.4642857142857,287.625,290.0875,290.825,290.0625,290.175,289.125,289.4375,290.8375,290.5125,293.175,294.85,295.3375,291.6625,292.775,294.475,294.0125,294.375,295.125,293.275,293.7375,294.0,294.575,294.45,295.025,294.0375,295.25,296.0,295.6875,296.5625,299.1375,297.4875,294.925,296.55,297.3375,300.475,299.4,298.2625,296.9625,296.5,297.5,298.7125,300.1375,301.2125,300.875,300.525,300.475,300.9875,299.3625,295.275,297.575,299.1625,299.05,299.375,298.55,297.925,297.525,298.6,299.5125,302.7375,298.675,300.15,299.425,298.35,300.225,299.175,301.4125,299.85,301.375,300.85,298.65,299.8875,299.9375,298.31666666666666,296.03000000000003,297.8375,297.9625,297.55,298.5125,298.1625,299.9,299.625,300.7,295.95,294.9625,295.8625,295.8,296.3125,297.5625,299.7125,301.35,300.8125,297.7125,298.025,300.8,298.3625,297.725,298.3625,297.975,299.95,303.025,306.1375,303.625,305.6375,301.15,300.75,298.5625,291.7375,294.3875,294.5,295.0625,295.7,295.075,295.5625,295.9875,295.5625,296.7,296.8875,295.85,295.25,295.85,295.85,296.85,296.5625,296.8,297.225,295.4625,296.4,297.1375,298.2875,296.5125,293.9625,294.6125,293.1,292.8875,291.175,291.5125,292.375,293.0875,293.825,297.525,299.0625],"yaxis":"y2","type":"scatter"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"yaxis":{"title":{"text":"Concentration (\u00b5g.m\u207b\u00b3)"},"side":"left","position":0},"yaxis2":{"title":{"text":"Temp\u00e9rature (\u00b0C)"},"overlaying":"y","side":"right","position":1},"font":{"size":15},"legend":{"x":1,"y":1},"title":{"text":"Temp\u00e9rature et concentration d'ozone"},"xaxis":{"title":{"text":"Temps (jours)"}},"showlegend":true,"paper_bgcolor":"rgb(230, 230, 230)"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('0964c439-1e3b-4947-8d5b-f149fd9da97b');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+<p><br> On ne remarque pas de lien particulier entre la température et la concentration d’ozone dans l’air sur cette période. L’indice UV pourrait être une donnée plus pertinente à comparer que la température mais elle n’est pas disponible dans les données recueillies.</p>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'alternate';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
