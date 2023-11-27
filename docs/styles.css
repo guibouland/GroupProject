@@ -20,7 +20,10 @@ body {
 .tr{
   background: linear-gradient(to right, #0d0887,#cc4778, #f0f921);
   border: 3px #00000000;
+  
+
 }
+
 .th{
   border-top-left-radius : 10px 10px;
   border-bottom-left-radius : 10px 10px;
@@ -28,10 +31,10 @@ body {
   border-bottom-right-radius : 10px 10px;
 }
 .faible{
-  color:white;
-  font-size: small;
+  color: white;
+  text-align: left;
 }
 .forte{
-  float:right;
-  font-size: small;
+  color: black;
+  float: right;;
 }

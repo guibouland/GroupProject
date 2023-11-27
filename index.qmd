@@ -68,17 +68,7 @@ polluants = (
     .mean()
     .reset_index(name="valeur")
 )
-
-# PM10
-PM10 = polluants[(polluants["nom_poll"] == "PM10")]
-heatPM10 = PM10[["Y", "X", "valeur"]].copy()
-lng = heatPM10["X"].tolist()
-lat = heatPM10["Y"].tolist()
-val = heatPM10["valeur"].tolist()
-pm10 = HeatMap(
-    list(zip(lat, lng, val)),
-    name="PM10",
-    gradient={
+grad={
         0: "#0d0887",
         0.1: "#41049d",
         0.2: "#6a00a8",
@@ -90,7 +80,18 @@ pm10 = HeatMap(
         0.8: "#fca636",
         0.9: "#fcce25",
         1: "#f0f921",
-    },
+    }
+
+# PM10
+PM10 = polluants[(polluants["nom_poll"] == "PM10")]
+heatPM10 = PM10[["Y", "X", "valeur"]].copy()
+lng = heatPM10["X"].tolist()
+lat = heatPM10["Y"].tolist()
+val = heatPM10["valeur"].tolist()
+pm10 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="PM10",
+    gradient=grad,
     radius=35,
     blur=40,
 )
@@ -107,19 +108,7 @@ val = heatPM2["valeur"].tolist()
 pm2 = HeatMap(
     list(zip(lat, lng, val)),
     name="PM2.5",
-    gradient={
-        0: "#0d0887",
-        0.1: "#41049d",
-        0.2: "#6a00a8",
-        0.3: "#8f0da4",
-        0.4: "#b12a90",
-        0.5: "#cc4778",
-        0.6: "#e16462",
-        0.7: "#f2844b",
-        0.8: "#fca636",
-        0.9: "#fcce25",
-        1: "#f0f921",
-    },
+    gradient=grad,
     radius=35,
     blur=40,
 )
@@ -136,19 +125,7 @@ val = heatNO["valeur"].tolist()
 no = HeatMap(
     list(zip(lat, lng, val)),
     name="NO",
-    gradient={
-        0: "#0d0887",
-        0.1: "#41049d",
-        0.2: "#6a00a8",
-        0.3: "#8f0da4",
-        0.4: "#b12a90",
-        0.5: "#cc4778",
-        0.6: "#e16462",
-        0.7: "#f2844b",
-        0.8: "#fca636",
-        0.9: "#fcce25",
-        1: "#f0f921",
-    },
+    gradient=grad,
     radius=35,
     blur=40,
 )
@@ -165,19 +142,7 @@ val = heatNO2["valeur"].tolist()
 no2 = HeatMap(
     list(zip(lat, lng, val)),
     name="NO2",
-    gradient={
-        0: "#0d0887",
-        0.1: "#41049d",
-        0.2: "#6a00a8",
-        0.3: "#8f0da4",
-        0.4: "#b12a90",
-        0.5: "#cc4778",
-        0.6: "#e16462",
-        0.7: "#f2844b",
-        0.8: "#fca636",
-        0.9: "#fcce25",
-        1: "#f0f921",
-    },
+    gradient=grad,
     radius=35,
     blur=40,
 )
@@ -194,19 +159,7 @@ val = heatO3["valeur"].tolist()
 o3 = HeatMap(
     list(zip(lat, lng, val)),
     name="O3",
-    gradient={
-        0: "#0d0887",
-        0.1: "#41049d",
-        0.2: "#6a00a8",
-        0.3: "#8f0da4",
-        0.4: "#b12a90",
-        0.5: "#cc4778",
-        0.6: "#e16462",
-        0.7: "#f2844b",
-        0.8: "#fca636",
-        0.9: "#fcce25",
-        1: "#f0f921",
-    },
+    gradient=grad,
     radius=35,
     blur=40,
 )
@@ -289,7 +242,7 @@ from IPython.display import HTML
 res=f"""
 <table class= "table1-style">
     <tr class="tr">  
-        <th class="th"> <span class="faible" style="color:white;"> faible </span><span class="forte" style="color:black;"> forte </span></th>
+        <th class="th"> <span class="faible"> faible </span> <span class="forte"> forte </span> </th>
     </tr>
 </table>
 """
@@ -297,4 +250,4 @@ HTML(res)
 ```
 
 \
-Ces cartes de chaleurs sont prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte chaleure. On observe que la pollution se concentre principalement au niveau des métropoles.
+Ces cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte chaleure. On observe que la pollution se concentre principalement au niveau des métropoles.
