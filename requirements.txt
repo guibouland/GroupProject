@@ -7,3 +7,4 @@ dash_html_components==2.0.0
 numpy==1.24.3
 folium==0.14.0
 geopandas==0.14.1
+branca==0.7.0
