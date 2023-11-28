@@ -869,14 +869,15 @@ for ville in villes_choisies:
 :::
 <br>
 
-Ainsi, nous choisissons les stations suivantes:  
-    - **Montpellier** :
-      - "Montpellier - Prés d Arènes Urbain" : les valeurs étant moyennes, cette station est présente et abondante pour chaque polluant
-      - "Montpellier Liberte Trafic" : pour son profil atypique que nous verrons plus bas
-    - **Toulouse** :
-      - "Toulouse-Berthelot Urbain" : pour les mêmes raison que pour *"Montpellier - Prés d Arènes Urbain"*
-      - "Toulouse-Périphérique Trafic" : pour les mêmes raisons que pour *"Montpellier Liberte Trafic"*
-    - **Reste** : Le reste des villes ayant une seule station, le choix est immédiat.  
+Ainsi, nous choisissons les stations suivantes: 
+
+- **Montpellier** :
+  - "Montpellier - Prés d Arènes Urbain" : les valeurs étant moyennes, cette station est présente et abondante pour chaque polluant
+  - "Montpellier Liberte Trafic" : pour son profil atypique que nous verrons plus bas
+- **Toulouse** :
+  - "Toulouse-Berthelot Urbain" : pour les mêmes raison que pour *"Montpellier - Prés d Arènes Urbain"*
+  - "Toulouse-Périphérique Trafic" : pour les mêmes raisons que pour *"Montpellier Liberte Trafic"*
+- **Reste** : Le reste des villes ayant une seule station, le choix est immédiat.  
 
 
 
