@@ -14,14 +14,14 @@ body {
     width: auto;
     cursor: pointer;
     margin: auto;
-    background: rgb(0,0,0,0);
+    background: rgba(255, 255, 255, 0);
     border: 3px #00000000;
   }
+
 .tr{
   background: linear-gradient(to right, #0d0887,#cc4778, #f0f921);
   border: 3px #00000000;
-  
-
+  transition: transform .1s;
 }
 
 .th{
@@ -29,6 +29,7 @@ body {
   border-bottom-left-radius : 10px 10px;
   border-top-right-radius : 10px 10px;
   border-bottom-right-radius : 10px 10px;
+  transition: transform .1s;
 }
 .faible{
   color: white;
@@ -37,4 +38,13 @@ body {
 .forte{
   color: black;
   float: right;;
+}
+
+img{
+  width: 200px;
+  align-self: center;
+  transition: transform .1s;
+  }
+img:hover{
+  transform: scale(1.1);
 }
