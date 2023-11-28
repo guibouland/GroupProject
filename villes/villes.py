@@ -8,8 +8,8 @@ import seaborn as sns
 sns.set_palette("colorblind")
 # %% LOADING DATA
 
-# On charge le csv dasn un dataframe pandas
-df = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+# On charge le csv dans un dataframe pandas
+df = pd.read_csv("./bases_de_donnees/Mesure_mensuelle_annee.csv")
 
 # On supprime les lignes qui ne comprtent aucunes valeurs
 df = df.dropna()
@@ -156,7 +156,7 @@ import seaborn as sns
 
 sns.set_palette("colorblind")
 
-df = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+df = pd.read_csv("./bases_de_donnees/Mesure_mensuelle_annee.csv")
 
 # On supprime les lignes qui ne comprtent aucunes valeurs
 df = df.dropna()
@@ -181,6 +181,7 @@ mtpnox = mtp[mtp.nom_poll == "NOX"].sort_values(by="date_debut")
 mtppm10 = mtp[mtp.nom_poll == "PM10"].sort_values(by="date_debut")
 mtppm2_5 = mtp[mtp.nom_poll == "PM2.5"].sort_values(by="date_debut")
 # On ne prend pas O3 par manque de données
+mtpo3 = mtp[mtp.nom_poll == "O3"].sort_values(by="date_debut")
 
 # mtp.nom_station.unique()
 figmtp = go.Figure()
@@ -435,12 +436,12 @@ figmtp.show()
 # TOULOUSE
 
 # On sélectionne les polluants de TOULOUSE
-touno = tou[tou.nom_poll == "NO"].sort_values(by="mois_annee")
-touno2 = tou[tou.nom_poll == "NO2"].sort_values(by="mois_annee")
-tounox = tou[tou.nom_poll == "NOX"].sort_values(by="mois_annee")
-touo3 = tou[tou.nom_poll == "O3"].sort_values(by="mois_annee")
-toupm10 = tou[tou.nom_poll == "PM10"].sort_values(by="mois_annee")
-toupm2_5 = tou[tou.nom_poll == "PM2.5"].sort_values(by="mois_annee")
+touno = tou[tou.nom_poll == "NO"].sort_values(by="date_debut")
+touno2 = tou[tou.nom_poll == "NO2"].sort_values(by="date_debut")
+tounox = tou[tou.nom_poll == "NOX"].sort_values(by="date_debut")
+touo3 = tou[tou.nom_poll == "O3"].sort_values(by="date_debut")
+toupm10 = tou[tou.nom_poll == "PM10"].sort_values(by="date_debut")
+toupm2_5 = tou[tou.nom_poll == "PM2.5"].sort_values(by="date_debut")
 
 # tou.nom_station.unique() pour avoir les noms des stations de TOULOUSE
 figtou = go.Figure()
@@ -917,4 +918,652 @@ figtou.update_layout(
     legend={"title": "<b>Polluants (et stations)</b>"},
 )
 figtou.show()
+
+# %%
+"""
+COMPARAISON INTER VILLES
+On choisit 6 villes de populations différentes:
+    Toulouse
+    Montpellier
+    Tarbes
+    Montauban
+    Argèles-Gazost
+    Peyrusse-Vieille
+Et on comparaison leur taux de population selon les différents polluants.
+On fait une sélection de une ou deux stations pour les deux plus grandes villes pour ne pas crouler sous les informations.
+
+Stations sélectionnées pour Montpellier:
+    Liberte Trafic : beaucoup de trafic routier
+    Prés d'Arènes Urbain : valeurs moyennes et surtout présent à chaque polluant
+Stations sélectionnées pour Toulouse:
+    Periphérique Trafic : beaucoup de trafic routier, valeurs élevées
+    Berthelot Urbain : valeurs moyennes et présent partout
+"""
+
+# On restreint le dataframe aux 4 autres villes
+tar = df[df.nom_com == "TARBES"]
+mon = df[df.nom_com == "MONTAUBAN"]
+arg = df[df.nom_com == "ARGELES-GAZOST"]
+pey = df[df.nom_com == "PEYRUSSE-VIEILLE"]
+
+# Et maintenant aux polluants traités
+## Tarbes
+tarno = tar[tar.nom_poll == "NO"].sort_values(by="date_debut")
+tarno2 = tar[tar.nom_poll == "NO2"].sort_values(by="date_debut")
+tarnox = tar[tar.nom_poll == "NOX"].sort_values(by="date_debut")
+taro3 = tar[tar.nom_poll == "O3"].sort_values(by="date_debut")
+tarpm10 = tar[tar.nom_poll == "PM10"].sort_values(by="date_debut")
+tarpm2_5 = tar[tar.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+
+## Montauban
+monno = mon[mon.nom_poll == "NO"].sort_values(by="date_debut")
+monno2 = mon[mon.nom_poll == "NO2"].sort_values(by="date_debut")
+monnox = mon[mon.nom_poll == "NOX"].sort_values(by="date_debut")
+mono3 = mon[mon.nom_poll == "O3"].sort_values(by="date_debut")
+monpm10 = mon[mon.nom_poll == "PM10"].sort_values(by="date_debut")
+monpm2_5 = mon[mon.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+
+## Argèles-Gazost
+argno = arg[arg.nom_poll == "NO"].sort_values(by="date_debut")
+argno2 = arg[arg.nom_poll == "NO2"].sort_values(by="date_debut")
+argnox = arg[arg.nom_poll == "NOX"].sort_values(by="date_debut")
+argo3 = arg[arg.nom_poll == "O3"].sort_values(by="date_debut")
+argpm10 = arg[arg.nom_poll == "PM10"].sort_values(by="date_debut")
+argpm2_5 = arg[arg.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+
+## Peyrusse-Vieille
+peyno = pey[pey.nom_poll == "NO"].sort_values(by="date_debut")
+peyno2 = pey[pey.nom_poll == "NO2"].sort_values(by="date_debut")
+peynox = pey[pey.nom_poll == "NOX"].sort_values(by="date_debut")
+peyo3 = pey[pey.nom_poll == "O3"].sort_values(by="date_debut")
+peypm10 = pey[pey.nom_poll == "PM10"].sort_values(by="date_debut")
+peypm2_5 = pey[pey.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+# Initialisation de la figure
+fig = go.Figure()
+
+# NO
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno[
+                mtpno.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno[mtpno.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur),
+        legendgroup="groupe 1",
+        legendgrouptitle_text="<b>NO</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno[mtpno.nom_station == "Montpellier Liberte Trafic"].mois_annee.unique()
+        ),
+        y=list(mtpno[mtpno.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 1",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touno[touno.nom_station == "Toulouse-Berthelot Urbain"].mois_annee.unique()
+        ),
+        y=list(touno[touno.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 1",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touno[
+                touno.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(touno[touno.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 1",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(tarno[tarno.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(tarno[tarno.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 1",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monno[
+                monno.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monno[monno.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 1",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argno[argno.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argno[argno.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 1",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peyno[peyno.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peyno[peyno.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 1",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# NO2
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno2[
+                mtpno2.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtpno2[mtpno2.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur
+        ),
+        legendgroup="groupe 2",
+        legendgrouptitle_text="<b>NO2</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno2[
+                mtpno2.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno2[mtpno2.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 2",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touno2[
+                touno2.nom_station == "Toulouse-Berthelot Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(touno2[touno2.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 2",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touno2[
+                touno2.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(touno2[touno2.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 2",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(tarno2[tarno2.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(tarno2[tarno2.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 2",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monno2[
+                monno2.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monno2[monno2.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 2",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argno2[argno2.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argno2[argno2.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 2",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peyno2[peyno2.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peyno2[peyno2.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 2",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# NOX
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpnox[
+                mtpnox.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtpnox[mtpnox.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur
+        ),
+        legendgroup="groupe 3",
+        legendgrouptitle_text="<b>NOX</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpnox[
+                mtpnox.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpnox[mtpnox.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 3",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            tounox[
+                tounox.nom_station == "Toulouse-Berthelot Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(tounox[tounox.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 3",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            tounox[
+                tounox.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(tounox[tounox.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 3",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(tarnox[tarnox.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(tarnox[tarnox.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 3",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monnox[
+                monnox.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monnox[monnox.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 3",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argnox[argnox.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argnox[argnox.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 3",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peynox[peynox.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peynox[peynox.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 3",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# O3
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpo3[
+                mtpo3.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpo3[mtpo3.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur),
+        legendgroup="groupe 4",
+        legendgrouptitle_text="<b>O3</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touo3[touo3.nom_station == "Toulouse-Berthelot Urbain"].mois_annee.unique()
+        ),
+        y=list(touo3[touo3.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 4",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(taro3[taro3.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(taro3[taro3.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 4",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mono3[
+                mono3.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mono3[mono3.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 4",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argo3[argo3.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argo3[argo3.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 4",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peyo3[peyo3.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peyo3[peyo3.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 4",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# PM10
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm10[
+                mtppm10.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtppm10[mtppm10.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur
+        ),
+        legendgroup="groupe 5",
+        legendgrouptitle_text="<b>PM10</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm10[
+                mtppm10.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtppm10[mtppm10.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 5",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            toupm10[
+                toupm10.nom_station == "Toulouse-Berthelot Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(toupm10[toupm10.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 5",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            toupm10[
+                toupm10.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(toupm10[toupm10.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 5",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            tarpm10[tarpm10.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()
+        ),
+        y=list(tarpm10[tarpm10.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 5",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monpm10[
+                monpm10.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monpm10[monpm10.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 5",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argpm10[argpm10.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argpm10[argpm10.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 5",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peypm10[peypm10.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peypm10[peypm10.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 5",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# PM2.5
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm2_5[
+                mtppm2_5.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtppm2_5[
+                mtppm2_5.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].valeur
+        ),
+        legendgroup="groupe 6",
+        legendgrouptitle_text="<b>PM2.5</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm2_5[
+                mtppm2_5.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtppm2_5[mtppm2_5.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 6",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            toupm2_5[
+                toupm2_5.nom_station == "Toulouse-Berthelot Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(toupm2_5[toupm2_5.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 6",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            toupm2_5[
+                toupm2_5.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(toupm2_5[toupm2_5.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 6",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            tarpm2_5[tarpm2_5.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()
+        ),
+        y=list(tarpm2_5[tarpm2_5.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 6",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monpm2_5[
+                monpm2_5.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monpm2_5[monpm2_5.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 6",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argpm2_5[argpm2_5.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argpm2_5[argpm2_5.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 6",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peypm2_5[
+                peypm2_5.nom_station == "Peyrusse Vieille Rural"
+            ].mois_annee.unique()
+        ),
+        y=list(peypm2_5[peypm2_5.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 6",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+# On modifie le layout du graphe
+fig.update_layout(
+    title="<b>Différences dans Toulouse</b>",
+    xaxis_title="<b>Mois</b>",
+    yaxis_title="<b>Concentration (µg.m⁻³)</b>",
+    legend={"title": "<b>Polluants (et stations)</b>"},
+)
+
+# On affiche le graphe
+fig.show()
 # %%
