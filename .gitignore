@@ -4,11 +4,8 @@
 .Ruserdata
 basededonnée2020/hist_ind_occitanie_2020.csv:Zone.Identifier
 *.Rproj
-
 /roadmap/README_files/
 /roadmap/README.html
-
-
 /.quarto/
-
+/docs/
 /bases_de_donnees/lignes_supprimees.csv

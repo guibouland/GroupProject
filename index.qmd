@@ -9,6 +9,7 @@ import geopandas as gpd
 import pandas as pd
 import numpy as np
 pd.options.mode.chained_assignment = None
+
 # base de la carte avec les départements
 sf = gpd.read_file("departements-version-simplifiee.geojson")
 indexNames = sf[
@@ -69,16 +70,8 @@ polluants = (
     .reset_index(name="valeur")
 )
 
-# PM10
-PM10 = polluants[(polluants["nom_poll"] == "PM10")]
-heatPM10 = PM10[["Y", "X", "valeur"]].copy()
-lng = heatPM10["X"].tolist()
-lat = heatPM10["Y"].tolist()
-val = heatPM10["valeur"].tolist()
-pm10 = HeatMap(
-    list(zip(lat, lng, val)),
-    name="PM10",
-    gradient={
+#gradient de couleurs adapté aux daltoniens, jaune chaud, bleu froid.
+grad={
         0: "#0d0887",
         0.1: "#41049d",
         0.2: "#6a00a8",
@@ -90,7 +83,18 @@ pm10 = HeatMap(
         0.8: "#fca636",
         0.9: "#fcce25",
         1: "#f0f921",
-    },
+    }
+
+# PM10
+PM10 = polluants[(polluants["nom_poll"] == "PM10")]
+heatPM10 = PM10[["Y", "X", "valeur"]].copy()
+lng = heatPM10["X"].tolist()
+lat = heatPM10["Y"].tolist()
+val = heatPM10["valeur"].tolist()
+pm10 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="PM10",
+    gradient=grad,
     radius=35,
     blur=40,
 )
@@ -107,19 +111,7 @@ val = heatPM2["valeur"].tolist()
 pm2 = HeatMap(
     list(zip(lat, lng, val)),
     name="PM2.5",
-    gradient={
-        0: "#0d0887",
-        0.1: "#41049d",
-        0.2: "#6a00a8",
-        0.3: "#8f0da4",
-        0.4: "#b12a90",
-        0.5: "#cc4778",
-        0.6: "#e16462",
-        0.7: "#f2844b",
-        0.8: "#fca636",
-        0.9: "#fcce25",
-        1: "#f0f921",
-    },
+    gradient=grad,
     radius=35,
     blur=40,
 )
@@ -136,19 +128,7 @@ val = heatNO["valeur"].tolist()
 no = HeatMap(
     list(zip(lat, lng, val)),
     name="NO",
-    gradient={
-        0: "#0d0887",
-        0.1: "#41049d",
-        0.2: "#6a00a8",
-        0.3: "#8f0da4",
-        0.4: "#b12a90",
-        0.5: "#cc4778",
-        0.6: "#e16462",
-        0.7: "#f2844b",
-        0.8: "#fca636",
-        0.9: "#fcce25",
-        1: "#f0f921",
-    },
+    gradient=grad,
     radius=35,
     blur=40,
 )
@@ -165,19 +145,7 @@ val = heatNO2["valeur"].tolist()
 no2 = HeatMap(
     list(zip(lat, lng, val)),
     name="NO2",
-    gradient={
-        0: "#0d0887",
-        0.1: "#41049d",
-        0.2: "#6a00a8",
-        0.3: "#8f0da4",
-        0.4: "#b12a90",
-        0.5: "#cc4778",
-        0.6: "#e16462",
-        0.7: "#f2844b",
-        0.8: "#fca636",
-        0.9: "#fcce25",
-        1: "#f0f921",
-    },
+    gradient=grad,
     radius=35,
     blur=40,
 )
@@ -194,19 +162,7 @@ val = heatO3["valeur"].tolist()
 o3 = HeatMap(
     list(zip(lat, lng, val)),
     name="O3",
-    gradient={
-        0: "#0d0887",
-        0.1: "#41049d",
-        0.2: "#6a00a8",
-        0.3: "#8f0da4",
-        0.4: "#b12a90",
-        0.5: "#cc4778",
-        0.6: "#e16462",
-        0.7: "#f2844b",
-        0.8: "#fca636",
-        0.9: "#fcce25",
-        1: "#f0f921",
-    },
+    gradient=grad,
     radius=35,
     blur=40,
 )
@@ -219,53 +175,58 @@ Occitanie.add_child(fno)
 Occitanie.add_child(fno2)
 Occitanie.add_child(fo3)
 
-htmlT = """
+class Markero(object):
+    """Classe pour faire les points folium facilement"""
+
+    def __init__(self, lat, long, texte, popup):
+        """créé un point"""
+        self.lat = lat
+        self.long = long
+        self.texte = texte
+        self.popup = popup
+
+    def SurCarte(self,carte):
+        """Met le point sur la carte"""
+        folium.Marker(
+        [self.lat, self.long],tooltip=self.texte, popup=self.popup, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
+        ).add_to(carte)
+
+Toul=Markero(43.6, 1.43333,"Toulouse","""
 <p>Toulouse:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
-  """
-folium.Marker(
-    [43.6, 1.43333],tooltip="Toulouse", popup=htmlT, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
-).add_to(Occitanie)
+500 000 habitants </p>
+  """) 
 
-htmlM = """
+
+Mtp=Markero(43.62505, 3.862038,"Montpellier","""
 <p>Montpellier:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
-  """
-folium.Marker(
-    [43.62505, 3.862038],tooltip="Montpellier", popup=htmlM, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
-).add_to(Occitanie)
+300 000 habitants</p>
+  """)
 
-htmlTar = """
+Tarbes=Markero(43.23333, 0.08333,"Tarbes","""
 <p>Tarbes:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
-  """
-folium.Marker(
-    [43.23333, 0.08333],tooltip="Tarbes", popup=htmlTar, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
-).add_to(Occitanie)
+Plus de 40 000 habitants</p>
+  """)
 
-htmlMontau = """
+Montauban=Markero(44.01667, 1.35,"Montauban","""
 <p>Montauban:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
-  """
-folium.Marker(
-    [44.01667, 1.35],tooltip="Montauban", popup=htmlMontau, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
-).add_to(Occitanie)
+Plus de 60 000 habitants</p>
+  """)
 
-htmlPey = """
+Pey=Markero(43.6333, 0.1833,"Peyrusse-Vieille","""
 <p>Peyrusse-Vieille:<br>
-<a class=lien href = villes/villes.qmd style="text-decoration:none"> Comparatif </a>
-  """
-folium.Marker(
-    [43.6333, 0.1833],tooltip="Peyrusse-Vieille", popup=htmlPey, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
-).add_to(Occitanie)
+65 habitants </p>
+  """)
 
-htmlArg = """
+Arg=Markero(43.005028, -0.101087,"Argeles-Gazost","""
 <p>Argeles-Gazost:<br>
-<a class=lien href = meteo.qmd style="text-decoration:none"> Comparatif </a>
-  """
-folium.Marker(
-    [43.005028, -0.101087],tooltip="Argeles-Gazost", popup=htmlArg, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
-).add_to(Occitanie)
+Moins de 3000 habitants</p>
+  """)
+Toul.SurCarte(Occitanie)
+Mtp.SurCarte(Occitanie)
+Tarbes.SurCarte(Occitanie)
+Montauban.SurCarte(Occitanie)
+Pey.SurCarte(Occitanie)
+Arg.SurCarte(Occitanie)
 
 folium.TileLayer("Cartodb dark_matter", name="Sombre").add_to(Occitanie)
 folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)
@@ -289,8 +250,7 @@ from IPython.display import HTML
 res=f"""
 <table class= "table1-style">
     <tr class="tr">  
-        <th class="faible" style="color:white;"> faible </th>
-        <th class="forte" style="color:black;"> forte </th>
+        <th class="th"> <span class="faible"> faible </span> <span class="forte"> forte </span> </th>
     </tr>
 </table>
 """
@@ -298,4 +258,4 @@ HTML(res)
 ```
 
 \
-Ces cartes de chaleurs sont prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte chaleure. On observe que la pollution se concentre principalement au niveau des métropoles.
+Ces cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte chaleure. On observe que la pollution se concentre principalement au niveau des métropoles.
