@@ -54,6 +54,18 @@ folium.GeoJson(
 from folium.plugins import HeatMap
 from folium.plugins import HeatMapWithTime
 from folium.plugins import GroupedLayerControl
+import branca.colormap as cm
+
+#légende
+
+color_mapa=cm.LinearColormap(colors=['darkblue','purple','yellow'],
+                             caption='intensité de concentration du polluant')
+
+#cadre de la légende
+svg_style = '<style>svg#legend {background-color: rgba(255,255,255,0.5);}</style>'
+
+Occitanie.get_root().header.add_child(folium.Element(svg_style))
+color_mapa.add_to(Occitanie)
 
 polluant = pd.read_csv(
     "bases_de_donnees/Mesure_mensuelle_annee.csv",
@@ -239,11 +251,15 @@ GroupedLayerControl(position='bottomleft',
     collapsed=False
 ).add_to(Occitanie)
 
+
 Occitanie
 ```
 
 \
 <p style="text-align: center;">Intensité de concentration moyenne du polluant sélectionné</p>
+
+\
+Ces cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte chaleure. On observe que la pollution se concentre principalement au niveau des métropoles.
 
 ```{python}
 from IPython.display import HTML
@@ -256,6 +272,3 @@ res=f"""
 """
 HTML(res)
 ```
-
-\
-Ces cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte chaleure. On observe que la pollution se concentre principalement au niveau des métropoles.

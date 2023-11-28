@@ -5,6 +5,8 @@ execute:
 format:
   html:
     toc: true
+    grid:
+      margin-width: 175px
 ---
 
 # Etude de la concentration de la pollution à Perpignan
