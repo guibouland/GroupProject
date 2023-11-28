@@ -107,8 +107,8 @@ pm10 = HeatMap(
     list(zip(lat, lng, val)),
     name="PM10",
     gradient=grad,
-    radius=35,
-    blur=40,
+    radius=40,
+    blur=35,
 )
 fpm10 = folium.FeatureGroup(name="PM10", show=True)
 pm10.add_to(fpm10)
@@ -124,8 +124,8 @@ pm2 = HeatMap(
     list(zip(lat, lng, val)),
     name="PM2.5",
     gradient=grad,
-    radius=35,
-    blur=40,
+    radius=40,
+    blur=35,
 )
 fpm2 = folium.FeatureGroup(name="PM2", show=False)
 pm2.add_to(fpm2)
@@ -141,8 +141,8 @@ no = HeatMap(
     list(zip(lat, lng, val)),
     name="NO",
     gradient=grad,
-    radius=35,
-    blur=40,
+    radius=40,
+    blur=35,
 )
 fno = folium.FeatureGroup(name="NO", show=False)
 no.add_to(fno)
@@ -158,8 +158,8 @@ no2 = HeatMap(
     list(zip(lat, lng, val)),
     name="NO2",
     gradient=grad,
-    radius=35,
-    blur=40,
+    radius=40,
+    blur=35,
 )
 fno2 = folium.FeatureGroup(name="NO2", show=False)
 no2.add_to(fno2)
@@ -175,8 +175,8 @@ o3 = HeatMap(
     list(zip(lat, lng, val)),
     name="O3",
     gradient=grad,
-    radius=35,
-    blur=40,
+    radius=40,
+    blur=35,
 )
 fo3 = folium.FeatureGroup(name="O3", show=False)
 o3.add_to(fo3)
@@ -240,9 +240,9 @@ Montauban.SurCarte(Occitanie)
 Pey.SurCarte(Occitanie)
 Arg.SurCarte(Occitanie)
 
+folium.TileLayer("OpenStreetMap", name="Street Map").add_to(Occitanie)
 folium.TileLayer("Cartodb dark_matter", name="Sombre").add_to(Occitanie)
 folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)
-folium.TileLayer("OpenStreetMap", name="Street Map").add_to(Occitanie)
 
 folium.LayerControl(position= 'topleft',collapsed=True,opacity=0.7).add_to(Occitanie)
 
@@ -258,17 +258,13 @@ Occitanie
 \
 <p style="text-align: center;">Intensité de concentration moyenne du polluant sélectionné</p>
 
-\
 Ces cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte chaleure. On observe que la pollution se concentre principalement au niveau des métropoles.
 
 ```{python}
 from IPython.display import HTML
 res=f"""
-<table class= "table1-style">
-    <tr class="tr">  
-        <th class="th"> <span class="faible"> faible </span> <span class="forte"> forte </span> </th>
-    </tr>
-</table>
+<div style="text-align: center;padding-right: 20px"><a href=meteo.qmd><img src="images/mask.svg" title="En savoir plus sur les polluants"></a> <a href=villes/villes.qmd><img src="images/city.svg" title="Comparatif des villes" width="160" height="160"></a> 
+<a href=meteo.qmd><img src="images/weather.svg" title="Influence de la météo sur la pollution" width="130" height="130"></a> </div>
 """
 HTML(res)
 ```
