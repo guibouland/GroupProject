@@ -263,7 +263,7 @@ Ces cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la bal
 ```{python}
 from IPython.display import HTML
 res=f"""
-<div style="text-align: center;padding-right: 20px"><a href=meteo.qmd><img src="images/mask.svg" title="En savoir plus sur les polluants"></a> <a href=villes/villes.qmd><img src="images/city.svg" title="Comparatif des villes" width="160" height="160"></a> 
+<div style="text-align: center;padding-right: 20px;padding-left: 20px;height=300px" ><a href=about.qmd><img src="images/mask.svg" title="En savoir plus sur les polluants" ></a> <a href=villes/villes.qmd><img src="images/city.svg" title="Comparatif des villes" width="160" height="160"></a> 
 <a href=meteo.qmd><img src="images/weather.svg" title="Influence de la météo sur la pollution" width="130" height="130"></a> </div>
 """
 HTML(res)

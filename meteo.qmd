@@ -16,13 +16,6 @@ Toutes les données ont été mesurées entre le 01/10/2022 et le 30/09/2023 et 
 On étudie dans un premier temps la variation des moyennes des concentrations des polluants par mois puis par jour dans une période d'un an.
 Ensuite, On essaie de mettre en évidence un lien entre différents facteurs météorologiques comme le vent et la température et certains polluants.
 
-(TEMPORAIRE)<br>
-PM10 : particule en suspension de diamètre inférieur à 10 μm provoquant une altération de la santé respiratoire.<br>
-PM2.5 : particule fine en suspension de diamètre inférieur à 2,5 μm entraînant de plus une altération de la santé cardiovasculaire.<br>
-O₃ : L'ozone est un polluant résultant de la transformation chimique d'autres polluants présents dans l'atmosphère (notamment NO, NO₂ et COV) sous l'action des rayonnements solaires.<br>
-NOx : Emissions d’oxydes d'azote émises par la combustion des carburants fossiles participant fortement à l'effet de serre et regroupant le monoxyde d'azote (NO), le dioxyde d’azote (NO₂) et le protoxyde d’azote (N₂O).<br>
-NO₂/NO : Le dioxyde d’azote (NO2) se forme dans l’atmosphère à partir du monoxyde d'azote (NO) qui se dégage essentiellement lors de la combustion de combustibles fossiles.
-
 ## Concentration mensuelle de pollution sur une année
 
 ```{python}

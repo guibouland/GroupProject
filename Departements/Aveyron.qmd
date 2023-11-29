@@ -2,7 +2,13 @@
 title: 'Aveyron'
 execute:
     echo: false
+format:
+  html:
+    toc: true
+    grid:
+      margin-width: 175px
 ---
+# Evolution des polluants au cours de cette année:
 ```{python}
 import pandas as pd
 import plotly.express as px
@@ -32,7 +38,7 @@ for polluant in polluants:
 
     # Afficher le titre entre chaque graphique
     from IPython.display import display, Markdown
-    display(Markdown(f"# Evolution mensuelle du {polluant}"))
+    display(Markdown(f"## Evolution mensuelle du {polluant}"))
 
     # Créer un graphique interactif avec Plotly Express
     fig = px.scatter(
@@ -61,18 +67,21 @@ for polluant in polluants:
         xaxis_tickformat="%Y/%m",  # Format de l'axe des x
         legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5, traceorder='reversed'),
         margin=dict(l=10, r=10, t=70, b=10),  # Ajustements des marges
-        paper_bgcolor='rgba(255,255,255,100)',  # Couleur de contour de graphique 
-        plot_bgcolor='rgba(0, 0, 0)',   # Couleur du fond du graphique
-        yaxis=dict(range=ordonnee_ranges[polluant])  # Ajuster l'axe des ordonnées
+        paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
+        plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
+        yaxis=dict(range=ordonnee_ranges[polluant]),  # Ajuster l'axe des ordonnées
+        font=dict(color='Grey')
     )
-
+    #couleur grille
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
     # Afficher le graphique
     fig.show()
 
 
 ```
 
-Evolution des 5 types de polluants au cours des 5 dernières années :
+# Evolution des polluants au cours des 5 dernières années:
 ```{python}
 import pandas as pd
 import plotly.express as px
@@ -131,11 +140,14 @@ for polluant in polluants:
         xaxis_tickformat="%Y/%m",  # Format de l'axe des x
         legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5, traceorder='reversed'),
         margin=dict(l=10, r=10, t=70, b=10),  # Ajustements des marges
-        paper_bgcolor='rgba(255,255,255,100)',  # Couleur de contour de graphique 
-        plot_bgcolor='rgba(0, 0, 0)',   # Couleur du fond du graphique
-        yaxis=dict(range=ordonnee_ranges[polluant])  # Ajuster l'axe des ordonnées
+        paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
+        plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
+        yaxis=dict(range=ordonnee_ranges[polluant]),  # Ajuster l'axe des ordonnées
+        font=dict(color='Grey')
     )
-
+    #couleur grille
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
     # Afficher le graphique
     fig.show()
 
