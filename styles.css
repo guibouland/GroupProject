@@ -1,45 +1,17 @@
 /* css styles */
-.lien{
-    color:rgb(147, 22, 151)
-  }
-
-body {
-    background-image: 'images/ocean_water_waves_black_white_4k_hd_black_background.jpg' ;
-   }
-
-.table1-style {
-    position: center;
-    border-collapse: collapse;
-    min-width: 600px;
-    width: auto;
-    cursor: pointer;
-    margin: auto;
-    background: rgba(255, 255, 255, 0);
-    border: 3px #00000000;
-  }
-
 .tr{
-  background: linear-gradient(to right, #0d0887,#cc4778, #f0f921);
+  background-color: rgba(255, 255, 255, 0);
   border: 3px #00000000;
-  transition: transform .1s;
+  justify-content: center;
+  align-items: center;
 }
-
 .th{
-  border-top-left-radius : 10px 10px;
-  border-bottom-left-radius : 10px 10px;
-  border-top-right-radius : 10px 10px;
-  border-bottom-right-radius : 10px 10px;
-  transition: transform .1s;
+  justify-content: center;
+  align-items: center;
 }
-.faible{
-  color: white;
-  text-align: left;
+.table1{
+  width: 100%;
 }
-.forte{
-  color: black;
-  float: right;;
-}
-
 img{
   width: 200px;
   align-self: center;
