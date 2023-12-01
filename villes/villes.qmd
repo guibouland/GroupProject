@@ -285,7 +285,12 @@ figmtp.update_layout(
     xaxis_title="<b>Mois</b>",
     yaxis_title="<b>Concentration (µg.m⁻³)</b>",
     legend={"title": "<b>Polluants (et stations)</b>"},
+    paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
+    plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
+    font=dict(color='Grey')
 )
+figmtp.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+figmtp.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 figmtp.show()
 
 ```
@@ -779,8 +784,13 @@ figtou.update_layout(
     title="<b>Différences dans Toulouse</b>",
     xaxis_title="<b>Mois</b>",
     yaxis_title="<b>Concentration (µg.m⁻³)</b>",
-    legend={"title": "<b>Polluants (et stations)</b>"},
+    legend={"title": "<b>Polluants (et stations)</b>"},paper_bgcolor='rgba(100,100,100,0)',  
+    # Couleur de contour de graphique 
+    plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
+    font=dict(color='Grey')
 )
+figtou.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+figtou.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 figtou.show()
 ```
 
@@ -1521,8 +1531,12 @@ fig.update_layout(
     xaxis_title="<b>Mois</b>",
     yaxis_title="<b>Concentration (µg.m⁻³)</b>",
     legend={"title": "<b>Polluants (et stations)</b>"},
+    paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
+    plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
+    font=dict(color='Grey')
 )
-
+fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 # On affiche le graphe
 fig.show()
 ```
