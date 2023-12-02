@@ -15,7 +15,7 @@ def graphique(fig, titre, xaxis_title):
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 
-def trace_mois(df, color, name, date):
+def trace(df, color, name, date):
     """Ajout courbe sur un graphique cartésien"""
     return go.Scatter(x=df[date], y=df["valeur"], mode='lines', line=dict(width=2, color=color), name=name)
 
@@ -48,8 +48,11 @@ def graphique_axe(fig, titre, yaxis2_title):
         showlegend=True,
         paper_bgcolor="rgba(230, 230, 230,0)", # Couleur de contour de graphique 
         plot_bgcolor='rgba(100,100,100,0)', # Couleur du fond du graphique
-        font=dict(color='Grey')
+        font=dict(color='Grey'),
+        legend=dict(x=1.1, y=1)
     )
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 
 def resultats(date, polluants_tous, polluants, mapping):
     """moyenne des valeurs des polluants"""
@@ -68,3 +71,7 @@ def resultats(date, polluants_tous, polluants, mapping):
         df_polluant[date] = df_polluant[date].replace(mapping)
         resultat.append(df_polluant)
     return(resultat)
+
+def moy(var, nom1, nom2, date):
+    """Moyenne des valeurs des variables par date"""
+    return var[(var[nom1] == nom2)].groupby(date)['valeur'].mean().reset_index()
