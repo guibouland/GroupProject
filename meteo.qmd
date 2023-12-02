@@ -24,6 +24,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 from modules import meteo as md
 
+"""CONCENTRATION POLLUTION"""
+
 """
 DEFINITIONS
 """
@@ -52,41 +54,22 @@ mois_mapping = {"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", 
 # Dictionnaire de correspondance entre les anciens et les nouveaux noms des jours
 jours_mapping = {"Monday": "Lundi", "Tuesday": "Mardi", "Wednesday": "Mercredi", "Thursday": "Jeudi", "Friday": "Vendredi", "Saturday": "Samedi", "Sunday": "Dimanche"}
 
-# Ordre jours
-jours_ordre = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-
 """
 CONCENTRATION MOYENNE DES POLLUANTS
 """
 
-# Traitement des polluants exclusivement
 def concentration(date, format, mapping, titre, temps):
+    """Traitement des polluants exclusivement"""
+
+    """
+    DONNEES
+    """
+
     # Formatage des dates
     polluants[date] = polluants['Date'].dt.strftime(format)
 
-    resultat = []
-    if date == 'Jour':
-        # Moyenne des valeurs des polluants par jour
-        for polluant in polluants_tous:
-            # Moyenne des valeurs de chaque polluant par jour
-            df_polluant = polluants[polluants['nom_poll'] == polluant].groupby(date)['valeur'].mean().reset_index()
-            # Ajout de la colonne éponyme pour la reconnaître
-            df_polluant['nom'] = polluant
-            # Trier par date et la renommer
-            df_polluant['Jour'] = pd.Categorical(df_polluant['Jour'], categories=jours_ordre, ordered=True)
-            df_polluant = df_polluant.sort_values(date)
-            df_polluant[date] = df_polluant[date].replace(mapping)
-            resultat.append(df_polluant)
-    else:
-        # Moyenne des valeurs des polluants par mois
-        for polluant in polluants_tous:
-            # Moyenne des valeurs de chaque polluant par mois
-            df_polluant = polluants[polluants['nom_poll'] == polluant].groupby(date)['valeur'].mean().reset_index()
-            # Ajout de la colonne éponyme pour la reconnaître
-            df_polluant['nom'] = polluant
-            # Renommer la date
-            df_polluant[date] = df_polluant[date].replace(mapping)
-            resultat.append(df_polluant)
+    # Moyenne des valeurs des polluants
+    resultat = md.resultats(date, polluants_tous, polluants, mapping)
     
     # Récupérer les DataFrames individuels
     PM, O, NOX, NOO, PMM, NO = resultat
@@ -162,9 +145,7 @@ La quantité d'ozone est quant à elle très stable variant entre 60.1 et 64.4 �
 
 ```{python}
 
-"""
-LIEN VENTS/POLLUANTS
-"""
+"""LIEN VENTS/POLLUANTS"""
 
 """
 DONNEES
@@ -242,9 +223,7 @@ On pourra également remarquer une corrélation positive entre la vitesse du ven
 
 ```{python}
 
-"""
-LIEN TEMPERATURE/OZONE
-"""
+"""LIEN TEMPERATURE/OZONE"""
 
 """
 DONNEES
