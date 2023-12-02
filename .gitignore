@@ -9,3 +9,5 @@ basededonnée2020/hist_ind_occitanie_2020.csv:Zone.Identifier
 /.quarto/
 /docs/
 /bases_de_donnees/lignes_supprimees.csv
+/__pycache__/
+/modules/__pycache__/
