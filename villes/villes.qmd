@@ -311,6 +311,7 @@ figmtp.show()
 ```
 
 <p style="text-align: center;"><b>Double-cliquez sur les sations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
+\
 
 On observe que pour les oxydes d'azote (NOx, NO/NO₂), la station "*[Liberté](https://www.google.com/maps/place/43%C2%B036'41.8%22N+3%C2%B049'41.0%22E/@43.6116,3.82806,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6116!4d3.82806?entry=ttu)*" a des valeurs beaucoup plus importantes que les autres. En effet, cette station se situe à coté d'une grosse voie routière, ce qui explique ces valeurs puisque les oxydes d'azote sont émises par la combustion de carburant. Nous obsevons aussi un pic en hiver (surtout pendant le mois de février).  
 Pour les particules fines PM10, on observe que les stations situées près d'un gros trafic routier, "*[Liberté](https://www.google.com/maps/place/43%C2%B036'41.8%22N+3%C2%B049'41.0%22E/@43.6116,3.82806,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6116!4d3.82806?entry=ttu)*" et "*[Pompignane](https://www.google.com/maps/place/43%C2%B036'36.0%22N+3%C2%B053'55.0%22E/@43.61,3.8960351,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.61!4d3.89861?entry=ttu)*" ont toujours des valeurs plus importantes mais l'écart est moindre. Cependant, pour les particules fines PM2.5, il n'y a pas de stations qui se démarque clairement.  
@@ -820,6 +821,7 @@ figtou.show()
 ```
 
 <p style="text-align: center;"><b>Double-cliquez sur les sations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
+\
 
 Pour les oxydes d'azotes (NOx, NO/NO₂), nous observons les mêmes résultats qu'à Montpellier, les stations "*[Rte Albi](https://www.google.com/maps/place/43%C2%B038'35.2%22N+1%C2%B028'03.5%22E/@43.6431,1.4650751,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6431!4d1.46765?entry=ttu)*", "*[Port de l'Embouchure](https://www.google.com/maps/place/43%C2%B036'37.1%22N+1%C2%B024'54.7%22E/@43.6103,1.4126051,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6103!4d1.41518?entry=ttu)*" et "*[Périphérique](https://www.google.com/maps/place/43%C2%B034'26.4%22N+1%C2%B026'58.5%22E/@43.574,1.4470151,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.574!4d1.44959?entry=ttu)*" ont des valeurs bien supérieures aux autres stations, avec la station "*Périphérique*" au dessus parmi les trois.  
 
@@ -1516,9 +1518,8 @@ fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 fig.show()
 ```
 
-\
 <p style="text-align: center;"><b>Double-cliquez sur les sations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
-
+\
 Pour les oxydes d'azote (NOx, NO/NO₂), on remarque que les stations à haut trafic routier de Montpellier et Toulouse sont nettement au dessus de toutes les autres. Les deux autres stations de ces deux villes se confondent avec celles de Tarbes et Montauban, et étonnamment avec celle d'Argèles-Gazost. Cependant, on peut voir que les valeurs d ela station de Peyrusse-Vieille sont quasiment nulles.
 
 On observe une baisse générale des valeurs pour l'ozone (O₃) en hiver, comme observé en première partie. La ville ayant les plus grandes valeurs est Peyrusse-Vieille, ce qui peut paraître étonnant. Cependant, comme précenté dans la partie [Lien Météorologique](../meteo.qmd), on peut prétendre à un lien entre ces valeurs élevées et la quantité de vent.
