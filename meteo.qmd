@@ -25,7 +25,6 @@ import plotly.graph_objects as go
 
 """
 DEFINITIONS ET FONCTIONS
-DEFINITIONS ET FONCTIONS
 """
 
 # Importer les valeurs
@@ -106,6 +105,10 @@ def graphique_axe(fig, titre, yaxis2_title):
         font=dict(color='Grey')
     )
 
+"""
+CONCENTRATION MOYENNE DES POLLUANTS
+"""
+
 # Traitement des polluants exclusivement
 def concentration(date, format, mapping, titre, temps):
     polluants[date] = polluants['Date'].dt.strftime(format)
@@ -180,7 +183,6 @@ def concentration(date, format, mapping, titre, temps):
     fig.add_trace(trace_mois(PMM, 'grey', 'PM2.5', date))
 
     # Afficher les graphiques
-    
     fig_polar.show()
     fig.show()
 
@@ -208,6 +210,10 @@ La quantité d'ozone est quant à elle très stable variant entre 60.1 et 64.4 �
 ## Lien entre le vent et la concentration de pollution
 
 ```{python}
+
+"""
+LIEN VENTS/POLLUANTS
+"""
 
 """
 DONNEES
@@ -251,6 +257,7 @@ polluants['Date'] = polluants['Date'].dt.strftime(format_date)
 NOX = polluants[(polluants['nom_poll'] == 'NOX')].groupby('Date')['valeur'].mean().reset_index()
 NOO = polluants[(polluants['nom_poll'] == 'NO2')].groupby('Date')['valeur'].mean().reset_index()
 NO = polluants[(polluants['nom_poll'] == 'NO')].groupby('Date')['valeur'].mean().reset_index()
+O = polluants[(polluants['nom_poll'] == 'O3')].groupby('Date')['valeur'].mean().reset_index()
 
 """
 GRAPHIQUE
@@ -260,15 +267,17 @@ GRAPHIQUE
 trace1 = go.Scatter(x=NOX["Date"], y=NOX["valeur"], mode='lines', line=dict(width=2, color='orange'), name='NOx')
 trace2 = go.Scatter(x=NOO["Date"], y=NOO["valeur"], mode='lines', line=dict(width=2, color='green'), name='NO₂')
 trace3 = go.Scatter(x=NO["Date"], y=NO["valeur"], mode='lines', line=dict(width=2, color='purple'), name='NO')
+trace4 = go.Scatter(x=O["Date"], y=O["valeur"], mode='lines', line=dict(width=2, color='red'), name='O₃')
 # Ajouter la trace pour le vecteur vent_moy sur le deuxième axe Y
 trace_vent_moy = go.Scatter(x=vent_moy["Date"], y=vent_moy["valeur"], mode='lines', line=dict(width=2, color='pink'), name='Vent', yaxis='y2')
 
 # Créer la figure
-fig = go.Figure([trace1, trace2, trace3, trace_vent_moy])
+fig = go.Figure([trace1, trace2, trace3, trace4, trace_vent_moy])
 
 graphique_axe(fig, "Vitesse du vent et émissions d'oxydes d'azote (mars 2023)", 'Vitesse (km.h⁻¹)')
 fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+
 # Afficher le graphique
 fig.show()
 ```
@@ -279,7 +288,15 @@ En effet, les trois pics de vitesse du vent évalués à 39.6, 39.5 et 35.3 km.h
 ## Lien entre la température et la concentration d'ozone
 
 ```{python}
-# Graphique faisant le lien entre une donnée météorologique et certains polluants en 2023
+
+"""
+LIEN TEMPERATURE/OZONE
+"""
+
+"""
+DONNEES
+"""
+
 # Importer les valeurs
 donnees = pd.read_csv(f"bases_de_donnees/donnees_meteo_2022_2023.csv", sep=";", na_values="", low_memory=False)
 polluants = pd.read_csv(f"bases_de_donnees/donnees_polluants_2022_2023.csv", sep=",", na_values="", low_memory=False)
@@ -297,7 +314,8 @@ donnees['Date'] = donnees['Date'].dt.strftime(format_date)
 """
 TEMPERATURE
 """
-# Vitesse moyenne du vent chaque jour de la période
+
+# température moyenne chaque jour de la période
 temp_moy = donnees.groupby('Date')['valeur'].mean().reset_index()
 
 """
@@ -322,12 +340,13 @@ trace1 = go.Scatter(x=O["Date"], y=O["valeur"], mode='lines', line=dict(width=2,
 # Ajouter la trace pour le vecteur vent_moy sur le deuxième axe Y
 trace_temp_moy = go.Scatter(x=temp_moy["Date"], y=temp_moy["valeur"], mode='lines', line=dict(width=2, color='purple'), name='Température', yaxis='y2')
 
-# Créer de la figure
+# Créer la figure
 fig = go.Figure([trace1, trace_temp_moy])
 
 graphique_axe(fig, "Température et concentration d'ozone", 'Température (°C)')
 fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+
 # Afficher le graphique
 fig.show()
 ```
