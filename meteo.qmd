@@ -1,5 +1,5 @@
 ---
-title: "Lien météo"
+title: "Lien météorologique"
 execute: 
   echo: false
 format:

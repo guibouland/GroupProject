@@ -1,5 +1,5 @@
 ---
-title: 'Villes'
+title: 'Comparatifs entre villes'
 ---
 
 ```{python}
