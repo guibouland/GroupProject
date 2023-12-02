@@ -9,7 +9,7 @@ sns.set_palette("colorblind")
 # %% LOADING DATA
 
 # On charge le csv dans un dataframe pandas
-df = pd.read_csv("./bases_de_donnees/Mesure_mensuelle_annee.csv")
+df = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
 
 # On supprime les lignes qui ne comprtent aucunes valeurs
 df = df.dropna()
@@ -154,9 +154,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 import seaborn as sns
 
+# Changement d ela palette de couleur pour l'accessibilité
 sns.set_palette("colorblind")
 
-df = pd.read_csv("./bases_de_donnees/Mesure_mensuelle_annee.csv")
+# Chargement des données
+df = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
 
 # On supprime les lignes qui ne comprtent aucunes valeurs
 df = df.dropna()
@@ -425,10 +427,17 @@ figmtp.add_trace(
 
 
 figmtp.update_layout(
-    title="<b>Différences dans Montpellier</b>",
+    title={
+        "text": "<b>Différences dans Montpellier</b>",
+        "x": 0.5,
+        "xanchor": "center",
+    },
     xaxis_title="<b>Mois</b>",
     yaxis_title="<b>Concentration (µg.m⁻³)</b>",
-    legend={"title": "<b>Polluants (et stations)</b>"},
+    legend=dict(title="<b>Polluants (et stations)</b>"),
+    paper_bgcolor="rgba(100,100,100,0)",  # Couleur de contour de graphique
+    plot_bgcolor="rgba(100,100,100,0)",  # Couleur du fond du graphique
+    font=dict(color="Grey", size=10),
 )
 figmtp.show()
 
@@ -912,10 +921,13 @@ figtou.add_trace(
 
 
 figtou.update_layout(
-    title="<b>Différences dans Toulouse</b>",
+    title={"text": "<b>Différences dans Toulouse</b>", "x": 0.5, "xanchor": "center"},
     xaxis_title="<b>Mois</b>",
     yaxis_title="<b>Concentration (µg.m⁻³)</b>",
     legend={"title": "<b>Polluants (et stations)</b>"},
+    paper_bgcolor="rgba(100,100,100,0)",  # Couleur de contour de graphique
+    plot_bgcolor="rgba(100,100,100,0)",  # Couleur du fond du graphique
+    font=dict(color="Grey", size=10),
 )
 figtou.show()
 
@@ -1558,10 +1570,17 @@ fig.add_trace(
 
 # On modifie le layout du graphe
 fig.update_layout(
-    title="<b>Différences dans Toulouse</b>",
+    title={
+        "text": "<b>Comparaison entre différentes villes d'Occitanie</b>",
+        "x": 0.5,
+        "xanchor": "center",
+    },
     xaxis_title="<b>Mois</b>",
     yaxis_title="<b>Concentration (µg.m⁻³)</b>",
     legend={"title": "<b>Polluants (et stations)</b>"},
+    paper_bgcolor="rgba(100,100,100,0)",  # Couleur de contour de graphique
+    plot_bgcolor="rgba(100,100,100,0)",  # Couleur du fond du graphique
+    font=dict(color="Grey", size=10),
 )
 
 # On affiche le graphe
