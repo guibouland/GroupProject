@@ -1,13 +1,8 @@
----
-execute: 
-  echo: false
----
-
-## Moyenne des intensités de polluants de 2023
-```{python}
 import geopandas as gpd
 import pandas as pd
 import numpy as np
+
+
 pd.options.mode.chained_assignment = None
 
 # base de la carte avec les départements
@@ -31,6 +26,7 @@ indexNames = sf[
 sf.drop(indexNames, inplace=True)
 import folium
 
+#initialisation de la carte avec notre geojson des departements
 centre = [43.716671, 2.15]
 Occitanie = folium.Map(location=centre, zoom_start=6.5,tiles=None)
 folium.GeoJson(
@@ -65,9 +61,12 @@ color_mapa=cm.LinearColormap(colors=['darkblue','purple','yellow'],
 #cadre de la légende
 svg_style = '<style>svg#legend {background-color: rgba(255,255,255,0.5);}</style>'
 
+#ajout de la legende à la carte
 Occitanie.get_root().header.add_child(folium.Element(svg_style))
 color_mapa.add_to(Occitanie)
 
+
+#manipulation des données
 polluant = pd.read_csv(
     "bases_de_donnees/Mesure_mensuelle_annee.csv",
     sep=",",
@@ -116,7 +115,6 @@ pm10.add_to(fpm10)
 
 # PM2
 PM2 = polluants[(polluants["nom_poll"] == "PM2.5")]
-
 heatPM2 = PM2[["Y", "X", "valeur"]].copy()
 lng = heatPM2["X"].tolist()
 lat = heatPM2["Y"].tolist()
@@ -133,7 +131,6 @@ pm2.add_to(fpm2)
 
 # NO
 NO = polluants[(polluants["nom_poll"] == "NO")]
-
 heatNO = NO[["Y", "X", "valeur"]].copy()
 lng = heatNO["X"].tolist()
 lat = heatNO["Y"].tolist()
@@ -150,7 +147,6 @@ no.add_to(fno)
 
 # NO2
 NO2 = polluants[(polluants["nom_poll"] == "NO2")]
-
 heatNO2 = NO2[["Y", "X", "valeur"]].copy()
 lng = heatNO2["X"].tolist()
 lat = heatNO2["Y"].tolist()
@@ -182,6 +178,8 @@ o3 = HeatMap(
 fo3 = folium.FeatureGroup(name="O3", show=False)
 o3.add_to(fo3)
 
+#ajout des Heatmap a la carte (en faisant en sorte qu'elles 
+#ne puissent pas se declencher simultanement)
 Occitanie.add_child(fpm10)
 Occitanie.add_child(fpm2)
 Occitanie.add_child(fno)
@@ -204,6 +202,7 @@ class Markero(object):
         [self.lat, self.long],tooltip=self.texte, popup=self.popup, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
         ).add_to(carte)
 
+#utilisation de la classe Markero pour faire nos points
 Toul=Markero(43.6, 1.43333,"Toulouse","""
 <p>Toulouse:<br>
 500 000 habitants </p>
@@ -240,6 +239,7 @@ Perpi=Markero(42.683331,2.88333,"Perpignan","""
 120 000 habitants </p>
 """)
 
+#fonction SurCarte de la classe Markero
 Toul.SurCarte(Occitanie)
 Mtp.SurCarte(Occitanie)
 Tarbes.SurCarte(Occitanie)
@@ -248,6 +248,7 @@ Pey.SurCarte(Occitanie)
 Arg.SurCarte(Occitanie)
 Perpi.SurCarte(Occitanie)
 
+#ajout de styles de carte differents
 folium.TileLayer("OpenStreetMap", name="Street Map").add_to(Occitanie)
 folium.TileLayer("Cartodb dark_matter", name="Sombre").add_to(Occitanie)
 folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)
@@ -259,20 +260,8 @@ GroupedLayerControl(position='bottomleft',
     collapsed=False
 ).add_to(Occitanie)
 
-
-Occitanie
-```
-
-Moyenne des valeurs enregistrées entre aout 2022 et septembre 2023
-\
-\
-Ces cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte température. On observe que la pollution se concentre principalement au niveau des métropoles.\
-Les villes indiquées sur la carte sont celles sur lesquelles nos études se porteront.
-<CENTER>
-<table>
-    <tr class="tr">
-        <th class="th">
-            <a href=about.qmd><img src="images/mask.svg" title="En savoir plus sur les polluants" ></a> <a href=villes/villes.qmd><img src="images/city.svg" title="Comparatif des villes" width="160" height="160"></a> <a href=meteo.qmd><img src="images/weather.svg" title="Influence de la météo sur la pollution" width="130" height="130"></a>
-        </th>
-    </tr>
-</table>
+#affichage de la carte
+import webbrowser
+Occitanie.save("HMOccitanie.html")
+webbrowser.open("HMOccitanie.html")
+#pour le rendu dans le .py j'ouvre un navigateur afin de voir le rendu 

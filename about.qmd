@@ -2,6 +2,15 @@
 title: "À propos"
 ---
 
-About this site
+Pour réaliser ce projet, nous nous sommes concentré sur les polluants suivants:
 
-Créé pour un projet de groupe
+## Les particules en suspension
+* PM10 : particule en suspension de diamètre inférieur à 10 μm provoquant une altération de la santé respiratoire.<br>
+* PM2.5 : particule fine en suspension de diamètre inférieur à 2,5 μm entraînant de plus une altération de la santé cardiovasculaire.<br>
+
+## L'ozone
+* O₃ : L'ozone est un polluant résultant de la transformation chimique d'autres polluants présents dans l'atmosphère (notamment NO, NO₂ et COV) sous l'action des rayonnements solaires.<br>
+
+## Les oxydes d'azote 
+* NOx : Emissions d’oxydes d'azote émises par la combustion des carburants fossiles participant fortement à l'effet de serre et regroupant le monoxyde d'azote (NO), le dioxyde d’azote (NO₂) et le protoxyde d’azote (N₂O).<br>
+* NO₂/NO : Le dioxyde d’azote (NO2) se forme dans l’atmosphère à partir du monoxyde d'azote (NO) qui se dégage essentiellement lors de la combustion de combustibles fossiles.

@@ -1,17 +1,23 @@
 ---
-title: 'Villes'
-execute:
-    echo: false
+title: 'Comparatifs entre villes'
 ---
 
+Dans cette section, le but est de comparer les concentrations de pollutions entre villes d'Occitanie. Cependant, dans le jeu de données utilisé, celui des prélèvement de l'année dernière (mois par mois), les villes n'ont pas les mêmes occurences et les prélèvements d'une ville présente des disparités à l'intérieur de celle-ci.
+
+## Comparaisons intra-villes
+
+Nous allons nous concentrer sur les deux plus grosses villes d'Occitanie : Montpellier et Toulouse, qui présentent le plus de données, favorables à une bonne comparaison des différents [polluants](../about.qmd) disponibles.
+
 ```{python}
+#| echo: false
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 import seaborn as sns
 
+# Changement d ela palette de couleur pour l'accessibilité
 sns.set_palette("colorblind")
 
+# Chargement des données
 df = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
 
 # On supprime les lignes qui ne comprtent aucunes valeurs
@@ -29,30 +35,34 @@ mtp = df[df.nom_com == "MONTPELLIER"]
 tou = df[df.nom_com == "TOULOUSE"]
 
 # MONTPELLIER
-
-# On sélectionne les polluants de MONTPELLIER
+# On sélectionne les polluants de MONTPELLIER et on les ORDONNE
 mtpno = mtp[mtp.nom_poll == "NO"].sort_values(by="date_debut")
 mtpno2 = mtp[mtp.nom_poll == "NO2"].sort_values(by="date_debut")
 mtpnox = mtp[mtp.nom_poll == "NOX"].sort_values(by="date_debut")
 mtppm10 = mtp[mtp.nom_poll == "PM10"].sort_values(by="date_debut")
 mtppm2_5 = mtp[mtp.nom_poll == "PM2.5"].sort_values(by="date_debut")
 # On ne prend pas O3 par manque de données
+mtpo3 = mtp[mtp.nom_poll == "O3"].sort_values(by="date_debut")
+
 
 # mtp.nom_station.unique()
 figmtp = go.Figure()
 
 # NO
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
 figmtp.add_trace(
     go.Scatter(
+        # En abscisse, on a les dates par mois
         x=list(
             mtpno[
                 mtpno.nom_station == "Montpellier - Prés d Arènes Urbain"
             ].mois_annee.unique()
         ),
+        # En ordonnée, on a les valeurs d'un polluant par station
         y=list(mtpno[mtpno.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur),
-        legendgroup="groupe 1",
-        legendgrouptitle_text="<b>NO</b>",
-        name="Prés d'Arènes Urbain",
+        legendgroup="groupe 1", # On fait un groupe de légende pour toutes les stations, par polluants
+        legendgrouptitle_text="<b>NO</b>", # Nom du groupe
+        name="Prés d'Arènes Urbain", # Nom de la station (sous-légende)
         mode="lines+markers",
     )
 )
@@ -82,6 +92,7 @@ figmtp.add_trace(
 )
 
 # NO2
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
 figmtp.add_trace(
     go.Scatter(
         x=list(
@@ -140,6 +151,7 @@ figmtp.add_trace(
 
 
 # NOX
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
 figmtp.add_trace(
     go.Scatter(
         x=list(
@@ -185,6 +197,7 @@ figmtp.add_trace(
 
 
 # PM10
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
 figmtp.add_trace(
     go.Scatter(
         x=list(
@@ -231,6 +244,7 @@ figmtp.add_trace(
 )
 
 # PM2.5
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
 figmtp.add_trace(
     go.Scatter(
         x=list(
@@ -278,46 +292,58 @@ figmtp.add_trace(
     )
 )
 
-
+# On modifie le layout du graphique
 figmtp.update_layout(
-    title="<b>Différences dans Montpellier</b>",
-    xaxis_title="<b>Mois</b>",
-    yaxis_title="<b>Concentration (µg.m⁻³)</b>",
-    legend={"title": "<b>Polluants (et stations)</b>"},
+    title={"text": "<b>Différences dans Montpellier</b>",'x':0.5,'xanchor': 'center'}, # Nom du graphique
+    xaxis_title="<b>Mois</b>", # Nom de l'axe des abscisses
+    yaxis_title="<b>Concentration (µg.m⁻³)</b>", # Nom de l'axe des ordonnées
+    legend={"title": "<b>Polluants (et stations)</b>"}, # Titre de la légende
+    paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
+    plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
+    font=dict(color='Grey', size=10) # Couleur et taille de l'écriture
 )
+# On change le quadrillage
+figmtp.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+figmtp.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+# On affiche le graphique
 figmtp.show()
 
 ```
 
+<p style="text-align: center;"><b>Double-cliquez sur les sations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
 \
-<p style="text-align: center;"><b>Pensez à double cliquer sur les stations dans la légende pour faire apparaitre les polluants uns par uns.</b><br>(et faire de même pour changer de polluant)</p>
 
-> Interprétation
+On observe que pour les oxydes d'azote (NOx, NO/NO₂), la station "*[Liberté](https://www.google.com/maps/place/43%C2%B036'41.8%22N+3%C2%B049'41.0%22E/@43.6116,3.82806,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6116!4d3.82806?entry=ttu)*" a des valeurs beaucoup plus importantes que les autres. En effet, cette station se situe à coté d'une grosse voie routière, ce qui explique ces valeurs puisque les oxydes d'azote sont émises par la combustion de carburant. Nous obsevons aussi un pic en hiver (surtout pendant le mois de février).  
+Pour les particules fines PM10, on observe que les stations situées près d'un gros trafic routier, "*[Liberté](https://www.google.com/maps/place/43%C2%B036'41.8%22N+3%C2%B049'41.0%22E/@43.6116,3.82806,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6116!4d3.82806?entry=ttu)*" et "*[Pompignane](https://www.google.com/maps/place/43%C2%B036'36.0%22N+3%C2%B053'55.0%22E/@43.61,3.8960351,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.61!4d3.89861?entry=ttu)*" ont toujours des valeurs plus importantes mais l'écart est moindre. Cependant, pour les particules fines PM2.5, il n'y a pas de stations qui se démarque clairement.  
+\
 
+Nous faisons la même comparaison pour Toulouse.
 ```{python}
+#| echo: false
 # TOULOUSE
 
 # On sélectionne les polluants de TOULOUSE
-touno = tou[tou.nom_poll == "NO"].sort_values(by="mois_annee")
-touno2 = tou[tou.nom_poll == "NO2"].sort_values(by="mois_annee")
-tounox = tou[tou.nom_poll == "NOX"].sort_values(by="mois_annee")
-touo3 = tou[tou.nom_poll == "O3"].sort_values(by="mois_annee")
-toupm10 = tou[tou.nom_poll == "PM10"].sort_values(by="mois_annee")
-toupm2_5 = tou[tou.nom_poll == "PM2.5"].sort_values(by="mois_annee")
+touno = tou[tou.nom_poll == "NO"].sort_values(by="date_debut")
+touno2 = tou[tou.nom_poll == "NO2"].sort_values(by="date_debut")
+tounox = tou[tou.nom_poll == "NOX"].sort_values(by="date_debut")
+touo3 = tou[tou.nom_poll == "O3"].sort_values(by="date_debut")
+toupm10 = tou[tou.nom_poll == "PM10"].sort_values(by="date_debut")
+toupm2_5 = tou[tou.nom_poll == "PM2.5"].sort_values(by="date_debut")
 
 # tou.nom_station.unique() pour avoir les noms des stations de TOULOUSE
 figtou = go.Figure()
 
 # NO
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
 figtou.add_trace(
     go.Scatter(
         x=list(
             touno[touno.nom_station == "Toulouse - Rte Albi Trafic"].mois_annee.unique()
-        ),
-        y=list(touno[touno.nom_station == "Toulouse - Rte Albi Trafic"].valeur),
-        legendgroup="groupe 1",
-        legendgrouptitle_text="<b>NO</b>",
-        name="Rte Albi Trafic",
+        ), # Axe des abscisses : Mois de l'année dernière
+        y=list(touno[touno.nom_station == "Toulouse - Rte Albi Trafic"].valeur), # Axe des ordonnées : Valeur des polluants
+        legendgroup="groupe 1", # On range les légende en groupe pour les sélectionner un par un
+        legendgrouptitle_text="<b>NO</b>", # Nom du groupe de la légende
+        name="Rte Albi Trafic", # Nom de la station (sous-légende)
         mode="lines+markers",
     )
 )
@@ -389,6 +415,7 @@ figtou.add_trace(
 
 
 # NO2
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
 figtou.add_trace(
     go.Scatter(
         x=list(
@@ -475,6 +502,7 @@ figtou.add_trace(
 
 
 # NOX
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
 figtou.add_trace(
     go.Scatter(
         x=list(
@@ -561,6 +589,7 @@ figtou.add_trace(
 
 
 # O3
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
 figtou.add_trace(
     go.Scatter(
         x=list(
@@ -596,6 +625,7 @@ figtou.add_trace(
 
 
 # PM10
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
 figtou.add_trace(
     go.Scatter(
         x=list(
@@ -714,6 +744,7 @@ figtou.add_trace(
 
 
 # PM2.5
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
 figtou.add_trace(
     go.Scatter(
         x=list(
@@ -772,17 +803,725 @@ figtou.add_trace(
     )
 )
 
-
+# On modifie le layout du graphique
 figtou.update_layout(
-    title="<b>Différences dans Toulouse</b>",
-    xaxis_title="<b>Mois</b>",
-    yaxis_title="<b>Concentration (µg.m⁻³)</b>",
-    legend={"title": "<b>Polluants (et stations)</b>"},
+    title={"text": "<b>Différences dans Toulouse</b>",'x':0.5,'xanchor': 'center'}, # Nom du graphique
+    xaxis_title="<b>Mois</b>", # Nom de l'axe des abscisses
+    yaxis_title="<b>Concentration (µg.m⁻³)</b>", # Nom de l'axe des ordonnées
+    legend={"title": "<b>Polluants (et stations)</b>"}, # Titre de la légende
+    paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
+    plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
+    font=dict(color='Grey', size=10) # Couleur et taille du texte
 )
+# On change le quadrillage
+figtou.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+figtou.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+# On affiche le graphique
 figtou.show()
 ```
 
+<p style="text-align: center;"><b>Double-cliquez sur les sations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
 \
-<p style="text-align: center;"><b>Pensez à double cliquer sur les stations dans la légende pour faire apparaitre les polluants uns par uns.</b><br>(et faire de même pour changer de polluant)</p>
 
-> Interprétation
+Pour les oxydes d'azotes (NOx, NO/NO₂), nous observons les mêmes résultats qu'à Montpellier, les stations "*[Rte Albi](https://www.google.com/maps/place/43%C2%B038'35.2%22N+1%C2%B028'03.5%22E/@43.6431,1.4650751,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6431!4d1.46765?entry=ttu)*", "*[Port de l'Embouchure](https://www.google.com/maps/place/43%C2%B036'37.1%22N+1%C2%B024'54.7%22E/@43.6103,1.4126051,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6103!4d1.41518?entry=ttu)*" et "*[Périphérique](https://www.google.com/maps/place/43%C2%B034'26.4%22N+1%C2%B026'58.5%22E/@43.574,1.4470151,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.574!4d1.44959?entry=ttu)*" ont des valeurs bien supérieures aux autres stations, avec la station "*Périphérique*" au dessus parmi les trois.  
+
+Concernant l'ozone (O₃), on se rend compte que les valeurs sont équitables, cependant on observe une grosse baisse en hiver du fait que l'ozone est crée grâce aux rayonnement solaires.  
+
+Pour finir, à l'instar de Montpellier, on retrouve les mêmes observations concernant les particules fines (PM10 et PM2.5). Les stations proches de trafic routier ont encore des valeurs légèrement supérieures aux autres.
+
+## Comparaison entre villes
+
+Le but ici est de comparer les émissions de pollution entre villes de population variées afin de constater les différences et l'impact de l'activité humaine.  
+Pour cela, nous avons choisi 6 villes de populations différentes (en 2023):  
+
+- **Toulouse** : 498 000 habitants  
+- **Montpellier** : 312 000 habitants  
+- **Montauban** : 63 100 habitants  
+- **Tarbes** : 44 000 habitants  
+- **Argèles-Gazost** : 2 900 habitants  
+- **Peyrusse-Vieille** : 59 habitants  
+
+Ce choix, au delà du nombre d'habitants, les classe directement en 3 classes distinctes: petites, moyennes et grandes villes. Il a été réalisé après avoir observer le nombre d'occurence des stations.  
+
+Nous voulons les comparer par polluant, en sélectionnant des stations de prélèvement. En effet, comme vu ci-dessus, les grandes villes ont plusieurs stations de prélèvement qui donnent des informations qui peuvent beaucoup varier en fonction de leur emplacement dans la ville et de leur proximité avec une voie routière très fréquentée.  
+Ainsi, pour des raisons de clareté, nous choisissons de sélectionner une à deux stations par ville, ce choix se réduisant à Toulouse et Monpellier ayant le plus de stations de prélèvement.  
+
+Ainsi, nous choisissons les stations suivantes: 
+
+- **Montpellier** :
+  - "*[Montpellier - Prés d Arènes Urbain](https://www.google.com/maps/place/43%C2%B035'29.4%22N+3%C2%B053'12.8%22E/@43.5915,3.8843151,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.5915!4d3.88689?entry=ttu)*" : les valeurs étant moyennes, cette station est présente et abondante pour chaque polluant
+  - "*[Montpellier Liberte Trafic](https://www.google.com/maps/place/43%C2%B036'41.8%22N+3%C2%B049'41.0%22E/@43.6116,3.82806,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6116!4d3.82806?entry=ttu)*" : pour son profil atypique que nous verrons plus bas
+- **Toulouse** :
+  - "*[Toulouse-Berthelot Urbain](https://www.google.com/maps/place/43%C2%B035'14.3%22N+1%C2%B026'38.5%22E/@43.5873,1.4414551,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.5873!4d1.44403?entry=ttu)*" : pour les mêmes raison que pour "*Montpellier - Prés d Arènes Urbain*"
+  - "*[Toulouse-Périphérique Trafic](https://www.google.com/maps/place/43%C2%B034'26.4%22N+1%C2%B026'58.5%22E/@43.574,1.4470151,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.574!4d1.44959?entry=ttu)*" : pour les mêmes raisons que pour "*Montpellier Liberte Trafic*"
+- **Reste** : Le reste des villes ayant une seule station, le choix est immédiat. 
+  - "*[Tarbes-Dupuy Urbain](https://www.google.com/maps/place/43%C2%B013'49.1%22N+0%C2%B003'44.0%22E/@43.2303,0.0596471,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.2303!4d0.062222?entry=ttu)*"  
+  - "*[Montauban](https://www.google.com/maps/place/44%C2%B000'46.4%22N+1%C2%B022'31.1%22E/@44.0129,1.3727351,17z/data=!3m1!4b1!4m4!3m3!8m2!3d44.0129!4d1.37531?entry=ttu)*"  
+  - "*[Argèles-Gazost](https://www.google.com/maps/place/43%C2%B000'27.0%22N+0%C2%B005'42.2%22W/@43.0075,-0.0976287,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.0075!4d-0.0950538?entry=ttu)*"  
+  - "*[Peyrusse-Vieille](https://www.google.com/maps/place/43%C2%B037'49.1%22N+0%C2%B010'47.0%22E/@43.6303,0.1771471,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6303!4d0.179722?entry=ttu)*"  
+
+
+```{python}
+#| echo: false
+"""
+COMPARAISON INTER VILLES
+On choisit 6 villes de populations différentes:
+    Toulouse
+    Montpellier
+    Tarbes
+    Montauban
+    Argèles-Gazost
+    Peyrusse-Vieille
+Et on comparaison leur taux de population selon les différents polluants.
+On fait une sélection de une ou deux stations pour les deux plus grandes villes pour ne pas crouler sous les informations.
+
+Stations sélectionnées pour Montpellier:
+    Liberte Trafic : beaucoup de trafic routier
+    Prés d'Arènes Urbain : valeurs moyennes et surtout présent à chaque polluant
+Stations sélectionnées pour Toulouse:
+    Periphérique Trafic : beaucoup de trafic routier, valeurs élevées
+    Berthelot Urbain : valeurs moyennes et présent partout
+"""
+
+# On restreint le dataframe aux 4 autres villes
+tar = df[df.nom_com == "TARBES"]
+mon = df[df.nom_com == "MONTAUBAN"]
+arg = df[df.nom_com == "ARGELES-GAZOST"]
+pey = df[df.nom_com == "PEYRUSSE-VIEILLE"]
+
+# Et maintenant aux polluants traités
+## Tarbes
+tarno = tar[tar.nom_poll == "NO"].sort_values(by="date_debut")
+tarno2 = tar[tar.nom_poll == "NO2"].sort_values(by="date_debut")
+tarnox = tar[tar.nom_poll == "NOX"].sort_values(by="date_debut")
+taro3 = tar[tar.nom_poll == "O3"].sort_values(by="date_debut")
+tarpm10 = tar[tar.nom_poll == "PM10"].sort_values(by="date_debut")
+tarpm2_5 = tar[tar.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+
+## Montauban
+monno = mon[mon.nom_poll == "NO"].sort_values(by="date_debut")
+monno2 = mon[mon.nom_poll == "NO2"].sort_values(by="date_debut")
+monnox = mon[mon.nom_poll == "NOX"].sort_values(by="date_debut")
+mono3 = mon[mon.nom_poll == "O3"].sort_values(by="date_debut")
+monpm10 = mon[mon.nom_poll == "PM10"].sort_values(by="date_debut")
+monpm2_5 = mon[mon.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+
+## Argèles-Gazost
+argno = arg[arg.nom_poll == "NO"].sort_values(by="date_debut")
+argno2 = arg[arg.nom_poll == "NO2"].sort_values(by="date_debut")
+argnox = arg[arg.nom_poll == "NOX"].sort_values(by="date_debut")
+argo3 = arg[arg.nom_poll == "O3"].sort_values(by="date_debut")
+argpm10 = arg[arg.nom_poll == "PM10"].sort_values(by="date_debut")
+argpm2_5 = arg[arg.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+
+## Peyrusse-Vieille
+peyno = pey[pey.nom_poll == "NO"].sort_values(by="date_debut")
+peyno2 = pey[pey.nom_poll == "NO2"].sort_values(by="date_debut")
+peynox = pey[pey.nom_poll == "NOX"].sort_values(by="date_debut")
+peyo3 = pey[pey.nom_poll == "O3"].sort_values(by="date_debut")
+peypm10 = pey[pey.nom_poll == "PM10"].sort_values(by="date_debut")
+peypm2_5 = pey[pey.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+# Initialisation de la figure
+fig = go.Figure()
+
+# NO
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno[
+                mtpno.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno[mtpno.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur),
+        legendgroup="groupe 1",
+        legendgrouptitle_text="<b>NO</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno[
+                mtpno.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno[mtpno.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 1",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touno[touno.nom_station == "Toulouse-Berthelot Urbain"].mois_annee.unique()
+        ),
+        y=list(touno[touno.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 1",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touno[
+                touno.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(touno[touno.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 1",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(tarno[tarno.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(tarno[tarno.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 1",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monno[
+                monno.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monno[monno.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 1",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argno[argno.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argno[argno.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 1",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peyno[
+                peyno.nom_station == "Peyrusse Vieille Rural"
+            ].mois_annee.unique()
+        ),
+        y=list(peyno[peyno.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 1",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# NO2
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno2[
+                mtpno2.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtpno2[mtpno2.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur
+        ),
+        legendgroup="groupe 2",
+        legendgrouptitle_text="<b>NO2</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno2[
+                mtpno2.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno2[mtpno2.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 2",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touno2[
+                touno2.nom_station == "Toulouse-Berthelot Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(touno2[touno2.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 2",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touno2[
+                touno2.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(touno2[touno2.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 2",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(tarno2[tarno2.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(tarno2[tarno2.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 2",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monno2[
+                monno2.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monno2[monno2.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 2",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argno2[argno2.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argno2[argno2.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 2",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peyno2[peyno2.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peyno2[peyno2.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 2",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# NOX
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpnox[
+                mtpnox.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtpnox[mtpnox.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur
+        ),
+        legendgroup="groupe 3",
+        legendgrouptitle_text="<b>NOX</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpnox[
+                mtpnox.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpnox[mtpnox.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 3",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            tounox[
+                tounox.nom_station == "Toulouse-Berthelot Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(tounox[tounox.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 3",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            tounox[
+                tounox.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(tounox[tounox.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 3",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(tarnox[tarnox.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(tarnox[tarnox.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 3",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monnox[
+                monnox.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monnox[monnox.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 3",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argnox[argnox.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argnox[argnox.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 3",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peynox[peynox.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peynox[peynox.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 3",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# O3
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpo3[
+                mtpo3.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpo3[mtpo3.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur),
+        legendgroup="groupe 4",
+        legendgrouptitle_text="<b>O3</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touo3[touo3.nom_station == "Toulouse-Berthelot Urbain"].mois_annee.unique()
+        ),
+        y=list(touo3[touo3.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 4",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(taro3[taro3.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(taro3[taro3.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 4",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mono3[
+                mono3.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mono3[mono3.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 4",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argo3[argo3.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argo3[argo3.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 4",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peyo3[peyo3.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peyo3[peyo3.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 4",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# PM10
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm10[
+                mtppm10.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtppm10[mtppm10.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur
+        ),
+        legendgroup="groupe 5",
+        legendgrouptitle_text="<b>PM10</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm10[
+                mtppm10.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtppm10[mtppm10.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 5",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            toupm10[
+                toupm10.nom_station == "Toulouse-Berthelot Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(toupm10[toupm10.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 5",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            toupm10[
+                toupm10.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(toupm10[toupm10.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 5",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(tarpm10[tarpm10.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(tarpm10[tarpm10.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 5",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monpm10[
+                monpm10.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monpm10[monpm10.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 5",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argpm10[argpm10.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argpm10[argpm10.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 5",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peypm10[peypm10.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peypm10[peypm10.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 5",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# PM2.5
+# On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm2_5[
+                mtppm2_5.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtppm2_5[mtppm2_5.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur
+        ),
+        legendgroup="groupe 6",
+        legendgrouptitle_text="<b>PM2.5</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm2_5[
+                mtppm2_5.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtppm2_5[mtppm2_5.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 6",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            toupm2_5[
+                toupm2_5.nom_station == "Toulouse-Berthelot Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(toupm2_5[toupm2_5.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 6",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            toupm2_5[
+                toupm2_5.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(toupm2_5[toupm2_5.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 6",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(tarpm2_5[tarpm2_5.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(tarpm2_5[tarpm2_5.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 6",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monpm2_5[
+                monpm2_5.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monpm2_5[monpm2_5.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 6",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argpm2_5[argpm2_5.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argpm2_5[argpm2_5.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 6",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peypm2_5[peypm2_5.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peypm2_5[peypm2_5.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 6",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+# On modifie le layout du graphique
+fig.update_layout(
+    title={"text": "<b>Comparaison entre différentes villes d'Occitanie</b>",'x':0.5,'xanchor': 'center'}, # Nom du graphique
+    xaxis_title="<b>Mois</b>", # Nom de l'axe des abscisses
+    yaxis_title="<b>Concentration (µg.m⁻³)</b>", # Nom de l'axe des ordonnées
+    legend={"title": "<b>Polluants (et stations)</b>"}, # Titre de la légende
+    paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
+    plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
+    font=dict(color='Grey', size=10) # Couleur et taille du texte
+)
+# On change le quadrillage
+fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+# On affiche le graphe
+fig.show()
+```
+
+<p style="text-align: center;"><b>Double-cliquez sur les sations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
+\
+Pour les oxydes d'azote (NOx, NO/NO₂), on remarque que les stations à haut trafic routier de Montpellier et Toulouse sont nettement au dessus de toutes les autres. Les deux autres stations de ces deux villes se confondent avec celles de Tarbes et Montauban, et étonnamment avec celle d'Argèles-Gazost. Cependant, on peut voir que les valeurs d ela station de Peyrusse-Vieille sont quasiment nulles.
+
+On observe une baisse générale des valeurs pour l'ozone (O₃) en hiver, comme observé en première partie. La ville ayant les plus grandes valeurs est Peyrusse-Vieille, ce qui peut paraître étonnant. Cependant, comme précenté dans la partie [Lien Météorologique](../meteo.qmd), on peut prétendre à un lien entre ces valeurs élevées et la quantité de vent.
+
+Pour finir, pour les particules fines (PM10, PM2.5), on observe un pic en hiver, causé par les transports ainsi que les procédés de combustion (chauffage...). Les staitons de Tarbes et Montauban sont celles qui ont les valeurs les plus importantes, même si le tout reste homogène.
