@@ -5,6 +5,7 @@ project:
     - index.qmd
     - about.qmd
     - Avancee.qmd
+    - Departements/constatations.qmd
     - Departements/Ariege.qmd
     - Departements/Aveyron.qmd
     - Departements/Gard.qmd
@@ -36,6 +37,7 @@ website:
         text: Carte 
       - text: "Départements"
         menu:
+          - Departements/constatations.qmd
           - Departements/Ariege.qmd
           - Departements/Aveyron.qmd
           - Departements/Gard.qmd
