@@ -56,6 +56,90 @@
     "text": "Evolution annuelle du NO\n\n\n\n                                                \n\n\nEvolution annuelle du NOX\n\n\n\n                                                \n\n\nEvolution annuelle du O3\n\n\n\n                                                \n\n\nEvolution annuelle du PM10\n\n\n\n                                                \n\n\nEvolution annuelle du NO2"
   },
   {
+    "objectID": "Departements/constatations.html",
+    "href": "Departements/constatations.html",
+    "title": "Etude des graphiques",
+    "section": "",
+    "text": "Après analyse de tous les graphiques affichés dans les différents départements, malgré un manque partiel ou complet de données dans certains départements, on remarque quelques tendances qui semblent s’imposer."
+  },
+  {
+    "objectID": "Departements/constatations.html#différences-entre-départements",
+    "href": "Departements/constatations.html#différences-entre-départements",
+    "title": "Etude des graphiques",
+    "section": "Différences entre départements",
+    "text": "Différences entre départements\nPremièrement, on remarque une grande disparité de quantité de pollution dans chaque département pour les polluants de type NOX/NO et NO2. Il est donc compliqué de comparer les quantités de pollution en oxydes d’azote dans les départements, mais on remarque que les stations situées proches des axes routiers semblent enregistrer des quantités bien supérieures aux autres. Cela pouvait être prédis étant donné que ces polluants résultent de la combustion des carburants fossiles notamment. Donc les départements possédant plus de grandes villes enregistrent des quantités bien plus importantes que d’autres départements plus riverain."
+  },
+  {
+    "objectID": "Departements/constatations.html#evolution-au-cours-de-lannée",
+    "href": "Departements/constatations.html#evolution-au-cours-de-lannée",
+    "title": "Etude des graphiques",
+    "section": "Evolution au cours de l’année",
+    "text": "Evolution au cours de l’année\nOn remarque dans chaque station de chaque département, quelles que soient les quantités, une forte hausse des quantités en hiver. Cela peut être dû à une augmentation des chauffages domestiques et de la production énergétique. Les concentrations chutent drastiquement à partir du mois de mars."
+  },
+  {
+    "objectID": "Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années",
+    "href": "Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années",
+    "title": "Etude des graphiques",
+    "section": "Evolution moyenne au cours des 5 dernières années",
+    "text": "Evolution moyenne au cours des 5 dernières années\nOn remarque que dans la majorité des départements, notemment dans les grandes villes, que les concentrations en oxydes d’azote se réduisent légèrement. Cette évolution est moins flagrante dans les stations de campagne, cependant au abord des routes on remarque plus ce changement. Peut être est-ce dû à une diminution du trafic routier grâce à l’instoration de moyens de transport plus responsable notemment les transport en commun. Peut être aussi grâce aux évolutions concernant les voitures éléctriques. A Montpellier par exemple, la volonté de la ville est de réduire le trafic routier et de convaincre les gens d’utiliser les transports en commun, donc la ville a entreprit de grands changements avec une gratuitée partielle bientôt complète des transport en commun. Probablement que ce genre de décision impacte positivement cette diminution des quantités des oxydes d’azote."
+  },
+  {
+    "objectID": "Departements/constatations.html#remarques",
+    "href": "Departements/constatations.html#remarques",
+    "title": "Etude des graphiques",
+    "section": "Remarques",
+    "text": "Remarques\nAu sein d’une même ville, on remarque des concentrations drastiquement différentes selon les positions des stations. Les stations proches des aéroport enregistrent par exemple des quantités bien moindre que les stations proches des axes routiers, voir la partie sur les comparaisons entre villes pour plus de détails."
+  },
+  {
+    "objectID": "Departements/constatations.html#différences-entre-départements-1",
+    "href": "Departements/constatations.html#différences-entre-départements-1",
+    "title": "Etude des graphiques",
+    "section": "Différences entre départements",
+    "text": "Différences entre départements\nA l’inverse des oxydes d’azote, la concentration en ozone semble proche peu importe la position de la station et le département au cours de l’année."
+  },
+  {
+    "objectID": "Departements/constatations.html#evolution-au-cours-de-lannée-1",
+    "href": "Departements/constatations.html#evolution-au-cours-de-lannée-1",
+    "title": "Etude des graphiques",
+    "section": "Evolution au cours de l’année",
+    "text": "Evolution au cours de l’année\nOn remarque une forte baisse des concentrations en hiver, probablement dû à une baisse de l’ensoleillement, puisque ce polluant résulte de la transformation d’autres polluants sous l’influence des rayonnements solaires."
+  },
+  {
+    "objectID": "Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années-1",
+    "href": "Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années-1",
+    "title": "Etude des graphiques",
+    "section": "Evolution moyenne au cours des 5 dernières années",
+    "text": "Evolution moyenne au cours des 5 dernières années\nOn remarque dans la majorité des départements une faible baisse en 2020 des concentrations, mais outre ça les concentrations semblent constantes."
+  },
+  {
+    "objectID": "Departements/constatations.html#remarque",
+    "href": "Departements/constatations.html#remarque",
+    "title": "Etude des graphiques",
+    "section": "Remarque",
+    "text": "Remarque\nLes concentrations en O3 semblent évoluer au cours de l’année symétriquement à celles en NOX. En effet cela est plutôt logique puisque le polluant O3 provient de la transformation des polluants NOX sous l’effet des rayonnements solaires. Il pourrait être intéressant de comparer l’évolution de la somme des polluants au cours de l’année dans chaque département pour observer l’évolution de celle-ci."
+  },
+  {
+    "objectID": "Departements/constatations.html#différences-entre-départements-2",
+    "href": "Departements/constatations.html#différences-entre-départements-2",
+    "title": "Etude des graphiques",
+    "section": "Différences entre départements",
+    "text": "Différences entre départements\nLes concentrations en particules semblent propres à chaque département, cependant les quantités restent globalement toujours entre 10 et 30 (ug.m-3). En effet, dans les villes les concentrations peuvent être 2 fois supérieures qu’à la campagne cependant on observe quand même une tendance assez marquée dans chaque département."
+  },
+  {
+    "objectID": "Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années-2",
+    "href": "Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années-2",
+    "title": "Etude des graphiques",
+    "section": "Evolution moyenne au cours des 5 dernières années",
+    "text": "Evolution moyenne au cours des 5 dernières années\nLes contrations semblent constantes au cours des dernières années. On remarque une évolution très faible au cours de ans, qui n’a de tendance ni positive ni négative."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Moyenne des intensités de polluants de 2023",
+    "section": "",
+    "text": "Make this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\nMoyenne des valeurs enregistrées entre aout 2022 et septembre 2023\n\nCes cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte température. On observe que la pollution se concentre principalement au niveau des métropoles.\nLes villes indiquées sur la carte sont celles sur lesquelles nos études se porteront.\n\n\n\n\n\n  \n\n\n\n\n\n\n\n Back to top"
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "À propos",
@@ -82,13 +166,6 @@
     "title": "À propos",
     "section": "Les oxydes d’azote",
     "text": "Les oxydes d’azote\n\nNOx : Emissions d’oxydes d’azote émises par la combustion des carburants fossiles participant fortement à l’effet de serre et regroupant le monoxyde d’azote (NO), le dioxyde d’azote (NO₂) et le protoxyde d’azote (N₂O).\nNO₂/NO : Le dioxyde d’azote (NO2) se forme dans l’atmosphère à partir du monoxyde d’azote (NO) qui se dégage essentiellement lors de la combustion de combustibles fossiles."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Moyenne des intensités de polluants de 2023",
-    "section": "",
-    "text": "Make this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\nMoyenne des valeurs enregistrées entre aout 2022 et septembre 2023\n\nCes cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte température. On observe que la pollution se concentre principalement au niveau des métropoles.\nLes villes indiquées sur la carte sont celles sur lesquelles nos études se porteront.\n\n\n\n\n\n  \n\n\n\n\n\n\n\n Back to top"
   },
   {
     "objectID": "Departements/Gard.html",
