@@ -3,21 +3,20 @@ project:
   output-dir: docs
   render: 
     - index.qmd
-    - about.qmd
-    - Avancee.qmd
-    - Departements/constatations.qmd
-    - Departements/Ariege.qmd
-    - Departements/Aveyron.qmd
-    - Departements/Gard.qmd
-    - Departements/Gers.qmd
-    - Departements/Haute-Garonne.qmd
-    - Departements/Hautes-Pyrenees.qmd
-    - Departements/Herault.qmd
-    - Departements/Pyrenees-Orientales.qmd
-    - Departements/Tarn-et-Garonne.qmd
-    - Departements/Tarn.qmd
-    - villes/villes.qmd
-    - meteo.qmd
+    - webquarto/about.qmd
+    - webquarto/Departements/constatations.qmd
+    - webquarto/Departements/Ariege.qmd
+    - webquarto/Departements/Aveyron.qmd
+    - webquarto/Departements/Gard.qmd
+    - webquarto/Departements/Gers.qmd
+    - webquarto/Departements/Haute-Garonne.qmd
+    - webquarto/Departements/Hautes-Pyrenees.qmd
+    - webquarto/Departements/Herault.qmd
+    - webquarto/Departements/Pyrenees-Orientales.qmd
+    - webquarto/Departements/Tarn-et-Garonne.qmd
+    - webquarto/Departements/Tarn.qmd
+    - webquarto/villes.qmd
+    - webquarto/meteo.qmd
 
 
 website:
@@ -34,28 +33,25 @@ website:
         text: GitHub
     left:
       - href: index.qmd
-        text: Carte 
+        text: Carte
       - text: "Départements"
         menu:
-          - Departements/constatations.qmd
-          - Departements/Ariege.qmd
-          - Departements/Aveyron.qmd
-          - Departements/Gard.qmd
-          - Departements/Gers.qmd
-          - Departements/Haute-Garonne.qmd
-          - Departements/Hautes-Pyrenees.qmd
-          - Departements/Herault.qmd
-          - Departements/Pyrenees-Orientales.qmd
-          - Departements/Tarn-et-Garonne.qmd
-          - Departements/Tarn.qmd
-      - villes/villes.qmd
-      - meteo.qmd
-      - href: about.qmd
+          - webquarto/Departements/constatations.qmd
+          - webquarto/Departements/Ariege.qmd
+          - webquarto/Departements/Aveyron.qmd
+          - webquarto/Departements/Gard.qmd
+          - webquarto/Departements/Gers.qmd
+          - webquarto/Departements/Haute-Garonne.qmd
+          - webquarto/Departements/Hautes-Pyrenees.qmd
+          - webquarto/Departements/Herault.qmd
+          - webquarto/Departements/Pyrenees-Orientales.qmd
+          - webquarto/Departements/Tarn-et-Garonne.qmd
+          - webquarto/Departements/Tarn.qmd
+      - webquarto/villes.qmd
+      - webquarto/meteo.qmd
+      - href: webquarto/about.qmd
         text: À propos
       
-
-
-
 format:
   html:
     theme:

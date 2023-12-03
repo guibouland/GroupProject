@@ -22,6 +22,8 @@ Ensuite, On essaie de mettre en évidence un lien entre différents facteurs mé
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import sys
+sys.path.append( '../' )
 from modules import meteo as md
 
 """CONCENTRATION POLLUTION"""
@@ -31,7 +33,7 @@ DONNEES
 """
 
 # Importer les valeurs
-polluants = pd.read_csv("bases_de_donnees/donnees_polluants_2022_2023.csv", sep=",", na_values="", low_memory=False)
+polluants = pd.read_csv("../bases_de_donnees/donnees_polluants_2022_2023.csv", sep=",", na_values="", low_memory=False)
 
 # Extraire le mois de chaque date
 polluants['Date'] = pd.to_datetime(polluants['date_debut'])
@@ -141,7 +143,7 @@ DONNEES
 """
 
 # Importer les valeurs
-donnees = pd.read_csv("bases_de_donnees/donnees_meteo_2022_2023.csv", sep=";", na_values="", low_memory=False)
+donnees = pd.read_csv("../bases_de_donnees/donnees_meteo_2022_2023.csv", sep=";", na_values="", low_memory=False)
 
 # Formater les dates
 donnees["Date"] = donnees["Date"].apply(lambda x: x.split("T")[0])

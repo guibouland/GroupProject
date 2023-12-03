@@ -11,7 +11,7 @@ import numpy as np
 pd.options.mode.chained_assignment = None
 
 # base de la carte avec les départements
-sf = gpd.read_file("departements-version-simplifiee.geojson")
+sf = gpd.read_file("bases_de_donnees/departements-version-simplifiee.geojson")
 #on ne garde que les departement qui nous interessent
 indexNames = sf[
     (sf["code"] != "09")
@@ -272,7 +272,7 @@ Les villes indiquées sur la carte sont celles sur lesquelles nos études se por
 <table>
     <tr class="tr">
         <th class="th">
-            <a href=about.qmd><img src="images/mask.svg" title="En savoir plus sur les polluants" ></a> <a href=villes/villes.qmd><img src="images/city.svg" title="Comparatif des villes" width="160" height="160"></a> <a href=meteo.qmd><img src="images/weather.svg" title="Influence de la météo sur la pollution" width="130" height="130"></a>
+            <a href=webquarto/Departements/constatations.qmd><img src="images/etude.svg" title="Etude Départementale" width="110" height="110"></a> <a href=webquarto/villes.qmd><img src="images/city.svg" title="Comparatif des villes" width="150" height="150"></a> <a href=webquarto/meteo.qmd><img src="images/weather.svg" title="Influence de la météo sur la pollution" width="130" height="130"></a> <a href=webquarto/about.qmd><img src="images/mask.svg" title="En savoir plus sur les polluants" width="170" height="170"></a> 
         </th>
     </tr>
 </table>

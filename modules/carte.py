@@ -6,7 +6,7 @@ import numpy as np
 pd.options.mode.chained_assignment = None
 
 # base de la carte avec les départements
-sf = gpd.read_file("departements-version-simplifiee.geojson")
+sf = gpd.read_file("bases_de_donnees/departements-version-simplifiee.geojson")
 #on ne garde que les departement qui nous interessent
 indexNames = sf[
     (sf["code"] != "09")

@@ -1,5 +1,5 @@
 ---
-title: 'Gers'
+title: 'Hautes-Pyrénées'
 execute:
     echo: false
 format:
@@ -18,19 +18,19 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning, message="Converting to PeriodArray/Index representation will drop timezone information.")
 pd.options.mode.chained_assignment = None
 # Charger les données
-bdd1 = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+bdd1 = pd.read_csv("../../bases_de_donnees/Mesure_mensuelle_annee.csv")
 bdd1['valeur'].fillna(0, inplace=True)
 
 # Liste des polluants à afficher
 polluants = ['NO', 'NOX', 'O3', 'PM10', 'NO2']
 
 # Plages des ordonnées pour chaque polluant
-ordonnee_ranges = {'NO': [0, 25], 'NOX': [0, 45], 'O3': [0, 90], 'PM10': [0, 30], 'NO2': [0,20]}
+ordonnee_ranges = {'NO': [0, 25], 'NOX': [0, 60], 'O3': [0, 90], 'PM10': [0, 35], 'NO2': [0, 30]}
 
 # Boucle à travers les polluants pour créer les graphiques
 for polluant in polluants:
-    # Filtrer les données pour le polluant et le département GERS
-    filtered_data = bdd1[(bdd1['nom_dept'] == 'GERS') & (bdd1['nom_poll'] == polluant)]
+    # Filtrer les données pour le polluant et le département HAUTES-PYRENEES
+    filtered_data = bdd1[(bdd1['nom_dept'] == 'HAUTES-PYRENEES') & (bdd1['nom_poll'] == polluant)]
     filtered_data = filtered_data.sort_values(by='date_debut')
 
     # Convertir la colonne de dates au format aaaa/mm
@@ -44,7 +44,7 @@ for polluant in polluants:
     fig = px.scatter(
         filtered_data, x='date_debut', y='valeur',
         color='nom_station', size='valeur', hover_name='date_debut',
-        title=f'Évolution de la pollution {polluant} dans le GERS',
+        title=f'Évolution de la pollution {polluant} en HAUTES-PYRENEES',
         labels={'valeur': f'Valeur {polluant} (ug.m-3)', 'date_debut': 'Année'}
     )
 
@@ -60,7 +60,7 @@ for polluant in polluants:
 
     # Mise en forme et personnalisation
     fig.update_layout(
-        title_text=f'Évolution de la pollution {polluant} dans le GERS',
+        title_text=f'Évolution de la pollution {polluant} en HAUTES-PYRENEES',
         title_x=0.5,  # Centrer le titre
         xaxis_title="Année",
         yaxis_title=f'Valeur {polluant} (ug.m-3)',
@@ -91,19 +91,19 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning, message="Converting to PeriodArray/Index representation will drop timezone information.")
 
 # Charger les données
-bdd1 = pd.read_csv("../bases_de_donnees/Mesure_5dernieresannees.csv")
+bdd1 = pd.read_csv("../../bases_de_donnees/Mesure_5dernieresannees.csv")
 bdd1['valeur'].fillna(0, inplace=True)
 
 # Liste des polluants à afficher
-polluants = ['O3', 'PM10']
+polluants = ['NO', 'NOX', 'O3', 'PM10', 'NO2']
 
 # Plages des ordonnées pour chaque polluant
-ordonnee_ranges = {'O3': [0, 90], 'PM10': [0, 20]}
+ordonnee_ranges = {'NO': [0, 15], 'NOX': [0, 25], 'O3': [40, 70], 'PM10': [5, 25], 'NO2': [0, 20]}
 
 # Boucle à travers les polluants pour créer les graphiques
 for polluant in polluants:
-    # Filtrer les données pour le polluant et le département GERS
-    filtered_data = bdd1[(bdd1['nom_dept'] == 'GERS') & (bdd1['nom_poll'] == polluant)]
+    # Filtrer les données pour le polluant et le département HAUTES-PYRENEES
+    filtered_data = bdd1[(bdd1['nom_dept'] == 'HAUTES-PYRENEES') & (bdd1['nom_poll'] == polluant)]
     filtered_data = filtered_data.sort_values(by='date_debut')
 
     # Convertir la colonne de dates au format aaaa/mm
@@ -117,7 +117,7 @@ for polluant in polluants:
     fig = px.scatter(
         filtered_data, x='date_debut', y='valeur',
         color='nom_station', size='valeur', hover_name='date_debut',
-        title=f'Évolution de la pollution {polluant} dans le GERS',
+        title=f'Évolution de la pollution {polluant} en HAUTES-PYRENEES',
         labels={'valeur': f'Valeur {polluant} (ug.m-3)', 'date_debut': 'Année'}
     )
 
@@ -133,7 +133,7 @@ for polluant in polluants:
 
     # Mise en forme et personnalisation
     fig.update_layout(
-        title_text=f'Évolution de la pollution {polluant} dans le GERS',
+        title_text=f'Évolution de la pollution {polluant} en HAUTES-PYRENEES',
         title_x=0.5,  # Centrer le titre
         xaxis_title="Année",
         yaxis_title=f'Valeur {polluant} (ug.m-3)',

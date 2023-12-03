@@ -13,7 +13,8 @@
   width: 100%;
 }
 img{
-  width: 200px;
+  width: auto;
+  margin: 20px;
   align-self: center;
   transition: transform .1s;
   }

@@ -18,7 +18,7 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning, message="Converting to PeriodArray/Index representation will drop timezone information.")
 pd.options.mode.chained_assignment = None
 # Charger les données
-bdd1 = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+bdd1 = pd.read_csv("../../bases_de_donnees/Mesure_mensuelle_annee.csv")
 bdd1['valeur'].fillna(0, inplace=True)
 
 # Liste des polluants à afficher
@@ -90,7 +90,7 @@ import plotly.graph_objects as goimport warnings
 warnings.filterwarnings("ignore", category=UserWarning, message="Converting to PeriodArray/Index representation will drop timezone information.")
 
 # Charger les données
-bdd1 = pd.read_csv("../bases_de_donnees/Mesure_5dernieresannees.csv")
+bdd1 = pd.read_csv("../../bases_de_donnees/Mesure_5dernieresannees.csv")
 bdd1['valeur'].fillna(0, inplace=True)
 
 # Liste des polluants à afficher
