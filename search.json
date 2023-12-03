@@ -1,133 +1,133 @@
 [
   {
-    "objectID": "meteo.html",
-    "href": "meteo.html",
+    "objectID": "webquarto/meteo.html",
+    "href": "webquarto/meteo.html",
     "title": "Lien météorologique",
     "section": "",
     "text": "Toutes les données ont été mesurées entre le 01/10/2022 et le 30/09/2023 et proviennent de SYNOP data pour les données météorologiques et de Atmo Occitanie pour les données des polluants.\nOn étudie dans un premier temps la variation des moyennes des concentrations des polluants par mois puis par jour dans une période d’un an. Ensuite, On essaie de mettre en évidence un lien entre différents facteurs météorologiques comme le vent et la température et certains polluants.\n\n\n\n\n\n                                                \n\n\n\n                                                \n\n\n On remarque que la concentration d’oxydes d’azote (NOx, NO₂ et NO) est relativement stable entre Mars et Octobre (entre 51.5 et 79.5 µg.m⁻³ de NOx par exemple) mais beaucoup plus importante en période hivernale (entre 94.9 et 138.3 µg.m⁻³ de NOx entre Novembre et Février) Cela peut être dû à plusieurs facteurs aussi bien artificiels (augmentation du chauffage, de la prise de véhicules, etc…) que naturels (augmentation des rejets automobiles, formation de particules fines par les cheminées, etc…).  A contrario, la tendance est inversée concernant l’émission d’ozone (O₃) qui est stable mais importante entre Mars et Septembre (entre 71.2 et 79.0 µg.m⁻³ excepté en Juillet avec 62.3 µg.m⁻³) alors qu’elle est plus faible entre Octobre et Février (entre 44.8 et 56.3 µg.m⁻³ avec une baisse soudaine à 26.6 µg.m⁻³ en Décembre). Cela s’explique par la dépendance de la formation de l’ozone à l’ensoleillement et à la chaleur qui varient selon les saisons et par conséquent régulent les transformations chimiques produisant le-dit polluant.\n\n\n\n\n\n\n                                                \n\n\n\n                                                \n\n\n On remarque que les concentrations d’oxydes d’azote et des particules PM10 sont stables en semaine (entre 72.5 et 91.6 µg.m⁻³ de NOx par exemple) exceptée une baisse soudaine le Dimanche (51.3 µg.m⁻³ de NOx) probablement due au fait qu’en majorité les gens ne travaillent pas ce jour-là.  La quantité d’ozone est quant à elle très stable variant entre 60.1 et 64.4 µg.m⁻³ toute la semaine. Ceci s’explique par le fait que l’ensoleillement et la température varient relativement peu en une semaine. De même, les concentrations de particules en suspension varient très peu (entre 15.9 et 19.8 µg.m⁻³ pour PM10 et entre 8.2 et 8.8 µg.m⁻³ pour PM2.5).\n\n\n\n\n\n\n                                                \n\n\n On remarque que lorsque la vitesse du vent augmente fortement et dépasse une certaine valeur (ici au moins 35 km.h⁻¹), la courbe d’émission des différents gaz diminue en conséquence. En effet, les trois pics de vitesse du vent évalués à 39.6, 39.5 et 35.3 km.h⁻¹ correspondent respectivement aux trois valeurs les plus faibles d’émission de NOx par exemple, c’est-à-dire 26.1, 43.9 et 33.4 µg.m⁻³. On pourra également remarquer une corrélation positive entre la vitesse du vent et la concentration d’ozone puisque leur sens de variation sont sensiblement les mêmes.\n\n\n\n\n\n\n                                                \n\n\n On ne remarque pas de lien particulier entre la température et la concentration d’ozone dans l’air sur cette période. L’indice UV pourrait être une donnée plus pertinente à comparer que la température mais elle n’est pas disponible dans les données recueillies."
   },
   {
-    "objectID": "meteo.html#concentration-mensuelle-de-pollution-sur-une-année",
-    "href": "meteo.html#concentration-mensuelle-de-pollution-sur-une-année",
+    "objectID": "webquarto/meteo.html#concentration-mensuelle-de-pollution-sur-une-année",
+    "href": "webquarto/meteo.html#concentration-mensuelle-de-pollution-sur-une-année",
     "title": "Lien météorologique",
     "section": "",
     "text": "On remarque que la concentration d’oxydes d’azote (NOx, NO₂ et NO) est relativement stable entre Mars et Octobre (entre 51.5 et 79.5 µg.m⁻³ de NOx par exemple) mais beaucoup plus importante en période hivernale (entre 94.9 et 138.3 µg.m⁻³ de NOx entre Novembre et Février) Cela peut être dû à plusieurs facteurs aussi bien artificiels (augmentation du chauffage, de la prise de véhicules, etc…) que naturels (augmentation des rejets automobiles, formation de particules fines par les cheminées, etc…).  A contrario, la tendance est inversée concernant l’émission d’ozone (O₃) qui est stable mais importante entre Mars et Septembre (entre 71.2 et 79.0 µg.m⁻³ excepté en Juillet avec 62.3 µg.m⁻³) alors qu’elle est plus faible entre Octobre et Février (entre 44.8 et 56.3 µg.m⁻³ avec une baisse soudaine à 26.6 µg.m⁻³ en Décembre). Cela s’explique par la dépendance de la formation de l’ozone à l’ensoleillement et à la chaleur qui varient selon les saisons et par conséquent régulent les transformations chimiques produisant le-dit polluant."
   },
   {
-    "objectID": "meteo.html#concentration-quotidienne-de-pollution-sur-une-année",
-    "href": "meteo.html#concentration-quotidienne-de-pollution-sur-une-année",
+    "objectID": "webquarto/meteo.html#concentration-quotidienne-de-pollution-sur-une-année",
+    "href": "webquarto/meteo.html#concentration-quotidienne-de-pollution-sur-une-année",
     "title": "Lien météorologique",
     "section": "",
     "text": "On remarque que les concentrations d’oxydes d’azote et des particules PM10 sont stables en semaine (entre 72.5 et 91.6 µg.m⁻³ de NOx par exemple) exceptée une baisse soudaine le Dimanche (51.3 µg.m⁻³ de NOx) probablement due au fait qu’en majorité les gens ne travaillent pas ce jour-là.  La quantité d’ozone est quant à elle très stable variant entre 60.1 et 64.4 µg.m⁻³ toute la semaine. Ceci s’explique par le fait que l’ensoleillement et la température varient relativement peu en une semaine. De même, les concentrations de particules en suspension varient très peu (entre 15.9 et 19.8 µg.m⁻³ pour PM10 et entre 8.2 et 8.8 µg.m⁻³ pour PM2.5)."
   },
   {
-    "objectID": "meteo.html#lien-entre-le-vent-et-la-concentration-de-pollution",
-    "href": "meteo.html#lien-entre-le-vent-et-la-concentration-de-pollution",
+    "objectID": "webquarto/meteo.html#lien-entre-le-vent-et-la-concentration-de-pollution",
+    "href": "webquarto/meteo.html#lien-entre-le-vent-et-la-concentration-de-pollution",
     "title": "Lien météorologique",
     "section": "",
     "text": "On remarque que lorsque la vitesse du vent augmente fortement et dépasse une certaine valeur (ici au moins 35 km.h⁻¹), la courbe d’émission des différents gaz diminue en conséquence. En effet, les trois pics de vitesse du vent évalués à 39.6, 39.5 et 35.3 km.h⁻¹ correspondent respectivement aux trois valeurs les plus faibles d’émission de NOx par exemple, c’est-à-dire 26.1, 43.9 et 33.4 µg.m⁻³. On pourra également remarquer une corrélation positive entre la vitesse du vent et la concentration d’ozone puisque leur sens de variation sont sensiblement les mêmes."
   },
   {
-    "objectID": "meteo.html#lien-entre-la-température-et-la-concentration-dozone",
-    "href": "meteo.html#lien-entre-la-température-et-la-concentration-dozone",
+    "objectID": "webquarto/meteo.html#lien-entre-la-température-et-la-concentration-dozone",
+    "href": "webquarto/meteo.html#lien-entre-la-température-et-la-concentration-dozone",
     "title": "Lien météorologique",
     "section": "",
     "text": "On ne remarque pas de lien particulier entre la température et la concentration d’ozone dans l’air sur cette période. L’indice UV pourrait être une donnée plus pertinente à comparer que la température mais elle n’est pas disponible dans les données recueillies."
   },
   {
-    "objectID": "Departements/Hautes-Pyrenees.html",
-    "href": "Departements/Hautes-Pyrenees.html",
+    "objectID": "webquarto/Departements/Hautes-Pyrenees.html",
+    "href": "webquarto/Departements/Hautes-Pyrenees.html",
     "title": "Hautes-Pyrénées",
     "section": "",
     "text": "Evolution annuelle du NO\n\n\n\n                                                \n\n\nEvolution annuelle du NOX\n\n\n\n                                                \n\n\nEvolution annuelle du O3\n\n\n\n                                                \n\n\nEvolution annuelle du PM10\n\n\n\n                                                \n\n\nEvolution annuelle du NO2"
   },
   {
-    "objectID": "Departements/Gers.html",
-    "href": "Departements/Gers.html",
+    "objectID": "webquarto/Departements/Gers.html",
+    "href": "webquarto/Departements/Gers.html",
     "title": "Gers",
     "section": "",
     "text": "Evolution annuelle du O3\n\n\n\n                                                \n\n\nEvolution annuelle du PM10"
   },
   {
-    "objectID": "Departements/Aveyron.html",
-    "href": "Departements/Aveyron.html",
+    "objectID": "webquarto/Departements/Aveyron.html",
+    "href": "webquarto/Departements/Aveyron.html",
     "title": "Aveyron",
     "section": "",
     "text": "Evolution annuelle du NO\n\n\n\n                                                \n\n\nEvolution annuelle du NOX\n\n\n\n                                                \n\n\nEvolution annuelle du O3\n\n\n\n                                                \n\n\nEvolution annuelle du PM10\n\n\n\n                                                \n\n\nEvolution annuelle du NO2"
   },
   {
-    "objectID": "Departements/constatations.html",
-    "href": "Departements/constatations.html",
+    "objectID": "webquarto/Departements/constatations.html",
+    "href": "webquarto/Departements/constatations.html",
     "title": "Etude des graphiques",
     "section": "",
     "text": "Après analyse de tous les graphiques affichés dans les différents départements, malgré un manque partiel ou complet de données dans certains départements, on remarque quelques tendances qui semblent s’imposer."
   },
   {
-    "objectID": "Departements/constatations.html#différences-entre-départements",
-    "href": "Departements/constatations.html#différences-entre-départements",
+    "objectID": "webquarto/Departements/constatations.html#différences-entre-départements",
+    "href": "webquarto/Departements/constatations.html#différences-entre-départements",
     "title": "Etude des graphiques",
     "section": "Différences entre départements",
     "text": "Différences entre départements\nPremièrement, on remarque une grande disparité de quantité de pollution dans chaque département pour les polluants de type NOX/NO et NO2. Il est donc compliqué de comparer les quantités de pollution en oxydes d’azote dans les départements, mais on remarque que les stations situées proches des axes routiers semblent enregistrer des quantités bien supérieures aux autres. Cela pouvait être prédis étant donné que ces polluants résultent de la combustion des carburants fossiles notamment. Donc les départements possédant plus de grandes villes enregistrent des quantités bien plus importantes que d’autres départements plus riverain."
   },
   {
-    "objectID": "Departements/constatations.html#evolution-au-cours-de-lannée",
-    "href": "Departements/constatations.html#evolution-au-cours-de-lannée",
+    "objectID": "webquarto/Departements/constatations.html#evolution-au-cours-de-lannée",
+    "href": "webquarto/Departements/constatations.html#evolution-au-cours-de-lannée",
     "title": "Etude des graphiques",
     "section": "Evolution au cours de l’année",
     "text": "Evolution au cours de l’année\nOn remarque dans chaque station de chaque département, quelles que soient les quantités, une forte hausse des quantités en hiver. Cela peut être dû à une augmentation des chauffages domestiques et de la production énergétique. Les concentrations chutent drastiquement à partir du mois de mars."
   },
   {
-    "objectID": "Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années",
-    "href": "Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années",
+    "objectID": "webquarto/Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années",
+    "href": "webquarto/Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années",
     "title": "Etude des graphiques",
     "section": "Evolution moyenne au cours des 5 dernières années",
     "text": "Evolution moyenne au cours des 5 dernières années\nOn remarque que dans la majorité des départements, notemment dans les grandes villes, que les concentrations en oxydes d’azote se réduisent légèrement. Cette évolution est moins flagrante dans les stations de campagne, cependant au abord des routes on remarque plus ce changement. Peut être est-ce dû à une diminution du trafic routier grâce à l’instoration de moyens de transport plus responsable notemment les transport en commun. Peut être aussi grâce aux évolutions concernant les voitures éléctriques. A Montpellier par exemple, la volonté de la ville est de réduire le trafic routier et de convaincre les gens d’utiliser les transports en commun, donc la ville a entreprit de grands changements avec une gratuitée partielle bientôt complète des transport en commun. Probablement que ce genre de décision impacte positivement cette diminution des quantités des oxydes d’azote."
   },
   {
-    "objectID": "Departements/constatations.html#remarques",
-    "href": "Departements/constatations.html#remarques",
+    "objectID": "webquarto/Departements/constatations.html#remarques",
+    "href": "webquarto/Departements/constatations.html#remarques",
     "title": "Etude des graphiques",
     "section": "Remarques",
     "text": "Remarques\nAu sein d’une même ville, on remarque des concentrations drastiquement différentes selon les positions des stations. Les stations proches des aéroport enregistrent par exemple des quantités bien moindre que les stations proches des axes routiers, voir la partie sur les comparaisons entre villes pour plus de détails."
   },
   {
-    "objectID": "Departements/constatations.html#différences-entre-départements-1",
-    "href": "Departements/constatations.html#différences-entre-départements-1",
+    "objectID": "webquarto/Departements/constatations.html#différences-entre-départements-1",
+    "href": "webquarto/Departements/constatations.html#différences-entre-départements-1",
     "title": "Etude des graphiques",
     "section": "Différences entre départements",
     "text": "Différences entre départements\nA l’inverse des oxydes d’azote, la concentration en ozone semble proche peu importe la position de la station et le département au cours de l’année."
   },
   {
-    "objectID": "Departements/constatations.html#evolution-au-cours-de-lannée-1",
-    "href": "Departements/constatations.html#evolution-au-cours-de-lannée-1",
+    "objectID": "webquarto/Departements/constatations.html#evolution-au-cours-de-lannée-1",
+    "href": "webquarto/Departements/constatations.html#evolution-au-cours-de-lannée-1",
     "title": "Etude des graphiques",
     "section": "Evolution au cours de l’année",
     "text": "Evolution au cours de l’année\nOn remarque une forte baisse des concentrations en hiver, probablement dû à une baisse de l’ensoleillement, puisque ce polluant résulte de la transformation d’autres polluants sous l’influence des rayonnements solaires."
   },
   {
-    "objectID": "Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années-1",
-    "href": "Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années-1",
+    "objectID": "webquarto/Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années-1",
+    "href": "webquarto/Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années-1",
     "title": "Etude des graphiques",
     "section": "Evolution moyenne au cours des 5 dernières années",
     "text": "Evolution moyenne au cours des 5 dernières années\nOn remarque dans la majorité des départements une faible baisse en 2020 des concentrations, mais outre ça les concentrations semblent constantes."
   },
   {
-    "objectID": "Departements/constatations.html#remarque",
-    "href": "Departements/constatations.html#remarque",
+    "objectID": "webquarto/Departements/constatations.html#remarque",
+    "href": "webquarto/Departements/constatations.html#remarque",
     "title": "Etude des graphiques",
     "section": "Remarque",
     "text": "Remarque\nLes concentrations en O3 semblent évoluer au cours de l’année symétriquement à celles en NOX. En effet cela est plutôt logique puisque le polluant O3 provient de la transformation des polluants NOX sous l’effet des rayonnements solaires. Il pourrait être intéressant de comparer l’évolution de la somme des polluants au cours de l’année dans chaque département pour observer l’évolution de celle-ci."
   },
   {
-    "objectID": "Departements/constatations.html#différences-entre-départements-2",
-    "href": "Departements/constatations.html#différences-entre-départements-2",
+    "objectID": "webquarto/Departements/constatations.html#différences-entre-départements-2",
+    "href": "webquarto/Departements/constatations.html#différences-entre-départements-2",
     "title": "Etude des graphiques",
     "section": "Différences entre départements",
     "text": "Différences entre départements\nLes concentrations en particules semblent propres à chaque département, cependant les quantités restent globalement toujours entre 10 et 30 (ug.m-3). En effet, dans les villes les concentrations peuvent être 2 fois supérieures qu’à la campagne cependant on observe quand même une tendance assez marquée dans chaque département."
   },
   {
-    "objectID": "Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années-2",
-    "href": "Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années-2",
+    "objectID": "webquarto/Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années-2",
+    "href": "webquarto/Departements/constatations.html#evolution-moyenne-au-cours-des-5-dernières-années-2",
     "title": "Etude des graphiques",
     "section": "Evolution moyenne au cours des 5 dernières années",
     "text": "Evolution moyenne au cours des 5 dernières années\nLes contrations semblent constantes au cours des dernières années. On remarque une évolution très faible au cours de ans, qui n’a de tendance ni positive ni négative."
@@ -137,74 +137,74 @@
     "href": "index.html",
     "title": "Moyenne des intensités de polluants de 2023",
     "section": "",
-    "text": "Make this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\nMoyenne des valeurs enregistrées entre aout 2022 et septembre 2023\n\nCes cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte température. On observe que la pollution se concentre principalement au niveau des métropoles.\nLes villes indiquées sur la carte sont celles sur lesquelles nos études se porteront.\n\n\n\n\n\n  \n\n\n\n\n\n\n\n Back to top"
+    "text": "Make this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\nMoyenne des valeurs enregistrées entre aout 2022 et septembre 2023\n\nCes cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte température. On observe que la pollution se concentre principalement au niveau des métropoles.\nLes villes indiquées sur la carte sont celles sur lesquelles nos études se porteront.\n\n\n\n\n\n   \n\n\n\n\n\n\n\n Back to top"
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
+    "objectID": "webquarto/about.html",
+    "href": "webquarto/about.html",
     "title": "À propos",
     "section": "",
     "text": "Pour réaliser ce projet, nous nous sommes concentré sur les polluants suivants:"
   },
   {
-    "objectID": "about.html#les-particules-en-suspension",
-    "href": "about.html#les-particules-en-suspension",
+    "objectID": "webquarto/about.html#les-particules-en-suspension",
+    "href": "webquarto/about.html#les-particules-en-suspension",
     "title": "À propos",
     "section": "Les particules en suspension",
     "text": "Les particules en suspension\n\nPM10 : particule en suspension de diamètre inférieur à 10 μm provoquant une altération de la santé respiratoire.\nPM2.5 : particule fine en suspension de diamètre inférieur à 2,5 μm entraînant de plus une altération de la santé cardiovasculaire."
   },
   {
-    "objectID": "about.html#lozone",
-    "href": "about.html#lozone",
+    "objectID": "webquarto/about.html#lozone",
+    "href": "webquarto/about.html#lozone",
     "title": "À propos",
     "section": "L’ozone",
     "text": "L’ozone\n\nO₃ : L’ozone est un polluant résultant de la transformation chimique d’autres polluants présents dans l’atmosphère (notamment NO, NO₂ et COV) sous l’action des rayonnements solaires."
   },
   {
-    "objectID": "about.html#les-oxydes-dazote",
-    "href": "about.html#les-oxydes-dazote",
+    "objectID": "webquarto/about.html#les-oxydes-dazote",
+    "href": "webquarto/about.html#les-oxydes-dazote",
     "title": "À propos",
     "section": "Les oxydes d’azote",
     "text": "Les oxydes d’azote\n\nNOx : Emissions d’oxydes d’azote émises par la combustion des carburants fossiles participant fortement à l’effet de serre et regroupant le monoxyde d’azote (NO), le dioxyde d’azote (NO₂) et le protoxyde d’azote (N₂O).\nNO₂/NO : Le dioxyde d’azote (NO2) se forme dans l’atmosphère à partir du monoxyde d’azote (NO) qui se dégage essentiellement lors de la combustion de combustibles fossiles."
   },
   {
-    "objectID": "Departements/Gard.html",
-    "href": "Departements/Gard.html",
+    "objectID": "webquarto/Departements/Gard.html",
+    "href": "webquarto/Departements/Gard.html",
     "title": "Gard",
     "section": "",
     "text": "On souhaite également afficher les graphiques concernant l’évolution des polluants en Haute-Garonne lors des 5 dernières années. On utilise les valeurs moyennes pour chaque année.\nEvolution annuelle du O3\n\n\n\n                                                \n\n\nEvolution annuelle du PM10\n\n\n\n                                                \n\n\nEvolution annuelle du NO2"
   },
   {
-    "objectID": "Departements/Haute-Garonne.html",
-    "href": "Departements/Haute-Garonne.html",
+    "objectID": "webquarto/Departements/Haute-Garonne.html",
+    "href": "webquarto/Departements/Haute-Garonne.html",
     "title": "Haute-Garonne",
     "section": "",
     "text": "Evolution annuelle du NO\n\n\n\n                                                \n\n\nEvolution annuelle du NOX\n\n\n\n                                                \n\n\nEvolution annuelle du O3\n\n\n\n                                                \n\n\nEvolution annuelle du PM10\n\n\n\n                                                \n\n\nEvolution annuelle du NO2"
   },
   {
-    "objectID": "Departements/Herault.html",
-    "href": "Departements/Herault.html",
+    "objectID": "webquarto/Departements/Herault.html",
+    "href": "webquarto/Departements/Herault.html",
     "title": "Hérault",
     "section": "",
     "text": "Evolution annuelle du NO\n\n\n\n                                                \n\n\nEvolution annuelle du NOX\n\n\n\n                                                \n\n\nEvolution annuelle du O3\n\n\n\n                                                \n\n\nEvolution annuelle du PM10\n\n\n\n                                                \n\n\nEvolution annuelle du NO2"
   },
   {
-    "objectID": "villes/villes.html",
-    "href": "villes/villes.html",
+    "objectID": "webquarto/villes.html",
+    "href": "webquarto/villes.html",
     "title": "Comparatifs entre villes",
     "section": "",
     "text": "Dans cette section, le but est de comparer les concentrations de pollutions entre villes d’Occitanie. Cependant, dans le jeu de données utilisé, celui des prélèvement de l’année dernière (mois par mois), les villes n’ont pas les mêmes occurences et les prélèvements d’une ville présente des disparités à l’intérieur de celle-ci."
   },
   {
-    "objectID": "villes/villes.html#comparaisons-intra-villes",
-    "href": "villes/villes.html#comparaisons-intra-villes",
+    "objectID": "webquarto/villes.html#comparaisons-intra-villes",
+    "href": "webquarto/villes.html#comparaisons-intra-villes",
     "title": "Comparatifs entre villes",
     "section": "Comparaisons intra-villes",
     "text": "Comparaisons intra-villes\nNous allons nous concentrer sur les deux plus grosses villes d’Occitanie : Montpellier et Toulouse, qui présentent le plus de données, favorables à une bonne comparaison des différents polluants disponibles.\n\n\n\n                                                \n\n\n\nDouble-cliquez sur les sations dans la légende pour isoler un polluant.(faire de même pour changer de polluant)\n\n\n\nOn observe que pour les oxydes d’azote (NOx, NO/NO₂), la station “Liberté” a des valeurs beaucoup plus importantes que les autres. En effet, cette station se situe à coté d’une grosse voie routière, ce qui explique ces valeurs puisque les oxydes d’azote sont émises par la combustion de carburant. Nous obsevons aussi un pic en hiver (surtout pendant le mois de février).\nPour les particules fines PM10, on observe que les stations situées près d’un gros trafic routier, “Liberté” et “Pompignane” ont toujours des valeurs plus importantes mais l’écart est moindre. Cependant, pour les particules fines PM2.5, il n’y a pas de stations qui se démarque clairement.\n\n\nNous faisons la même comparaison pour Toulouse.\n\n\n\n                                                \n\n\n\nDouble-cliquez sur les sations dans la légende pour isoler un polluant.(faire de même pour changer de polluant)\n\n\n\nPour les oxydes d’azotes (NOx, NO/NO₂), nous observons les mêmes résultats qu’à Montpellier, les stations “Rte Albi”, “Port de l’Embouchure” et “Périphérique” ont des valeurs bien supérieures aux autres stations, avec la station “Périphérique” au dessus parmi les trois.\nConcernant l’ozone (O₃), on se rend compte que les valeurs sont équitables, cependant on observe une grosse baisse en hiver du fait que l’ozone est crée grâce aux rayonnement solaires.\nPour finir, à l’instar de Montpellier, on retrouve les mêmes observations concernant les particules fines (PM10 et PM2.5). Les stations proches de trafic routier ont encore des valeurs légèrement supérieures aux autres."
   },
   {
-    "objectID": "villes/villes.html#comparaison-entre-villes",
-    "href": "villes/villes.html#comparaison-entre-villes",
+    "objectID": "webquarto/villes.html#comparaison-entre-villes",
+    "href": "webquarto/villes.html#comparaison-entre-villes",
     "title": "Comparatifs entre villes",
     "section": "Comparaison entre villes",
     "text": "Comparaison entre villes\nLe but ici est de comparer les émissions de pollution entre villes de population variées afin de constater les différences et l’impact de l’activité humaine.\nPour cela, nous avons choisi 6 villes de populations différentes (en 2023):\n\nToulouse : 498 000 habitants\n\nMontpellier : 312 000 habitants\n\nMontauban : 63 100 habitants\n\nTarbes : 44 000 habitants\n\nArgèles-Gazost : 2 900 habitants\n\nPeyrusse-Vieille : 59 habitants\n\nCe choix, au delà du nombre d’habitants, les classe directement en 3 classes distinctes: petites, moyennes et grandes villes. Il a été réalisé après avoir observer le nombre d’occurence des stations.\nNous voulons les comparer par polluant, en sélectionnant des stations de prélèvement. En effet, comme vu ci-dessus, les grandes villes ont plusieurs stations de prélèvement qui donnent des informations qui peuvent beaucoup varier en fonction de leur emplacement dans la ville et de leur proximité avec une voie routière très fréquentée.\nAinsi, pour des raisons de clareté, nous choisissons de sélectionner une à deux stations par ville, ce choix se réduisant à Toulouse et Monpellier ayant le plus de stations de prélèvement.\nAinsi, nous choisissons les stations suivantes:\n\nMontpellier :\n\n“Montpellier - Prés d Arènes Urbain” : les valeurs étant moyennes, cette station est présente et abondante pour chaque polluant\n“Montpellier Liberte Trafic” : pour son profil atypique que nous verrons plus bas\n\nToulouse :\n\n“Toulouse-Berthelot Urbain” : pour les mêmes raison que pour “Montpellier - Prés d Arènes Urbain”\n“Toulouse-Périphérique Trafic” : pour les mêmes raisons que pour “Montpellier Liberte Trafic”\n\nReste : Le reste des villes ayant une seule station, le choix est immédiat.\n\n“Tarbes-Dupuy Urbain”\n\n“Montauban”\n\n“Argèles-Gazost”\n\n“Peyrusse-Vieille”\n\n\n\n\n\n                                                \n\n\n\nDouble-cliquez sur les sations dans la légende pour isoler un polluant.(faire de même pour changer de polluant)\n\n\nPour les oxydes d’azote (NOx, NO/NO₂), on remarque que les stations à haut trafic routier de Montpellier et Toulouse sont nettement au dessus de toutes les autres. Les deux autres stations de ces deux villes se confondent avec celles de Tarbes et Montauban, et étonnamment avec celle d’Argèles-Gazost. Cependant, on peut voir que les valeurs d ela station de Peyrusse-Vieille sont quasiment nulles.\nOn observe une baisse générale des valeurs pour l’ozone (O₃) en hiver, comme observé en première partie. La ville ayant les plus grandes valeurs est Peyrusse-Vieille, ce qui peut paraître étonnant. Cependant, comme précenté dans la partie Lien Météorologique, on peut prétendre à un lien entre ces valeurs élevées et la quantité de vent.\nPour finir, pour les particules fines (PM10, PM2.5), on observe un pic en hiver, causé par les transports ainsi que les procédés de combustion (chauffage…). Les staitons de Tarbes et Montauban sont celles qui ont les valeurs les plus importantes, même si le tout reste homogène."
