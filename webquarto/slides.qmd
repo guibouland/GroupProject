@@ -1,0 +1,815 @@
+---
+titre: "titre"
+author: "Lamure Maxence, Dias Pierre, Bouland Guillaume, Festor Quentin"
+date: "04/12/2023"
+---
+
+---
+# Sommaire
+
+---
+# Problématique
+Comment développer un site de modélisation de données sur github?
+
+---
+# Organisation des tâches
+- Carte intéractive
+- Etude départementale
+- Etude comparative de villes répondant à certains critères
+- Lien météorologique
+---
+# Vision globale
+
+```{python,echo=FALSE}
+import geopandas as gpd
+import pandas as pd
+import numpy as np
+pd.options.mode.chained_assignment = None
+
+# base de la carte avec les départements
+sf = gpd.read_file("bases_de_donnees/departements-version-simplifiee.geojson")
+#on ne garde que les departement qui nous interessent
+indexNames = sf[
+    (sf["code"] != "09")
+    & (sf["code"] != "11")
+    & (sf["code"] != "12")
+    & (sf["code"] != "30")
+    & (sf["code"] != "31")
+    & (sf["code"] != "32")
+    & (sf["code"] != "34")
+    & (sf["code"] != "46")
+    & (sf["code"] != "48")
+    & (sf["code"] != "65")
+    & (sf["code"] != "66")
+    & (sf["code"] != "81")
+    & (sf["code"] != "82")
+].index
+sf.drop(indexNames, inplace=True)
+import folium
+
+centre = [43.716671, 2.15]
+Occitanie = folium.Map(location=centre, zoom_start=6.5,tiles=None)
+folium.GeoJson(
+    sf[["nom", "geometry"]],
+    name="Départements",
+    zoom_on_click=True,
+    style_function=lambda feature: {
+        "fillColor": "#003322",
+        "color": "grey",
+        "weight": 2,
+        "dashArray": "5, 5",
+        "fillOpacity": 0.01,
+    },
+    tooltip=folium.features.GeoJsonTooltip(
+        fields=["nom"],
+        aliases=["Département:"],
+    ),
+).add_to(Occitanie)
+
+
+# ajout layer pollution
+from folium.plugins import HeatMap
+from folium.plugins import HeatMapWithTime
+from folium.plugins import GroupedLayerControl
+import branca.colormap as cm
+
+#légende
+
+color_mapa=cm.LinearColormap(colors=['darkblue','purple','yellow'],
+                             caption='intensité de concentration du polluant')
+
+#cadre de la légende
+svg_style = '<style>svg#legend {background-color: rgba(255,255,255,0.5);}</style>'
+
+Occitanie.get_root().header.add_child(folium.Element(svg_style))
+color_mapa.add_to(Occitanie)
+
+polluant = pd.read_csv(
+    "bases_de_donnees/Mesure_mensuelle_annee.csv",
+    sep=",",
+    na_values="",
+    low_memory=False,
+)
+polluants = polluant.dropna()
+
+#moyenne des polluants sur l'année
+polluants = (
+    polluants.groupby(["X", "Y", "nom_poll","nom_dept"])["valeur"]
+    .mean()
+    .reset_index(name="valeur")
+)
+
+#gradient de couleurs adapté aux daltoniens, jaune chaud, bleu froid.
+grad={
+        0: "#0d0887",
+        0.1: "#0d0887",
+        0.2: "#0d0887",
+        0.3: "#0d0887",
+        0.4: "#0d0887",
+        0.5: "#6a00a8",
+        0.6: "#b12a90",
+        0.7: "#e16462",
+        0.8: "#fca636",
+        0.9: "#fcce25",
+        1: "#f0f921",
+    }
+
+# PM10
+PM10 = polluants[(polluants["nom_poll"] == "PM10")]
+heatPM10 = PM10[["Y", "X", "valeur"]].copy()
+lng = heatPM10["X"].tolist()
+lat = heatPM10["Y"].tolist()
+val = heatPM10["valeur"].tolist()
+pm10 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="PM10",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fpm10 = folium.FeatureGroup(name="PM10", show=True)
+pm10.add_to(fpm10)
+
+# PM2
+PM2 = polluants[(polluants["nom_poll"] == "PM2.5")]
+
+heatPM2 = PM2[["Y", "X", "valeur"]].copy()
+lng = heatPM2["X"].tolist()
+lat = heatPM2["Y"].tolist()
+val = heatPM2["valeur"].tolist()
+pm2 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="PM2.5",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fpm2 = folium.FeatureGroup(name="PM2", show=False)
+pm2.add_to(fpm2)
+
+# NO
+NO = polluants[(polluants["nom_poll"] == "NO")]
+
+heatNO = NO[["Y", "X", "valeur"]].copy()
+lng = heatNO["X"].tolist()
+lat = heatNO["Y"].tolist()
+val = heatNO["valeur"].tolist()
+no = HeatMap(
+    list(zip(lat, lng, val)),
+    name="NO",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fno = folium.FeatureGroup(name="NO", show=False)
+no.add_to(fno)
+
+# NO2
+NO2 = polluants[(polluants["nom_poll"] == "NO2")]
+
+heatNO2 = NO2[["Y", "X", "valeur"]].copy()
+lng = heatNO2["X"].tolist()
+lat = heatNO2["Y"].tolist()
+val = heatNO2["valeur"].tolist()
+no2 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="NO2",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fno2 = folium.FeatureGroup(name="NO2", show=False)
+no2.add_to(fno2)
+
+# O3
+O3 = polluants[(polluants["nom_poll"] == "O3")]
+
+heatO3 = O3[["Y", "X", "valeur"]].copy()
+lng = heatO3["X"].tolist()
+lat = heatO3["Y"].tolist()
+val = heatO3["valeur"].tolist()
+o3 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="O3",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fo3 = folium.FeatureGroup(name="O3", show=False)
+o3.add_to(fo3)
+
+Occitanie.add_child(fpm10)
+Occitanie.add_child(fpm2)
+Occitanie.add_child(fno)
+Occitanie.add_child(fno2)
+Occitanie.add_child(fo3)
+
+class Markero(object):
+    """Classe pour faire les points folium facilement"""
+
+    def __init__(self, lat, long, texte, popup):
+        """créé un point"""
+        self.lat = lat
+        self.long = long
+        self.texte = texte
+        self.popup = popup
+
+    def SurCarte(self,carte):
+        """Met le point sur la carte"""
+        folium.Marker(
+        [self.lat, self.long],tooltip=self.texte, popup=self.popup, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
+        ).add_to(carte)
+
+Toul=Markero(43.6, 1.43333,"Toulouse","""
+<p>Toulouse:<br>
+500 000 habitants </p>
+  """) 
+
+
+Mtp=Markero(43.62505, 3.862038,"Montpellier","""
+<p>Montpellier:<br>
+300 000 habitants</p>
+  """)
+
+Tarbes=Markero(43.23333, 0.08333,"Tarbes","""
+<p>Tarbes:<br>
+Plus de 40 000 habitants</p>
+  """)
+
+Montauban=Markero(44.01667, 1.35,"Montauban","""
+<p>Montauban:<br>
+Plus de 60 000 habitants</p>
+  """)
+
+Pey=Markero(43.6333, 0.1833,"Peyrusse-Vieille","""
+<p>Peyrusse-Vieille:<br>
+65 habitants </p>
+  """)
+
+Arg=Markero(43.005028, -0.101087,"Argeles-Gazost","""
+<p>Argeles-Gazost:<br>
+Moins de 3000 habitants</p>
+  """)
+
+Perpi=Markero(42.683331,2.88333,"Perpignan","""
+<p>Perpignan:<br>
+120 000 habitants </p>
+""")
+
+Toul.SurCarte(Occitanie)
+Mtp.SurCarte(Occitanie)
+Tarbes.SurCarte(Occitanie)
+Montauban.SurCarte(Occitanie)
+Pey.SurCarte(Occitanie)
+Arg.SurCarte(Occitanie)
+Perpi.SurCarte(Occitanie)
+
+folium.TileLayer("OpenStreetMap", name="Street Map").add_to(Occitanie)
+folium.TileLayer("Cartodb dark_matter", name="Sombre").add_to(Occitanie)
+folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)
+
+folium.LayerControl(position= 'topleft',collapsed=True,opacity=0.7).add_to(Occitanie)
+
+GroupedLayerControl(position='bottomleft',
+    groups={"Polluants": [fpm10, fpm2, fno, fno2, fo3]},
+    collapsed=False
+).add_to(Occitanie)
+
+
+Occitanie
+```
+
+Moyenne des valeurs enregistrées entre aout 2022 et septembre 2023
+\
+\
+Ces cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte température. On observe que la pollution se concentre principalement au niveau des métropoles.\
+Les villes indiquées sur la carte sont celles sur lesquelles nos études se porteront.
+<CENTER>
+<table>
+    <tr class="tr">
+        <th class="th">
+            <a href=webquarto/Departements/constatations.qmd><img src="images/etude.svg" title="Etude Départementale" width="110" height="110"></a> <a href=webquarto/villes.qmd><img src="images/city.svg" title="Comparatif des villes" width="150" height="150"></a> <a href=webquarto/meteo.qmd><img src="images/weather.svg" title="Influence de la météo sur la pollution" width="130" height="130"></a> <a href=webquarto/about.qmd><img src="images/mask.svg" title="En savoir plus sur les polluants" width="170" height="170"></a> 
+        </th>
+    </tr>
+</table>
+
+---
+
+```{python,eval=FALSE,echo=TRUE}
+import geopandas as gpd
+import pandas as pd
+import numpy as np
+pd.options.mode.chained_assignment = None
+
+# base de la carte avec les départements
+sf = gpd.read_file("bases_de_donnees/departements-version-simplifiee.geojson")
+#on ne garde que les departement qui nous interessent
+indexNames = sf[
+    (sf["code"] != "09")
+    & (sf["code"] != "11")
+    & (sf["code"] != "12")
+    & (sf["code"] != "30")
+    & (sf["code"] != "31")
+    & (sf["code"] != "32")
+    & (sf["code"] != "34")
+    & (sf["code"] != "46")
+    & (sf["code"] != "48")
+    & (sf["code"] != "65")
+    & (sf["code"] != "66")
+    & (sf["code"] != "81")
+    & (sf["code"] != "82")
+].index
+sf.drop(indexNames, inplace=True)
+import folium
+
+centre = [43.716671, 2.15]
+Occitanie = folium.Map(location=centre, zoom_start=6.5,tiles=None)
+folium.GeoJson(
+    sf[["nom", "geometry"]],
+    name="Départements",
+    zoom_on_click=True,
+    style_function=lambda feature: {
+        "fillColor": "#003322",
+        "color": "grey",
+        "weight": 2,
+        "dashArray": "5, 5",
+        "fillOpacity": 0.01,
+    },
+    tooltip=folium.features.GeoJsonTooltip(
+        fields=["nom"],
+        aliases=["Département:"],
+    ),
+).add_to(Occitanie)
+
+
+# ajout layer pollution
+from folium.plugins import HeatMap
+from folium.plugins import HeatMapWithTime
+from folium.plugins import GroupedLayerControl
+import branca.colormap as cm
+
+#légende
+
+color_mapa=cm.LinearColormap(colors=['darkblue','purple','yellow'],
+                             caption='intensité de concentration du polluant')
+
+#cadre de la légende
+svg_style = '<style>svg#legend {background-color: rgba(255,255,255,0.5);}</style>'
+
+Occitanie.get_root().header.add_child(folium.Element(svg_style))
+color_mapa.add_to(Occitanie)
+
+polluant = pd.read_csv(
+    "bases_de_donnees/Mesure_mensuelle_annee.csv",
+    sep=",",
+    na_values="",
+    low_memory=False,
+)
+polluants = polluant.dropna()
+
+#moyenne des polluants sur l'année
+polluants = (
+    polluants.groupby(["X", "Y", "nom_poll","nom_dept"])["valeur"]
+    .mean()
+    .reset_index(name="valeur")
+)
+
+#gradient de couleurs adapté aux daltoniens, jaune chaud, bleu froid.
+grad={
+        0: "#0d0887",
+        0.1: "#0d0887",
+        0.2: "#0d0887",
+        0.3: "#0d0887",
+        0.4: "#0d0887",
+        0.5: "#6a00a8",
+        0.6: "#b12a90",
+        0.7: "#e16462",
+        0.8: "#fca636",
+        0.9: "#fcce25",
+        1: "#f0f921",
+    }
+
+# PM10
+PM10 = polluants[(polluants["nom_poll"] == "PM10")]
+heatPM10 = PM10[["Y", "X", "valeur"]].copy()
+lng = heatPM10["X"].tolist()
+lat = heatPM10["Y"].tolist()
+val = heatPM10["valeur"].tolist()
+pm10 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="PM10",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fpm10 = folium.FeatureGroup(name="PM10", show=True)
+pm10.add_to(fpm10)
+
+# PM2
+PM2 = polluants[(polluants["nom_poll"] == "PM2.5")]
+
+heatPM2 = PM2[["Y", "X", "valeur"]].copy()
+lng = heatPM2["X"].tolist()
+lat = heatPM2["Y"].tolist()
+val = heatPM2["valeur"].tolist()
+pm2 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="PM2.5",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fpm2 = folium.FeatureGroup(name="PM2", show=False)
+pm2.add_to(fpm2)
+
+# NO
+NO = polluants[(polluants["nom_poll"] == "NO")]
+
+heatNO = NO[["Y", "X", "valeur"]].copy()
+lng = heatNO["X"].tolist()
+lat = heatNO["Y"].tolist()
+val = heatNO["valeur"].tolist()
+no = HeatMap(
+    list(zip(lat, lng, val)),
+    name="NO",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fno = folium.FeatureGroup(name="NO", show=False)
+no.add_to(fno)
+
+# NO2
+NO2 = polluants[(polluants["nom_poll"] == "NO2")]
+
+heatNO2 = NO2[["Y", "X", "valeur"]].copy()
+lng = heatNO2["X"].tolist()
+lat = heatNO2["Y"].tolist()
+val = heatNO2["valeur"].tolist()
+no2 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="NO2",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fno2 = folium.FeatureGroup(name="NO2", show=False)
+no2.add_to(fno2)
+
+# O3
+O3 = polluants[(polluants["nom_poll"] == "O3")]
+
+heatO3 = O3[["Y", "X", "valeur"]].copy()
+lng = heatO3["X"].tolist()
+lat = heatO3["Y"].tolist()
+val = heatO3["valeur"].tolist()
+o3 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="O3",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fo3 = folium.FeatureGroup(name="O3", show=False)
+o3.add_to(fo3)
+
+Occitanie.add_child(fpm10)
+Occitanie.add_child(fpm2)
+Occitanie.add_child(fno)
+Occitanie.add_child(fno2)
+Occitanie.add_child(fo3)
+
+class Markero(object):
+    """Classe pour faire les points folium facilement"""
+
+    def __init__(self, lat, long, texte, popup):
+        """créé un point"""
+        self.lat = lat
+        self.long = long
+        self.texte = texte
+        self.popup = popup
+
+    def SurCarte(self,carte):
+        """Met le point sur la carte"""
+        folium.Marker(
+        [self.lat, self.long],tooltip=self.texte, popup=self.popup, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
+        ).add_to(carte)
+
+Toul=Markero(43.6, 1.43333,"Toulouse","""
+<p>Toulouse:<br>
+500 000 habitants </p>
+  """) 
+
+
+Mtp=Markero(43.62505, 3.862038,"Montpellier","""
+<p>Montpellier:<br>
+300 000 habitants</p>
+  """)
+
+Tarbes=Markero(43.23333, 0.08333,"Tarbes","""
+<p>Tarbes:<br>
+Plus de 40 000 habitants</p>
+  """)
+
+Montauban=Markero(44.01667, 1.35,"Montauban","""
+<p>Montauban:<br>
+Plus de 60 000 habitants</p>
+  """)
+
+Pey=Markero(43.6333, 0.1833,"Peyrusse-Vieille","""
+<p>Peyrusse-Vieille:<br>
+65 habitants </p>
+  """)
+
+Arg=Markero(43.005028, -0.101087,"Argeles-Gazost","""
+<p>Argeles-Gazost:<br>
+Moins de 3000 habitants</p>
+  """)
+
+Perpi=Markero(42.683331,2.88333,"Perpignan","""
+<p>Perpignan:<br>
+120 000 habitants </p>
+""")
+
+Toul.SurCarte(Occitanie)
+Mtp.SurCarte(Occitanie)
+Tarbes.SurCarte(Occitanie)
+Montauban.SurCarte(Occitanie)
+Pey.SurCarte(Occitanie)
+Arg.SurCarte(Occitanie)
+Perpi.SurCarte(Occitanie)
+
+folium.TileLayer("OpenStreetMap", name="Street Map").add_to(Occitanie)
+folium.TileLayer("Cartodb dark_matter", name="Sombre").add_to(Occitanie)
+folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)
+
+folium.LayerControl(position= 'topleft',collapsed=True,opacity=0.7).add_to(Occitanie)
+
+GroupedLayerControl(position='bottomleft',
+    groups={"Polluants": [fpm10, fpm2, fno, fno2, fo3]},
+    collapsed=False
+).add_to(Occitanie)
+
+
+Occitanie
+```
+---
+# Etude de la pollution dans chaque département
+
+```{python,echo=FALSE}
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import warnings
+
+# Désactiver temporairement les avertissements spécifiques
+warnings.filterwarnings("ignore", category=UserWarning, message="Converting to PeriodArray/Index representation will drop timezone information.")
+
+pd.options.mode.chained_assignment = None
+# Charger les données
+bdd1 = pd.read_csv("../../bases_de_donnees/Mesure_mensuelle_annee.csv")
+bdd1['valeur'].fillna(0, inplace=True)
+
+# Liste des polluants à afficher
+polluants = ['NO', 'NOX', 'O3', 'PM10', 'NO2']
+
+# Plages des ordonnées pour chaque polluant
+ordonnee_ranges = {'NO': [0, 85], 'NOX': [0, 180], 'O3': [0, 90], 'PM10': [0, 45], 'NO2': [0, 70]}
+
+# Boucle à travers les polluants pour créer les graphiques
+for polluant in polluants:
+    # Filtrer les données pour le polluant et le département HAUTE-GARONNE
+    filtered_data = bdd1[(bdd1['nom_dept'] == 'HAUTE-GARONNE') & (bdd1['nom_poll'] == polluant)]
+    filtered_data = filtered_data.sort_values(by='date_debut')
+
+    # Afficher le titre entre chaque graphique
+    from IPython.display import display, Markdown
+    display(Markdown(f"## Evolution mensuelle du {polluant}"))
+
+
+    # Convertir la colonne de dates au format aaaa/mm
+    filtered_data['date_debut'] = pd.to_datetime(filtered_data['date_debut']).dt.to_period('M').astype(str)
+
+    # Créer un graphique interactif avec Plotly Express
+    fig = px.scatter(
+        filtered_data, x='date_debut', y='valeur',
+        color='nom_station', size='valeur', hover_name='date_debut',
+        title=f'Évolution de la pollution {polluant} en Haute-Garonne',
+        labels={'valeur': f'Valeur {polluant} (ug.m-3)', 'date_debut': 'Année'}
+    )
+
+    # Ajouter des lignes reliant les points pour chaque station
+    for nom_station in filtered_data['nom_station'].unique():
+        trace_data = filtered_data[filtered_data['nom_station'] == nom_station]
+        fig.add_trace(go.Scatter(
+            x=trace_data['date_debut'],
+            y=trace_data['valeur'],
+            mode='lines',  # Utilisez 'lines' pour ajouter des lignes reliant les points
+            showlegend=False
+        ))
+
+    # Mise en forme et personnalisation
+    fig.update_layout(
+        title_text=f'Évolution de la pollution {polluant} en Haute-Garonne',
+        title_x=0.5,  # Centrer le titre
+        xaxis_title="Année",
+        yaxis_title=f'Valeur {polluant} (ug.m-3)',
+        xaxis_tickformat="%Y/%m",  # Format de l'axe des x
+        legend=dict(orientation="h", yanchor="bottom", y=-0.5, xanchor="center", x=0.5, traceorder='reversed'),
+        margin=dict(l=10, r=10, t=70, b=10),  # Ajustements des marges
+        paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
+        plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
+        yaxis=dict(range=ordonnee_ranges[polluant]),  # Ajuster l'axe des ordonnées
+        font=dict(color='Grey')
+    )
+    #couleur grille
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+    # Afficher le graphique
+    fig.show()
+
+```
+---
+```{python,eval=FALSE,echo=TRUE}
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import warnings
+
+# Désactiver temporairement les avertissements spécifiques
+warnings.filterwarnings("ignore", category=UserWarning, message="Converting to PeriodArray/Index representation will drop timezone information.")
+
+pd.options.mode.chained_assignment = None
+# Charger les données
+bdd1 = pd.read_csv("../../bases_de_donnees/Mesure_mensuelle_annee.csv")
+bdd1['valeur'].fillna(0, inplace=True)
+
+# Liste des polluants à afficher
+polluants = ['NO', 'NOX', 'O3', 'PM10', 'NO2']
+
+# Plages des ordonnées pour chaque polluant
+ordonnee_ranges = {'NO': [0, 85], 'NOX': [0, 180], 'O3': [0, 90], 'PM10': [0, 45], 'NO2': [0, 70]}
+
+# Boucle à travers les polluants pour créer les graphiques
+for polluant in polluants:
+    # Filtrer les données pour le polluant et le département HAUTE-GARONNE
+    filtered_data = bdd1[(bdd1['nom_dept'] == 'HAUTE-GARONNE') & (bdd1['nom_poll'] == polluant)]
+    filtered_data = filtered_data.sort_values(by='date_debut')
+
+    # Afficher le titre entre chaque graphique
+    from IPython.display import display, Markdown
+    display(Markdown(f"## Evolution mensuelle du {polluant}"))
+
+
+    # Convertir la colonne de dates au format aaaa/mm
+    filtered_data['date_debut'] = pd.to_datetime(filtered_data['date_debut']).dt.to_period('M').astype(str)
+
+    # Créer un graphique interactif avec Plotly Express
+    fig = px.scatter(
+        filtered_data, x='date_debut', y='valeur',
+        color='nom_station', size='valeur', hover_name='date_debut',
+        title=f'Évolution de la pollution {polluant} en Haute-Garonne',
+        labels={'valeur': f'Valeur {polluant} (ug.m-3)', 'date_debut': 'Année'}
+    )
+
+    # Ajouter des lignes reliant les points pour chaque station
+    for nom_station in filtered_data['nom_station'].unique():
+        trace_data = filtered_data[filtered_data['nom_station'] == nom_station]
+        fig.add_trace(go.Scatter(
+            x=trace_data['date_debut'],
+            y=trace_data['valeur'],
+            mode='lines',  # Utilisez 'lines' pour ajouter des lignes reliant les points
+            showlegend=False
+        ))
+
+    # Mise en forme et personnalisation
+    fig.update_layout(
+        title_text=f'Évolution de la pollution {polluant} en Haute-Garonne',
+        title_x=0.5,  # Centrer le titre
+        xaxis_title="Année",
+        yaxis_title=f'Valeur {polluant} (ug.m-3)',
+        xaxis_tickformat="%Y/%m",  # Format de l'axe des x
+        legend=dict(orientation="h", yanchor="bottom", y=-0.5, xanchor="center", x=0.5, traceorder='reversed'),
+        margin=dict(l=10, r=10, t=70, b=10),  # Ajustements des marges
+        paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
+        plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
+        yaxis=dict(range=ordonnee_ranges[polluant]),  # Ajuster l'axe des ordonnées
+        font=dict(color='Grey')
+    )
+    #couleur grille
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+    # Afficher le graphique
+    fig.show()
+
+```
+
+---
+# Etude de l'influence de la population
+
+---
+# Problèmes rencontrés
+```{python,eval=FALSE,echo=TRUE}
+mettre mon code dash 
+```
+---
+# Liens pollutions et météorologie
+
+```{python,echo=FALSE}
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import sys
+sys.path.append( '../' )
+from modules import meteo as md
+
+"""CONCENTRATION POLLUTION"""
+
+"""
+DONNEES
+"""
+
+# Importer les valeurs
+polluants = pd.read_csv("../bases_de_donnees/donnees_polluants_2022_2023.csv", sep=",", na_values="", low_memory=False)
+
+# Extraire le mois de chaque date
+polluants['Date'] = pd.to_datetime(polluants['date_debut'])
+
+# Extraire les lignes correspondant au mois de mars
+polluants_mars = polluants[polluants['Date'].dt.month == 3].copy()
+
+# Définir les polluants
+polluants_tous = ['PM10', 'O3', 'NOX', 'NO2', 'PM2.5', 'NO']
+
+# Définir les couleurs correspondantes
+couleur = ['orange', 'green','purple', 'red', 'blue', 'grey']
+
+# Dictionnaire de correspondance entre les anciens et les nouveaux noms des mois/jours
+mois_mapping = {"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre"}
+jours_mapping = {"Monday": "Lundi", "Tuesday": "Mardi", "Wednesday": "Mercredi", "Thursday": "Jeudi", "Friday": "Vendredi", "Saturday": "Samedi", "Sunday": "Dimanche"}
+
+def concentration(date, format, mapping, titre, temps):
+    """Traitement des polluants exclusivement"""
+
+    """
+    DONNEES
+    """
+
+    # Formatage des dates
+    polluants[date] = polluants['Date'].dt.strftime(format)
+
+    # Moyenne des valeurs des polluants
+    resultat = md.resultats(date, polluants_tous, polluants, mapping)
+    
+    # Récupérer les DataFrames individuels
+    PM, O, NOX, NOO, PMM, NO = resultat
+
+    # Concaténer tous les polluants dans resultat
+    resultat = pd.concat([NOX, NOO, NO, O, PM, PMM], ignore_index=True)
+
+
+    """
+    GRAPHIQUE
+    """
+    
+    # Paramétrer le graphique polaire
+    fig_polar = px.line_polar(
+        resultat,
+        r="valeur",
+        theta=date,
+        color="nom",
+        line_close=True,
+        range_r=[0, max(resultat["valeur"])],
+        start_angle=90,
+        color_discrete_sequence=couleur,
+        title=titre
+    )
+    md.graphique_polar(fig_polar)
+
+    # Paramétrer le graphique cartésien
+    fig = go.Figure()
+    fig.update_layout(
+        paper_bgcolor="rgba(230, 230, 230,0)",
+         # Couleur de contour de graphique 
+        plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
+        font=dict(color='Grey')
+    )
+    md.graphique(fig, titre, temps)
+
+    # Ajouter les traces pour chaque polluant
+    fig.add_trace(md.trace(NOX, 'orange', 'NOx', date))
+    fig.add_trace(md.trace(NOO, 'green', 'NO₂', date))
+    fig.add_trace(md.trace(NO, 'purple', 'NO', date))
+    fig.add_trace(md.trace(O, 'red', 'O₃', date))
+    fig.add_trace(md.trace(PM, 'blue', 'PM₁₀', date))
+    fig.add_trace(md.trace(PMM, 'grey', 'PM2.5', date))
+
+    # Afficher les graphiques
+    fig_polar.show()
+    fig.show()
+
+# Graphique mois
+concentration('Mois', '%m', mois_mapping, 'Concentration moyenne mensuelle des polluants (en µg.m⁻³)', 'Temps (mois)')
+```
+
+---
