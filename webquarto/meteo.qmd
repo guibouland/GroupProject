@@ -91,12 +91,7 @@ def concentration(date, format, mapping, titre, temps):
 
     # Paramétrer le graphique cartésien
     fig = go.Figure()
-    fig.update_layout(
-        paper_bgcolor="rgba(230, 230, 230,0)",
-         # Couleur de contour de graphique 
-        plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
-        font=dict(color='Grey')
-    )
+    
     md.graphique(fig, titre, temps)
 
     # Ajouter les traces pour chaque polluant

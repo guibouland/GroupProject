@@ -13,6 +13,9 @@ Nous allons nous concentrer sur les deux plus grosses villes d'Occitanie : Montp
 import pandas as pd
 import plotly.graph_objects as go
 import seaborn as sns
+import sys
+sys.path.append( '../' )
+from modules import meteo as md
 
 # Changement d ela palette de couleur pour l'accessibilité
 sns.set_palette("colorblind")
@@ -47,6 +50,12 @@ mtpo3 = mtp[mtp.nom_poll == "O3"].sort_values(by="date_debut")
 
 # mtp.nom_station.unique()
 figmtp = go.Figure()
+
+# On modifie le layout du graphique
+md.graphique(figmtp, {"text": "<b>Différences à Montpellier</b>",'x':0.5,'xanchor': 'center'}, "<b>Mois</b>")
+figmtp.update_layout(font=dict(color='Grey', size=10)) # Couleur et taille de l'écriture
+figmtp.update_layout(yaxis=dict(title="<b>Concentration (µg.m⁻³)</b>", side="left", position=0)) # On met en gras l'axe des ordonnées
+
 
 # NO
 # On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
@@ -292,19 +301,6 @@ figmtp.add_trace(
     )
 )
 
-# On modifie le layout du graphique
-figmtp.update_layout(
-    title={"text": "<b>Différences dans Montpellier</b>",'x':0.5,'xanchor': 'center'}, # Nom du graphique
-    xaxis_title="<b>Mois</b>", # Nom de l'axe des abscisses
-    yaxis_title="<b>Concentration (µg.m⁻³)</b>", # Nom de l'axe des ordonnées
-    legend={"title": "<b>Polluants (et stations)</b>"}, # Titre de la légende
-    paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
-    plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
-    font=dict(color='Grey', size=10) # Couleur et taille de l'écriture
-)
-# On change le quadrillage
-figmtp.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
-figmtp.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 # On affiche le graphique
 figmtp.show()
 
@@ -332,6 +328,11 @@ toupm2_5 = tou[tou.nom_poll == "PM2.5"].sort_values(by="date_debut")
 
 # tou.nom_station.unique() pour avoir les noms des stations de TOULOUSE
 figtou = go.Figure()
+
+# On modifie le layout du graphique
+md.graphique(figtou, {"text": "<b>Différences à Toulouse</b>",'x':0.5,'xanchor': 'center'}, "<b>Mois</b>")
+figtou.update_layout(font=dict(color='Grey', size=10)) # Couleur et taille de l'écriture
+figtou.update_layout(yaxis=dict(title="<b>Concentration (µg.m⁻³)</b>", side="left", position=0)) # On met en gras l'axe des ordonnées
 
 # NO
 # On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
@@ -803,19 +804,6 @@ figtou.add_trace(
     )
 )
 
-# On modifie le layout du graphique
-figtou.update_layout(
-    title={"text": "<b>Différences dans Toulouse</b>",'x':0.5,'xanchor': 'center'}, # Nom du graphique
-    xaxis_title="<b>Mois</b>", # Nom de l'axe des abscisses
-    yaxis_title="<b>Concentration (µg.m⁻³)</b>", # Nom de l'axe des ordonnées
-    legend={"title": "<b>Polluants (et stations)</b>"}, # Titre de la légende
-    paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
-    plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
-    font=dict(color='Grey', size=10) # Couleur et taille du texte
-)
-# On change le quadrillage
-figtou.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
-figtou.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 # On affiche le graphique
 figtou.show()
 ```
@@ -927,6 +915,11 @@ peypm2_5 = pey[pey.nom_poll == "PM2.5"].sort_values(by="date_debut")
 
 # Initialisation de la figure
 fig = go.Figure()
+
+# On modifie le layout du graphique
+md.graphique(fig, {"text": "<b>Comparaison entre différentes villes d'Occitanie</b>",'x':0.5,'xanchor': 'center'}, "<b>Mois</b>")
+fig.update_layout(font=dict(color='Grey', size=10)) # Couleur et taille de l'écriture
+fig.update_layout(yaxis=dict(title="<b>Concentration (µg.m⁻³)</b>", side="left", position=0)) # On met en gras l'axe des ordonnées
 
 # NO
 # On ajoute toutes les stations du polluant une par une pour les ranger dans des groupes de légende qu'on sélectionne une par une pour avoir un affichage intractif
@@ -1501,25 +1494,13 @@ fig.add_trace(
     )
 )
 
-# On modifie le layout du graphique
-fig.update_layout(
-    title={"text": "<b>Comparaison entre différentes villes d'Occitanie</b>",'x':0.5,'xanchor': 'center'}, # Nom du graphique
-    xaxis_title="<b>Mois</b>", # Nom de l'axe des abscisses
-    yaxis_title="<b>Concentration (µg.m⁻³)</b>", # Nom de l'axe des ordonnées
-    legend={"title": "<b>Polluants (et stations)</b>"}, # Titre de la légende
-    paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
-    plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
-    font=dict(color='Grey', size=10) # Couleur et taille du texte
-)
-# On change le quadrillage
-fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
-fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 # On affiche le graphe
 fig.show()
 ```
 
 <p style="text-align: center;"><b>Double-cliquez sur les sations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
 \
+
 Pour les oxydes d'azote (NOx, NO/NO₂), on remarque que les stations à haut trafic routier de Montpellier et Toulouse sont nettement au dessus de toutes les autres. Les deux autres stations de ces deux villes se confondent avec celles de Tarbes et Montauban, et étonnamment avec celle d'Argèles-Gazost. Cependant, on peut voir que les valeurs d ela station de Peyrusse-Vieille sont quasiment nulles.
 
 On observe une baisse générale des valeurs pour l'ozone (O₃) en hiver, comme observé en première partie. La ville ayant les plus grandes valeurs est Peyrusse-Vieille, ce qui peut paraître étonnant. Cependant, comme précenté dans la partie [Lien Météorologique](meteo.qmd), on peut prétendre à un lien entre ces valeurs élevées et la quantité de vent.
