@@ -1,4 +1,5 @@
-
+import time 
+start = time.time()
 import folium
 
 
@@ -17,4 +18,7 @@ class Markero(object):
         folium.Marker(
         [self.lat, self.long],tooltip=self.texte, popup=self.popup, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
         ).add_to(carte)
+
+end = time.time()
+print(f"Execution time: {end - start:.5f} s.")
 

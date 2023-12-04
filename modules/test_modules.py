@@ -1,3 +1,5 @@
+import time 
+start = time.time()
 from meteo import graphique, trace, graphique_polar, graphique_axe, resultats, moy
 from carte import Markero
 import plotly.graph_objects as go
@@ -64,3 +66,6 @@ def test_markero_sur_carte():
     # Vérifier que les propriétés du marqueur sont correctes
     marqueur_map_child = children[1]
     assert marqueur_map_child.location == [100,-20]
+
+end = time.time()
+print(f"Execution time: {end - start:.5f} s.")

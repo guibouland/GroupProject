@@ -1,4 +1,6 @@
 # %%
+import time 
+start = time.time()
 from dash import Dash, html, dcc, Input, Output, callback
 import pandas as pd
 import plotly.express as px
@@ -1585,4 +1587,7 @@ fig.update_layout(
 
 # On affiche le graphe
 fig.show()
+
+end = time.time()
+print(f"Execution time: {end - start:.5f} s.")
 # %%

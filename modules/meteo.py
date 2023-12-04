@@ -1,3 +1,5 @@
+import time
+start = time.time()
 import plotly.graph_objects as go
 import pandas as pd
 
@@ -114,3 +116,6 @@ def resultats(date, polluants_tous, polluants, mapping):
 def moy(var, nom1, nom2, date):
     """Moyenne des valeurs des variables par date"""
     return var[(var[nom1] == nom2)].groupby(date)["valeur"].mean().reset_index()
+
+end = time.time()
+print(f"Execution time: {end - start:.5f} s.")
