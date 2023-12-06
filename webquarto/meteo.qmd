@@ -9,12 +9,12 @@ format:
       margin-width: 175px
 ---
 
-# Etude de la concentration de la pollution à Perpignan
+# Etude de la concentration de la pollution à Toulouse
 
 Toutes les données ont été mesurées entre le 01/10/2022 et le 30/09/2023 et proviennent de [SYNOP data](https://public.opendatasoft.com/explore/dataset/donnees-synop-essentielles-omm/api/?sort=date) pour les données météorologiques et de [Atmo Occitanie](https://data-atmo-occitanie.opendata.arcgis.com/pages/liste-des-flux) pour les données des polluants.
 
-On étudie dans un premier temps la variation des moyennes des concentrations des polluants par mois puis par jour dans une période d'un an.
-Ensuite, On essaie de mettre en évidence un lien entre différents facteurs météorologiques comme le vent et la température et certains polluants.
+On étudie dans un premier temps la variation des moyennes des concentrations des polluants par mois puis par jour dans une période d'un an dans la ville de Toulouse.
+Ensuite, On essaie de mettre en évidence un lien entre différents facteurs météorologiques et certains polluants.
 
 ## Concentration mensuelle de pollution sur une année
 
@@ -33,7 +33,7 @@ DONNEES
 """
 
 # Importer les valeurs
-polluants = pd.read_csv("../bases_de_donnees/donnees_polluants_2022_2023.csv", sep=",", na_values="", low_memory=False)
+polluants = pd.read_csv("../bases_de_donnees/donnees_polluants_2022_2023_Toulouse.csv", sep=",", na_values="", low_memory=False)
 
 # Extraire le mois de chaque date
 polluants['Date'] = pd.to_datetime(polluants['date_debut'])
@@ -99,7 +99,7 @@ def concentration(date, format, mapping, titre, temps):
     fig.add_trace(md.trace(NOO, 'green', 'NO₂', date))
     fig.add_trace(md.trace(NO, 'purple', 'NO', date))
     fig.add_trace(md.trace(O, 'red', 'O₃', date))
-    fig.add_trace(md.trace(PM, 'blue', 'PM₁₀', date))
+    fig.add_trace(md.trace(PM, 'blue', 'PM10', date))
     fig.add_trace(md.trace(PMM, 'grey', 'PM2.5', date))
 
     # Afficher les graphiques
@@ -110,11 +110,13 @@ def concentration(date, format, mapping, titre, temps):
 concentration('Mois', '%m', mois_mapping, 'Concentration moyenne mensuelle des polluants (en µg.m⁻³)', 'Temps (mois)')
 ```
 <br>
-On remarque que la concentration d'oxydes d'azote (NOx, NO₂ et NO) est relativement stable entre Mars et Octobre (entre 51.5 et 79.5 µg.m⁻³ de NOx par exemple) mais beaucoup plus importante en période hivernale (entre 94.9 et 138.3 µg.m⁻³ de NOx entre Novembre et Février)
-Cela peut être dû à plusieurs facteurs aussi bien artificiels (augmentation du chauffage, de la prise de véhicules, etc...) que naturels (augmentation des rejets automobiles, formation de particules fines par les cheminées, etc...).<br>
+On remarque que la concentration d'oxydes d'azote (NOx, NO₂ et NO) est très faible au mois d'Août (33.9 µg.m⁻³ de NOx par exemple) puis ne cesse d'augmenter jusqu'à Décembre (99.0 µg.m⁻³ de NOx), elle se maintient pendant l'hiver jusqu'à Février (94.0 µg.m⁻³ de NOx) pour nettement diminuer jusqu'à l'été. <br>
+Cela peut être dû à plusieurs facteurs aussi bien causés directement par l'Homme (augmentation du chauffage, de la prise de véhicules, etc...) qu'indirectement via transformations chimiques naturelles (le froid engendre une augmentation des rejets automobiles, une formation de particules fines par les cheminées, etc...).<br>
 <br>
-A contrario, la tendance est inversée concernant l'émission d'ozone (O₃) qui est stable mais importante entre Mars et Septembre (entre 71.2 et 79.0 µg.m⁻³ excepté en Juillet avec 62.3 µg.m⁻³) alors qu'elle est plus faible entre Octobre et Février (entre 44.8 et 56.3 µg.m⁻³ avec une baisse soudaine à 26.6 µg.m⁻³ en Décembre).
-Cela s'explique par la dépendance de la formation de l'ozone à l'ensoleillement et à la chaleur qui varient selon les saisons et par conséquent régulent les transformations chimiques produisant le-dit polluant.
+A contrario, la tendance est inversée concernant l'émission d'ozone (O₃) qui est stable mais importante entre Mars et Septembre (entre 59.3 et 70.9 µg.m⁻³) alors qu'elle est plus faible entre Octobre et Février (entre 37.7 et 51.3 µg.m⁻³ avec une baisse soudaine à 26.6 µg.m⁻³ en Décembre). <br>
+Cela peut s'expliquer par la dépendance de la formation de l'ozone à l'ensoleillement et à la température qui varient selon les saisons et par conséquent régulent les transformations chimiques produisant le-dit polluant.<br>
+<br>
+Concernant les particules en suspension, elles ont toutes deux en moyenne les mêmes variations mais celles-ci sont a priori trop faibles pour en déduire une influence particulière.
 
 ## Concentration quotidienne de pollution sur une année
 
@@ -123,9 +125,9 @@ Cela s'explique par la dépendance de la formation de l'ozone à l'ensoleillemen
 concentration('Jour', '%A', jours_mapping, 'Concentration moyenne quotidienne des polluants (en µg.m⁻³)', 'Temps (jours)')
 ```
 <br>
-On remarque que les concentrations d'oxydes d'azote et des particules PM10 sont stables en semaine (entre 72.5 et 91.6 µg.m⁻³ de NOx par exemple) exceptée une baisse soudaine le Dimanche (51.3 µg.m⁻³ de NOx) probablement due au fait qu'en majorité les gens ne travaillent pas ce jour-là.<br>
+On remarque que les concentrations d'oxydes d'azote sont stables en semaine (entre 57.9 et 66.7 µg.m⁻³ de NOx par exemple) mais diminuent soudainement le week end (52.7 µg.m⁻³ de NOx le Samedi puis 40.6 µg.m⁻³ le Dimanche). Ceci est probablement dû au fait qu'en majorité les gens ne travaillent pas ou moins le week end.<br>
 <br>
-La quantité d'ozone est quant à elle très stable variant entre 60.1 et 64.4 µg.m⁻³ toute la semaine. Ceci s'explique par le fait que l'ensoleillement et la température varient relativement peu en une semaine. De même, les concentrations de particules en suspension varient très peu (entre 15.9 et 19.8 µg.m⁻³ pour PM10 et entre 8.2 et 8.8 µg.m⁻³ pour PM2.5).
+La concentration d'ozone est quant à elle très stable variant entre 52.3 et 57.8 µg.m⁻³ toute la semaine. Ceci s'explique par le fait que l'ensoleillement et la température varient de façon similaire tous les jours (il ne fait pas plus chaud le lundi en particulier par exemple). De même, les concentrations des particules en suspension varient peu (entre 16.5 et 19.4 µg.m⁻³ pour les particules PM10 et entre 9.3 et 10.3 µg.m⁻³ pour celles PM2.5).
 
 ## Lien entre le vent et la concentration de pollution
 
@@ -138,7 +140,7 @@ DONNEES
 """
 
 # Importer les valeurs
-donnees = pd.read_csv("../bases_de_donnees/donnees_meteo_2022_2023.csv", sep=";", na_values="", low_memory=False)
+donnees = pd.read_csv("../bases_de_donnees/donnees_meteo_2022_2023_Toulouse.csv", sep=";", na_values="", low_memory=False)
 
 # Formater les dates
 donnees["Date"] = donnees["Date"].apply(lambda x: x.split("T")[0])
@@ -194,8 +196,8 @@ md.graphique_axe(fig, "Vitesse du vent et émissions d'oxydes d'azote (mars 2023
 fig.show()
 ```
 <br>
-On remarque que lorsque la vitesse du vent augmente fortement et dépasse une certaine valeur (ici au moins 35 km.h⁻¹), la courbe d'émission des différents gaz diminue en conséquence.<br>
-En effet, les trois pics de vitesse du vent évalués à 39.6, 39.5 et 35.3 km.h⁻¹ correspondent respectivement aux trois valeurs les plus faibles d'émission de NOx par exemple, c'est-à-dire 26.1, 43.9 et 33.4 µg.m⁻³.
+On remarque nettement un lien de causalité entre la vitesse du vent et la concentration des polluants.<br>
+En effet à chaque pic de vitesse du vent, la concentration des tous les polluants chute et de la même manière, quand la vitesse du vent est faible, la concentration des polluants augmente drastiquement.<br>
 On pourra également remarquer une corrélation positive entre la vitesse du vent et la concentration d'ozone puisque leur sens de variation sont sensiblement les mêmes.
 
 ## Lien entre la température et la concentration d'ozone
@@ -241,4 +243,5 @@ md.graphique_axe(fig, "Température et concentration d'ozone", 'Température (°
 fig.show()
 ```
 <br>
-On ne remarque pas de lien particulier entre la température et la concentration d'ozone dans l'air sur cette période. L'indice UV pourrait être une donnée plus pertinente à comparer que la température mais elle n'est pas disponible dans les données recueillies.
+On pourra noter un lien de corrélation positif entre la température et la concentration d'ozone bien qu'il reste indirect, puisque le facteur causal influençant les deux données est le rayonnement solaire.<br>
+L'indice UV aurait donc été une donnée plus pertinente à comparer que la température mais elle n'est pas disponible dans les données recueillies.
