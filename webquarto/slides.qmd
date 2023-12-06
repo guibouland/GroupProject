@@ -1,23 +1,33 @@
+:::slides
 ---
-titre: "titre"
+titre: "Meteo Dofus Ring"
 author: "Lamure Maxence, Dias Pierre, Bouland Guillaume, Festor Quentin"
 date: "04/12/2023"
 ---
+:::
 
----
+:::slides
 # Sommaire
+:::
 
----
+:::slides
 # Problématique
 Comment développer un site de modélisation de données sur github?
+:::
 
----
+:::slides
 # Organisation des tâches
+- Carte interactive
+- Etude départementale
+- Etude comparative de villes répondant à certains critères
+- Lien météorologique
+:::
 
----
+:::slides
 # Vision globale
 
-```{python,echo=FALSE}
+```{python}
+#| echo: false
 import geopandas as gpd
 import pandas as pd
 import numpy as np
@@ -283,18 +293,35 @@ Moyenne des valeurs enregistrées entre aout 2022 et septembre 2023
 \
 Ces cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte température. On observe que la pollution se concentre principalement au niveau des métropoles.\
 Les villes indiquées sur la carte sont celles sur lesquelles nos études se porteront.
-<CENTER>
+
+```{python}
+#| echo: false
+import sys
+sys.path.append( '../' )
+
+html = """
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
 <table>
     <tr class="tr">
         <th class="th">
-            <a href=webquarto/Departements/constatations.qmd><img src="images/etude.svg" title="Etude Départementale" width="110" height="110"></a> <a href=webquarto/villes.qmd><img src="images/city.svg" title="Comparatif des villes" width="150" height="150"></a> <a href=webquarto/meteo.qmd><img src="images/weather.svg" title="Influence de la météo sur la pollution" width="130" height="130"></a> <a href=webquarto/about.qmd><img src="images/mask.svg" title="En savoir plus sur les polluants" width="170" height="170"></a> 
+            <a href=webquarto/Departements/constatations.qmd><img src="../images/etude.svg" title="Etude Départementale" width="110" height="110"></a> <a href=webquarto/villes.qmd><img src="../images/city.svg" title="Comparatif des villes" width="150" height="150"></a> <a href=webquarto/meteo.qmd><img src="../images/weather.svg" title="Influence de la météo sur la pollution" width="130" height="130"></a> <a href=webquarto/about.qmd><img src="../images/mask.svg" title="En savoir plus sur les polluants" width="170" height="170"></a> 
         </th>
     </tr>
 </table>
+"""
 
----
+display(html)
+```
+:::
 
-```{python,eval=FALSE,echo=TRUE}
+:::slides
+
+```{python}
+#| echo: true
+#| include: false
 import geopandas as gpd
 import pandas as pd
 import numpy as np
@@ -554,10 +581,13 @@ GroupedLayerControl(position='bottomleft',
 
 Occitanie
 ```
----
+:::
+
+:::slides
 # Etude de la pollution dans chaque département
 
-```{python,echo=FALSE}
+```{python}
+#| echo: false
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -632,7 +662,9 @@ for polluant in polluants:
     fig.show()
 
 ```
----
+:::
+
+:::slides
 ```{python,eval=FALSE,echo=TRUE}
 import pandas as pd
 import plotly.express as px
@@ -708,19 +740,91 @@ for polluant in polluants:
     fig.show()
 
 ```
+:::
 
----
+:::slides
 # Etude de l'influence de la population
+:::
 
----
+:::slides
 # Problèmes rencontrés
 ```{python,eval=FALSE,echo=TRUE}
 # mettre mon code dash 
 ```
----
-# Liens pollutions et météorologie
+:::
 
-```{python,echo=FALSE}
+:::slides
+# Liens pollutions et météorologie
+```{python}
+#| echo: true
+#| eval: false
+#Liste des polluants
+polluants_tous = ['PM10', 'O3', 'NOX', 'NO2', 'PM2.5', 'NO']
+mois_mapping = {"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin","07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre"}
+
+def resultats(polluants_tous, polluants):
+    resultat = []
+    for polluant in polluants_tous:
+        # Moyenne des valeurs de chaque polluant par mois
+        df_polluant = (
+            polluants[polluants["nom_poll"] == polluant]
+            .groupby(date)["valeur"]
+            .mean()
+            .reset_index()
+        )
+        df_polluant["nom"] = polluant
+        df_polluant[date] = df_polluant[date].replace(mapping)
+        resultat.append(df_polluant)
+    return resultat
+```
+:::
+
+:::slides
+```{python}
+#| echo: true
+#| eval: false
+# Paramétrer le graphique polaire
+fig_polar = px.line_polar(
+    resultat,
+    r="valeur",
+    theta=date,
+    color="nom",
+    line_close=True,
+    range_r=[0, max(resultat["valeur"])],
+    start_angle=90,
+    color_discrete_sequence=['orange', 'green', 'purple', 'red', 'blue', 'grey'],
+    title='Concentration moyenne mensuelle des polluants (en µg.m⁻³)'
+)
+
+def graphique_polar(fig):
+    """Mise en page d'un graphique polaire"""
+    fig.update_layout(
+        font_size=15,
+        font_color="grey",
+        showlegend=True,
+        polar=dict(
+            bgcolor="rgba(223, 223, 223,0)",
+            angularaxis=dict(linewidth=3, showline=True, linecolor="grey"),
+            radialaxis=dict(
+                showline=True,
+                linewidth=2,
+                gridcolor="rgba(100, 100, 100,0.5)",
+                gridwidth=2,
+            ),
+            angularaxis_gridcolor="rgba(100, 100, 100,0.5)",
+            radialaxis_linecolor="rgb(100, 100, 100)",
+            radialaxis_color="grey",
+        ),
+        paper_bgcolor="rgba(230, 230, 230,0)",  # Couleur de contour de graphique
+        plot_bgcolor="rgba(230, 230, 230,0)",  # Couleur du fond du graphique
+    )
+```
+:::
+
+:::slides
+```{python}
+#| echo: false
+#| eval: true
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -791,30 +895,199 @@ def concentration(date, format, mapping, titre, temps):
     )
     md.graphique_polar(fig_polar)
 
-    # Paramétrer le graphique cartésien
-    fig = go.Figure()
-    fig.update_layout(
-        paper_bgcolor="rgba(230, 230, 230,0)",
-         # Couleur de contour de graphique 
-        plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
-        font=dict(color='Grey')
-    )
-    md.graphique(fig, titre, temps)
-
-    # Ajouter les traces pour chaque polluant
-    fig.add_trace(md.trace(NOX, 'orange', 'NOx', date))
-    fig.add_trace(md.trace(NOO, 'green', 'NO₂', date))
-    fig.add_trace(md.trace(NO, 'purple', 'NO', date))
-    fig.add_trace(md.trace(O, 'red', 'O₃', date))
-    fig.add_trace(md.trace(PM, 'blue', 'PM₁₀', date))
-    fig.add_trace(md.trace(PMM, 'grey', 'PM2.5', date))
-
-    # Afficher les graphiques
+    # Afficher le graphique polaire
     fig_polar.show()
-    fig.show()
 
 # Graphique mois
 concentration('Mois', '%m', mois_mapping, 'Concentration moyenne mensuelle des polluants (en µg.m⁻³)', 'Temps (mois)')
 ```
+:::
 
----
+:::slides
+```{python}
+#| echo: true
+#| eval: false
+# Formater les dates
+donnees["Date"] = donnees["Date"].apply(lambda x: x.split("T")[0])
+donnees['Date'] = pd.to_datetime(donnees['Date'])
+
+# Extraire les lignes correspondant au mois de mars
+# Créer une copie pour éviter les problèmes de vue
+donnees_mars = donnees[donnees['Date'].dt.month == 3].copy()
+
+# Renommer colonnes
+donnees_mars.rename(
+    columns={"Vitesse du vent moyen 10 mn": "valeur"}, inplace=True)
+
+# Vitesse moyenne du vent chaque jour de la période
+vent_moy = donnees_mars.groupby('Date')['valeur'].mean().reset_index()
+
+# Conversion en km/h
+vent_moy['valeur'] = vent_moy['valeur'].multiply(3.6)
+```
+:::
+
+:::slides
+```{python}
+#| echo: true
+#| eval: false
+def moy(var, nom1, nom2, date):
+    """Moyenne des valeurs des polluants par jour"""
+    return var[(var[nom1] == nom2)].groupby(date)["valeur"].mean().reset_index()
+
+fig = go.Figure()
+
+def graphique_axe(fig, titre, yaxis2_title):
+    """Mise en page d'un graphique cartésien avec 2 axes y"""
+    fig.update_layout(
+        title=titre,
+        xaxis=dict(title="Temps (jours)"),  # Abscisse
+        yaxis=dict(title="Concentration (µg.m⁻³)", side="left", position=0),  # Ordonnée
+        yaxis2=dict(
+            title=yaxis2_title, overlaying="y", side="right", position=1
+        ),  # Deuxième ordonnée
+        font_size=15,
+        showlegend=True,
+        paper_bgcolor="rgba(230, 230, 230,0)",  # Couleur de contour de graphique
+        plot_bgcolor="rgba(100,100,100,0)",  # Couleur du fond du graphique
+        font=dict(color="Grey"),
+        legend=dict(x=1.1, y=1),
+    )
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor="LightGrey")
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor="LightGrey")
+
+def trace(df, color, name, date):
+    """Ajout courbe sur un graphique cartésien"""
+    return go.Scatter(x=df[date], y=df["valeur"], mode="lines", line=dict(width=2, color=color), name=name)
+```
+:::
+
+:::slides
+```{python}
+#| echo: false
+#| eval: true
+"""LIEN VENTS/POLLUANTS"""
+
+"""
+DONNEES
+"""
+
+# Importer les valeurs
+donnees = pd.read_csv("../bases_de_donnees/donnees_meteo_2022_2023_Toulouse.csv",
+                      sep=";", na_values="", low_memory=False)
+
+# Formater les dates
+donnees["Date"] = donnees["Date"].apply(lambda x: x.split("T")[0])
+donnees['Date'] = pd.to_datetime(donnees['Date'])
+
+# Extraire les lignes correspondant au mois de mars
+# Créer une copie pour éviter les problèmes de vue
+donnees_mars = donnees[donnees['Date'].dt.month == 3].copy()
+
+# Renommer colonnes
+donnees.rename(columns={'Température': "valeur"}, inplace=True)
+donnees_mars.rename(
+    columns={"Vitesse du vent moyen 10 mn": "valeur"}, inplace=True)
+
+"""
+VENT
+"""
+
+# Vitesse moyenne du vent chaque jour de la période
+vent_moy = donnees_mars.groupby('Date')['valeur'].mean().reset_index()
+
+# Conversion en km/h
+vent_moy['valeur'] = vent_moy['valeur'].multiply(3.6)
+
+
+"""
+POLLUANTS
+"""
+
+# Moyenne des valeurs des polluants par jour
+NOX = md.moy(polluants_mars, 'nom_poll', 'NOX', 'Date')
+NOO = md.moy(polluants_mars, 'nom_poll', 'NO2', 'Date')
+NO = md.moy(polluants_mars, 'nom_poll', 'NO', 'Date')
+O = md.moy(polluants_mars, 'nom_poll', 'O3', 'Date')
+
+"""
+GRAPHIQUE
+"""
+
+# Ajouter la trace pour le vecteur vent_moy sur le deuxième axe Y
+trace_vent_moy = go.Scatter(x=vent_moy["Date"], y=vent_moy["valeur"], mode='lines', line=dict(
+    width=2, color='pink'), name='Vent', yaxis='y2')
+
+# Créer la figure
+fig = go.Figure([trace_vent_moy])
+
+# Ajouter les courbes des polluants
+fig.add_trace(md.trace(NOX, 'orange', 'NOx', "Date"))
+fig.add_trace(md.trace(NOO, 'green', 'NO₂', "Date"))
+fig.add_trace(md.trace(NO, 'purple', 'NO', "Date"))
+fig.add_trace(md.trace(O, 'red', 'O₃', "Date"))
+
+md.graphique_axe(
+    fig, "Vitesse du vent et émissions d'oxydes d'azote (mars 2023)", 'Vitesse (km.h⁻¹)')
+
+# Afficher le graphique
+fig.show()
+```
+:::
+
+# Tests pythons
+
+:::slides
+```{python}
+#| echo: true
+#| eval: false
+from modules.meteo import trace, resultats, moy
+
+def test_trace():
+    df = pd.DataFrame({'date': ['2023-01-01', '2023-01-02'], 'valeur': [10, 20]})
+    courbe = trace(df, 'blue', 'Courbe', 'date')
+    # Ajouter des assertions pour vérifier que la courbe a été correctement créée
+    assert courbe.x.tolist() == ['2023-01-01', '2023-01-02']
+    assert courbe.y.tolist() == [10, 20]
+
+def test_resultats():
+    date = 'Jour'
+    polluants_tous = ['Polluant1', 'Polluant2']
+    polluants = pd.DataFrame({'Jour': ['2023-01-01', '2023-01-01', '2023-01-02', '2023-01-02'],
+                              'valeur': [10, 15, 20, 25],
+                              'nom_poll': ['Polluant1', 'Polluant2', 'Polluant1', 'Polluant2']})
+    mapping = {'2023-01-01': 'Lundi', '2023-01-02': 'Mardi'}
+    result = resultats(date, polluants_tous, polluants, mapping)
+    assert result[0].shape == (2, 3)  # Vérifier la forme du DataFrame résultant
+
+def test_moy():
+    var = pd.DataFrame({'date': ['2023-01-01', '2023-01-01', '2023-01-02', '2023-01-02'],
+                        'valeur': [10, 15, 20, 25],
+                        'nom1': ['Polluant1', 'Polluant2', 'Polluant1', 'Polluant2']})
+    resultat = moy(var, 'nom1', 'Polluant1', 'date')
+    assert resultat.shape == (2, 2)  # Vérifier la forme du DataFrame résultant
+```
+:::
+
+:::slides
+```{python}
+#| echo: true
+#| eval: false
+def test_markero_sur_carte():
+    # Créer une carte Folium
+    carte = folium.Map(location=[0, 0], zoom_start=5)
+
+    # Créer une instance de la classe Markero
+    marqueur = Markero(100, -20, "nom", "popup")
+
+    # Appeler la méthode SurCarte pour placer le marqueur sur la carte
+    marqueur.SurCarte(carte)
+
+    # Vérifier que le marqueur a été ajouté à la carte
+    children = list(carte._children.values())  # Convertir en liste
+
+    # Vérifier que les propriétés du marqueur sont correctes
+    marqueur_map_child = children[1]
+    assert marqueur_map_child.location == [100,-20]
+```
+:::
