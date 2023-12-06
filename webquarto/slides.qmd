@@ -13,10 +13,7 @@ Comment développer un site de modélisation de données sur github?
 
 ---
 # Organisation des tâches
-- Carte intéractive
-- Etude départementale
-- Etude comparative de villes répondant à certains critères
-- Lien météorologique
+
 ---
 # Vision globale
 
@@ -25,9 +22,11 @@ import geopandas as gpd
 import pandas as pd
 import numpy as np
 pd.options.mode.chained_assignment = None
+import sys
+sys.path.append( '../' )
 
 # base de la carte avec les départements
-sf = gpd.read_file("bases_de_donnees/departements-version-simplifiee.geojson")
+sf = gpd.read_file("../bases_de_donnees/departements-version-simplifiee.geojson")
 #on ne garde que les departement qui nous interessent
 indexNames = sf[
     (sf["code"] != "09")
@@ -85,7 +84,7 @@ Occitanie.get_root().header.add_child(folium.Element(svg_style))
 color_mapa.add_to(Occitanie)
 
 polluant = pd.read_csv(
-    "bases_de_donnees/Mesure_mensuelle_annee.csv",
+    "../bases_de_donnees/Mesure_mensuelle_annee.csv",
     sep=",",
     na_values="",
     low_memory=False,
@@ -300,9 +299,11 @@ import geopandas as gpd
 import pandas as pd
 import numpy as np
 pd.options.mode.chained_assignment = None
+import sys
+sys.path.append( '../' )
 
 # base de la carte avec les départements
-sf = gpd.read_file("bases_de_donnees/departements-version-simplifiee.geojson")
+sf = gpd.read_file("../bases_de_donnees/departements-version-simplifiee.geojson")
 #on ne garde que les departement qui nous interessent
 indexNames = sf[
     (sf["code"] != "09")
@@ -360,7 +361,7 @@ Occitanie.get_root().header.add_child(folium.Element(svg_style))
 color_mapa.add_to(Occitanie)
 
 polluant = pd.read_csv(
-    "bases_de_donnees/Mesure_mensuelle_annee.csv",
+    "../bases_de_donnees/Mesure_mensuelle_annee.csv",
     sep=",",
     na_values="",
     low_memory=False,
@@ -561,13 +562,15 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import warnings
+import sys
+sys.path.append( '../' )
 
 # Désactiver temporairement les avertissements spécifiques
 warnings.filterwarnings("ignore", category=UserWarning, message="Converting to PeriodArray/Index representation will drop timezone information.")
 
 pd.options.mode.chained_assignment = None
 # Charger les données
-bdd1 = pd.read_csv("../../bases_de_donnees/Mesure_mensuelle_annee.csv")
+bdd1 = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
 bdd1['valeur'].fillna(0, inplace=True)
 
 # Liste des polluants à afficher
@@ -635,13 +638,15 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import warnings
+import sys
+sys.path.append( '../' )
 
 # Désactiver temporairement les avertissements spécifiques
 warnings.filterwarnings("ignore", category=UserWarning, message="Converting to PeriodArray/Index representation will drop timezone information.")
 
 pd.options.mode.chained_assignment = None
 # Charger les données
-bdd1 = pd.read_csv("../../bases_de_donnees/Mesure_mensuelle_annee.csv")
+bdd1 = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
 bdd1['valeur'].fillna(0, inplace=True)
 
 # Liste des polluants à afficher
@@ -710,7 +715,7 @@ for polluant in polluants:
 ---
 # Problèmes rencontrés
 ```{python,eval=FALSE,echo=TRUE}
-mettre mon code dash 
+# mettre mon code dash 
 ```
 ---
 # Liens pollutions et météorologie
@@ -730,7 +735,7 @@ DONNEES
 """
 
 # Importer les valeurs
-polluants = pd.read_csv("../bases_de_donnees/donnees_polluants_2022_2023.csv", sep=",", na_values="", low_memory=False)
+polluants = pd.read_csv("../bases_de_donnees/donnees_polluants_2022_2023_Toulouse.csv", sep=",", na_values="", low_memory=False)
 
 # Extraire le mois de chaque date
 polluants['Date'] = pd.to_datetime(polluants['date_debut'])
