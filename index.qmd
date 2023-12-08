@@ -130,7 +130,7 @@ pm2 = HeatMap(
     radius=40,
     blur=35,
 )
-fpm2 = folium.FeatureGroup(name="PM2", show=False)
+fpm2 = folium.FeatureGroup(name="PM2.5", show=False)
 pm2.add_to(fpm2)
 
 # NO

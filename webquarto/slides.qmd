@@ -1,29 +1,20 @@
-:::slides
 ---
-titre: "Meteo Dofus Ring"
+title: "Pollution en Occitanie"
 author: "Lamure Maxence, Dias Pierre, Bouland Guillaume, Festor Quentin"
-date: "04/12/2023"
+format: revealjs
 ---
-:::
-
-:::slides
-# Sommaire
-:::
-
-:::slides
+*
 # Problématique
 Comment développer un site de modélisation de données sur github?
-:::
 
-:::slides
 # Organisation des tâches
+:::{.incremental}
 - Carte interactive
 - Etude départementale
 - Etude comparative de villes répondant à certains critères
 - Lien météorologique
 :::
 
-:::slides
 # Vision globale
 
 ```{python}
@@ -288,40 +279,14 @@ GroupedLayerControl(position='bottomleft',
 Occitanie
 ```
 
-Moyenne des valeurs enregistrées entre aout 2022 et septembre 2023
-\
-\
-Ces cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte température. On observe que la pollution se concentre principalement au niveau des métropoles.\
-Les villes indiquées sur la carte sont celles sur lesquelles nos études se porteront.
 
-```{python}
-#| echo: false
-import sys
-sys.path.append( '../' )
 
-html = """
-<head>
-    <link rel="stylesheet" href="styles.css">
-</head>
 
-<table>
-    <tr class="tr">
-        <th class="th">
-            <a href=webquarto/Departements/constatations.qmd><img src="../images/etude.svg" title="Etude Départementale" width="110" height="110"></a> <a href=webquarto/villes.qmd><img src="../images/city.svg" title="Comparatif des villes" width="150" height="150"></a> <a href=webquarto/meteo.qmd><img src="../images/weather.svg" title="Influence de la météo sur la pollution" width="130" height="130"></a> <a href=webquarto/about.qmd><img src="../images/mask.svg" title="En savoir plus sur les polluants" width="170" height="170"></a> 
-        </th>
-    </tr>
-</table>
-"""
-
-display(html)
-```
-:::
-
-:::slides
+# Code
 
 ```{python}
 #| echo: true
-#| include: false
+#| eval: false
 import geopandas as gpd
 import pandas as pd
 import numpy as np
@@ -581,9 +546,8 @@ GroupedLayerControl(position='bottomleft',
 
 Occitanie
 ```
-:::
 
-:::slides
+
 # Etude de la pollution dans chaque département
 
 ```{python}
@@ -617,7 +581,7 @@ for polluant in polluants:
 
     # Afficher le titre entre chaque graphique
     from IPython.display import display, Markdown
-    display(Markdown(f"## Evolution mensuelle du {polluant}"))
+    display(Markdown(f"Evolution mensuelle du {polluant}"))
 
 
     # Convertir la colonne de dates au format aaaa/mm
@@ -662,10 +626,11 @@ for polluant in polluants:
     fig.show()
 
 ```
-:::
 
-:::slides
-```{python,eval=FALSE,echo=TRUE}
+#
+```{python}
+#| echo: true
+#| eval: false
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -740,20 +705,17 @@ for polluant in polluants:
     fig.show()
 
 ```
-:::
 
-:::slides
+
+
 # Etude de l'influence de la population
-:::
 
-:::slides
 # Problèmes rencontrés
 ```{python,eval=FALSE,echo=TRUE}
 # mettre mon code dash 
 ```
-:::
 
-:::slides
+
 # Liens pollutions et météorologie
 ```{python}
 #| echo: true
@@ -777,9 +739,9 @@ def resultats(polluants_tous, polluants):
         resultat.append(df_polluant)
     return resultat
 ```
-:::
 
-:::slides
+
+#
 ```{python}
 #| echo: true
 #| eval: false
@@ -819,9 +781,9 @@ def graphique_polar(fig):
         plot_bgcolor="rgba(230, 230, 230,0)",  # Couleur du fond du graphique
     )
 ```
-:::
 
-:::slides
+
+#
 ```{python}
 #| echo: false
 #| eval: true
@@ -901,9 +863,10 @@ def concentration(date, format, mapping, titre, temps):
 # Graphique mois
 concentration('Mois', '%m', mois_mapping, 'Concentration moyenne mensuelle des polluants (en µg.m⁻³)', 'Temps (mois)')
 ```
-:::
 
-:::slides
+
+
+#
 ```{python}
 #| echo: true
 #| eval: false
@@ -925,9 +888,9 @@ vent_moy = donnees_mars.groupby('Date')['valeur'].mean().reset_index()
 # Conversion en km/h
 vent_moy['valeur'] = vent_moy['valeur'].multiply(3.6)
 ```
-:::
 
-:::slides
+
+#
 ```{python}
 #| echo: true
 #| eval: false
@@ -960,9 +923,9 @@ def trace(df, color, name, date):
     """Ajout courbe sur un graphique cartésien"""
     return go.Scatter(x=df[date], y=df["valeur"], mode="lines", line=dict(width=2, color=color), name=name)
 ```
-:::
 
-:::slides
+
+#
 ```{python}
 #| echo: false
 #| eval: true
@@ -1033,11 +996,10 @@ md.graphique_axe(
 # Afficher le graphique
 fig.show()
 ```
-:::
+
+
 
 # Tests pythons
-
-:::slides
 ```{python}
 #| echo: true
 #| eval: false
@@ -1067,9 +1029,8 @@ def test_moy():
     resultat = moy(var, 'nom1', 'Polluant1', 'date')
     assert resultat.shape == (2, 2)  # Vérifier la forme du DataFrame résultant
 ```
-:::
 
-:::slides
+#
 ```{python}
 #| echo: true
 #| eval: false
@@ -1090,4 +1051,3 @@ def test_markero_sur_carte():
     marqueur_map_child = children[1]
     assert marqueur_map_child.location == [100,-20]
 ```
-:::
