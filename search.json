@@ -137,7 +137,7 @@
     "href": "index.html",
     "title": "Moyenne des intensités de polluants de 2023",
     "section": "",
-    "text": "Execution time: 0.17435 s.\n\n\n\nMake this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\nMoyenne des valeurs enregistrées entre aout 2022 et septembre 2023\n\nCes cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte température. On observe que la pollution se concentre principalement au niveau des métropoles.\nLes villes indiquées sur la carte sont celles sur lesquelles nos études se porteront.\n\n\n\n\n\n   \n\n\n\n\n\n\n\n Back to top"
+    "text": "Execution time: 0.00001 s.\n\n\n\nMake this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\nMoyenne des valeurs enregistrées entre aout 2022 et septembre 2023\n\nCes cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte température. On observe que la pollution se concentre principalement au niveau des métropoles.\nLes villes indiquées sur la carte sont celles sur lesquelles nos études se porteront.\n\n\n\n\n\n   \n\n\n\n\n\n\n\n Back to top"
   },
   {
     "objectID": "webquarto/about.html",
