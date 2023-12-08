@@ -1,5 +1,6 @@
 # %%
-import time 
+import time
+
 start = time.time()
 from dash import Dash, html, dcc, Input, Output, callback
 import pandas as pd
@@ -152,7 +153,6 @@ if __name__ == "__main__":
 
 # %%
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 import seaborn as sns
 
@@ -162,7 +162,7 @@ sns.set_palette("colorblind")
 # Chargement des données
 df = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
 
-# On supprime les lignes qui ne comprtent aucunes valeurs
+# On supprime les lignes qui ne comportent aucunes valeurs
 df = df.dropna()
 
 # On convertie la colonne "date_debut" en format datetime
