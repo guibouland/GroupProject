@@ -1,19 +1,17 @@
 ---
 title: "Pollution en Occitanie"
 author: "Lamure Maxence, Dias Pierre, Bouland Guillaume, Festor Quentin"
-format: revealjs
+styles: [styleslides.css]
+highlight-style: ayu
+format: 
+    revealjs:
+        theme: [default, customslides.scss]
 ---
-<style>
-  code {
-    white-space : wrap !important;
-    word-break: break-word ;
-  }
-</style>
 
 # Problématique
 Comment développer un site de modélisation de données sur github?
 
-# Organisation des tâches
+## Organisation des tâches
 :::{.incremental}
 - Carte interactive
 - Etude départementale
@@ -21,7 +19,9 @@ Comment développer un site de modélisation de données sur github?
 - Lien météorologique
 :::
 
-## Vision globale
+## Vision globale {auto-animate=true}
+
+. . .
 
 ```{python}
 #| echo: false
@@ -285,37 +285,39 @@ GroupedLayerControl(position='bottomleft',
 Occitanie
 ```
 
+. . .
+
+:::{style="margin-bottom: 10px; font-size: 0.6em;"}
+Code de la carte
+:::
 
 
-
-## Code
+## {auto-animate=true}
+::: {style="font-size: 2em;"}
+Code de la carte
+:::
 :::: {.columns}
 
-
-
-::: {.column width="45%"}
-```{python}
-#| echo: true
-#| eval: false
-#| line-numbers: false
+::: {.column width="40%" }
+```{.python filename="index.qmd" code-line-numbers="false"}
 import geopandas as gpd
 import pandas as pd
 import numpy as np
 import sys
-sys.path.append( '../' )
-
+import folium
+from modules.carte import Markero
+from folium.plugins import HeatMap
+from folium.plugins import GroupedLayerControl
+import branca.colormap as cm
 # base de la carte avec les départements
 sf = gpd.read_file("../bases_de_donnees/departements-version-simplifiee.geojson")
-#on ne garde que les       departement qui nous interessent
 ```
 :::
 
 
 
-::: {.column width="55%"}
-```{python}
-#| echo: true
-#| eval: false
+::: {.column width="60%"}
+```{.python filename="carte.py" code-line-numbers="false"}
 class Markero(object):
     """Classe pour faire les points folium facilement"""
 
@@ -329,18 +331,18 @@ class Markero(object):
     def SurCarte(self,carte):
         """Met le point sur la carte"""
         folium.Marker(
-        [self.lat, self.long],tooltip=self.texte, popup=self.popup, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
+        [self.lat, self.long],
+        tooltip=self.texte,
+         popup=self.popup, 
+         icon=folium.Icon(icon='glyphicon-th-list',
+         color="darkpurple")
         ).add_to(carte)
 
-Toul=Markero(43.6, 1.43333,"Toulouse","""
-<p>Toulouse:<br>
-500 000 habitants </p>
-  """) 
 ```
 :::
 ::::
 
-# Etude de la pollution dans chaque département
+## Etude de la pollution dans chaque département
 
 ```{python}
 #| echo: false
@@ -419,7 +421,7 @@ for polluant in polluants:
 
 ```
 
-#
+##
 ```{python}
 #| echo: true
 #| eval: false
@@ -500,15 +502,15 @@ for polluant in polluants:
 
 
 
-# Etude de l'influence de la population
+## Etude de l'influence de la population
 
-# Problèmes rencontrés
+## Problèmes rencontrés
 ```{python,eval=FALSE,echo=TRUE}
 # mettre mon code dash 
 ```
 
 
-# Liens pollutions et météorologie
+## Liens pollutions et météorologie
 ```{python}
 #| echo: true
 #| eval: false
@@ -533,7 +535,7 @@ def resultats(polluants_tous, polluants):
 ```
 
 
-#
+##
 ```{python}
 #| echo: true
 #| eval: false
@@ -575,7 +577,7 @@ def graphique_polar(fig):
 ```
 
 
-#
+##
 ```{python}
 #| echo: false
 #| eval: true
@@ -658,7 +660,7 @@ concentration('Mois', '%m', mois_mapping, 'Concentration moyenne mensuelle des p
 
 
 
-#
+##
 ```{python}
 #| echo: true
 #| eval: false
@@ -682,7 +684,7 @@ vent_moy['valeur'] = vent_moy['valeur'].multiply(3.6)
 ```
 
 
-#
+##
 ```{python}
 #| echo: true
 #| eval: false
@@ -717,7 +719,7 @@ def trace(df, color, name, date):
 ```
 
 
-#
+##
 ```{python}
 #| echo: false
 #| eval: true
@@ -791,7 +793,7 @@ fig.show()
 
 
 
-# Tests pythons
+## Tests pythons
 ```{python}
 #| echo: true
 #| eval: false
@@ -822,7 +824,7 @@ def test_moy():
     assert resultat.shape == (2, 2)  # Vérifier la forme du DataFrame résultant
 ```
 
-#
+##
 ```{python}
 #| echo: true
 #| eval: false

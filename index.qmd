@@ -8,10 +8,10 @@ execute:
 import geopandas as gpd
 import pandas as pd
 import numpy as np
+import folium
 from modules.carte import Markero
 #pour voir les utilités de la classe: help(Markero)
 from folium.plugins import HeatMap
-from folium.plugins import HeatMapWithTime
 from folium.plugins import GroupedLayerControl
 import branca.colormap as cm
 
@@ -36,7 +36,7 @@ indexNames = sf[
     & (sf["code"] != "82")
 ].index
 sf.drop(indexNames, inplace=True)
-import folium
+
 
 centre = [43.716671, 2.15]
 Occitanie = folium.Map(location=centre, zoom_start=6.5, tiles=None)
