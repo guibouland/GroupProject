@@ -1,0 +1,2362 @@
+---
+title: "Pollution en Occitanie"
+author: "BOULAND Guillaume, DIAS Pierre, FESTOR Quentin, LAMURE Maxence"
+styles: [styleslides.css]
+highlight-style: ayu
+format: 
+    revealjs:
+        theme: [default, customslides.scss]
+---
+
+# Problématique
+Comment développer un site de modélisation de données sur github?
+
+## Organisation des tâches
+:::{.incremental}
+- Carte interactive
+- Etude départementale
+- Etude comparative de villes répondant à certains critères
+- Etude de l'influence météorologique
+:::
+
+## Vision globale {auto-animate=true}
+
+. . .
+
+```{python}
+#| echo: False
+import sys
+sys.path.append( '../' )
+import geopandas as gpd
+import pandas as pd
+import numpy as np
+import folium
+from modules.carte import Markero
+#pour voir les utilités de la classe: help(Markero)
+from folium.plugins import HeatMap
+from folium.plugins import GroupedLayerControl
+import branca.colormap as cm
+
+
+pd.options.mode.chained_assignment = None
+
+# base de la carte avec les départements
+sf = gpd.read_file("../bases_de_donnees/departements-version-simplifiee.geojson")
+# on ne garde que les departement qui nous interessent
+indexNames = sf[
+    (sf["code"] != "09")
+    & (sf["code"] != "11")
+    & (sf["code"] != "12")
+    & (sf["code"] != "30")
+    & (sf["code"] != "31")
+    & (sf["code"] != "32")
+    & (sf["code"] != "34")
+    & (sf["code"] != "46")
+    & (sf["code"] != "48")
+    & (sf["code"] != "65")
+    & (sf["code"] != "66")
+    & (sf["code"] != "81")
+    & (sf["code"] != "82")
+].index
+sf.drop(indexNames, inplace=True)
+
+
+centre = [43.716671, 2.15]
+Occitanie = folium.Map(location=centre, zoom_start=6.5, tiles=None)
+folium.GeoJson(
+    sf[["nom", "geometry"]],
+    name="Départements",
+    zoom_on_click=True,
+    style_function=lambda feature: {
+        "fillColor": "#003322",
+        "color": "grey",
+        "weight": 2,
+        "dashArray": "5, 5",
+        "fillOpacity": 0.01,
+    },
+    tooltip=folium.features.GeoJsonTooltip(
+        fields=["nom"],
+        aliases=["Département:"],
+    ),
+).add_to(Occitanie)
+
+# légende
+
+color_mapa = cm.LinearColormap(
+    colors=["darkblue", "purple", "yellow"],
+    caption="intensité de concentration du polluant",
+)
+
+# cadre de la légende
+svg_style = "<style>svg#legend {background-color: rgba(255,255,255,0.5);}</style>"
+
+Occitanie.get_root().header.add_child(folium.Element(svg_style))
+color_mapa.add_to(Occitanie)
+
+polluant = pd.read_csv(
+    "../bases_de_donnees/Mesure_mensuelle_annee.csv",
+    sep=",",
+    na_values="",
+    low_memory=False,
+)
+polluants = polluant.dropna()
+
+# moyenne des polluants sur l'année
+polluants = (
+    polluants.groupby(["X", "Y", "nom_poll", "nom_dept"])["valeur"]
+    .mean()
+    .reset_index(name="valeur")
+)
+
+# gradient de couleurs adapté aux daltoniens, jaune chaud, bleu froid.
+grad = {
+    0: "#0d0887",
+    0.1: "#0d0887",
+    0.2: "#0d0887",
+    0.3: "#0d0887",
+    0.4: "#0d0887",
+    0.5: "#6a00a8",
+    0.6: "#b12a90",
+    0.7: "#e16462",
+    0.8: "#fca636",
+    0.9: "#fcce25",
+    1: "#f0f921",
+}
+
+# PM10
+PM10 = polluants[(polluants["nom_poll"] == "PM10")]
+heatPM10 = PM10[["Y", "X", "valeur"]].copy()
+lng = heatPM10["X"].tolist()
+lat = heatPM10["Y"].tolist()
+val = heatPM10["valeur"].tolist()
+pm10 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="PM10",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fpm10 = folium.FeatureGroup(name="PM10", show=True)
+pm10.add_to(fpm10)
+
+# PM2
+PM2 = polluants[(polluants["nom_poll"] == "PM2.5")]
+
+heatPM2 = PM2[["Y", "X", "valeur"]].copy()
+lng = heatPM2["X"].tolist()
+lat = heatPM2["Y"].tolist()
+val = heatPM2["valeur"].tolist()
+pm2 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="PM2.5",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fpm2 = folium.FeatureGroup(name="PM2.5", show=False)
+pm2.add_to(fpm2)
+
+# NO
+NO = polluants[(polluants["nom_poll"] == "NO")]
+
+heatNO = NO[["Y", "X", "valeur"]].copy()
+lng = heatNO["X"].tolist()
+lat = heatNO["Y"].tolist()
+val = heatNO["valeur"].tolist()
+no = HeatMap(
+    list(zip(lat, lng, val)),
+    name="NO",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fno = folium.FeatureGroup(name="NO", show=False)
+no.add_to(fno)
+
+# NO2
+NO2 = polluants[(polluants["nom_poll"] == "NO2")]
+
+heatNO2 = NO2[["Y", "X", "valeur"]].copy()
+lng = heatNO2["X"].tolist()
+lat = heatNO2["Y"].tolist()
+val = heatNO2["valeur"].tolist()
+no2 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="NO2",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fno2 = folium.FeatureGroup(name="NO2", show=False)
+no2.add_to(fno2)
+
+# O3
+O3 = polluants[(polluants["nom_poll"] == "O3")]
+
+heatO3 = O3[["Y", "X", "valeur"]].copy()
+lng = heatO3["X"].tolist()
+lat = heatO3["Y"].tolist()
+val = heatO3["valeur"].tolist()
+o3 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="O3",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fo3 = folium.FeatureGroup(name="O3", show=False)
+o3.add_to(fo3)
+
+Occitanie.add_child(fpm10)
+Occitanie.add_child(fpm2)
+Occitanie.add_child(fno)
+Occitanie.add_child(fno2)
+Occitanie.add_child(fo3)
+
+Toul = Markero(
+    43.6,
+    1.43333,
+    "Toulouse",
+    """
+<p>Toulouse:<br>
+500 000 habitants </p>
+  """,
+)
+
+
+Mtp = Markero(
+    43.62505,
+    3.862038,
+    "Montpellier",
+    """
+<p>Montpellier:<br>
+300 000 habitants</p>
+  """,
+)
+
+Tarbes = Markero(
+    43.23333,
+    0.08333,
+    "Tarbes",
+    """
+<p>Tarbes:<br>
+Plus de 40 000 habitants</p>
+  """,
+)
+
+Montauban = Markero(
+    44.01667,
+    1.35,
+    "Montauban",
+    """
+<p>Montauban:<br>
+Plus de 60 000 habitants</p>
+  """,
+)
+
+Pey = Markero(
+    43.6333,
+    0.1833,
+    "Peyrusse-Vieille",
+    """
+<p>Peyrusse-Vieille:<br>
+65 habitants </p>
+  """,
+)
+
+Arg = Markero(
+    43.005028,
+    -0.101087,
+    "Argeles-Gazost",
+    """
+<p>Argeles-Gazost:<br>
+Moins de 3000 habitants</p>
+  """,
+)
+
+Perpi = Markero(
+    42.683331,
+    2.88333,
+    "Perpignan",
+    """
+<p>Perpignan:<br>
+120 000 habitants </p>
+""",
+)
+
+Toul.SurCarte(Occitanie)
+Mtp.SurCarte(Occitanie)
+Tarbes.SurCarte(Occitanie)
+Montauban.SurCarte(Occitanie)
+Pey.SurCarte(Occitanie)
+Arg.SurCarte(Occitanie)
+Perpi.SurCarte(Occitanie)
+
+folium.TileLayer("OpenStreetMap", name="Street Map").add_to(Occitanie)
+folium.TileLayer("Cartodb dark_matter", name="Sombre").add_to(Occitanie)
+folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)
+
+folium.LayerControl(position="topleft", collapsed=True, opacity=0.7).add_to(Occitanie)
+
+GroupedLayerControl(
+    position="bottomleft",
+    groups={"Polluants": [fpm10, fpm2, fno, fno2, fo3]},
+    collapsed=False,
+).add_to(Occitanie)
+
+
+Occitanie
+```
+
+
+
+## Code de la carte{auto-animate=true}
+
+:::: {.columns}
+::: {.column width="45%" }
+  Packages et données
+```{.python filename="index.qmd" code-line-numbers="|1,2|3,4,5|6|7|9,10,11,12,13,14,15"}
+import geopandas as gpd
+import pandas as pd
+import folium
+from folium.plugins import HeatMap
+from folium.plugins import GroupedLayerControl
+from modules.carte import Markero
+import branca.colormap as cm
+# base de la carte avec les départements
+sf = gpd.read_file("bases_de_donnees/departements-version-simplifiee.geojson")
+polluant = pd.read_csv(
+    "bases_de_donnees/Mesure_mensuelle_annee.csv",
+    sep=",",
+    na_values="",
+    low_memory=False,
+)
+```
+:::
+
+::: {.column width="55%"}
+  Création de la carte
+```{.python filename="index.qmd" code-line-numbers="false"}
+Occitanie=folium.Map(location=[43.716,2.15],
+zoom_start=6.5,tiles=None)
+folium.GeoJson(
+    sf[["nom", "geometry"]],
+    name="Départements",
+    zoom_on_click=True,
+    style_function=lambda feature: {
+        "fillColor": "#003322",
+        "color": "grey",
+        "weight": 2,
+        "dashArray": "5, 5",
+        "fillOpacity": 0.01,
+    },
+    tooltip=folium.features.GeoJsonTooltip(
+        fields=["nom"],
+        aliases=["Département:"],
+    ),
+).add_to(Occitanie)
+```
+:::
+::::
+
+## Code de la carte{auto-animate="true"}
+
+:::: {.columns}
+
+::: {.column width="45%" }
+  Légende
+```{.python filename="index.qmd"}
+color_mapa=cm.LinearColormap(
+  colors=['darkblue','purple','yellow'],
+  caption='intensité de concentration du polluant')
+#cadre de la légende
+svg_style = '<style>svg#legend {background-color: rgba(255,255,255,0.5);}</style>'
+
+Occitanie.get_root()
+.header.add_child(folium.Element(svg_style))
+color_mapa.add_to(Occitanie)
+```
+<br>
+
+:::{.fragment fragment-index=2}
+
+```{python}
+color_mapa=cm.LinearColormap(
+  colors=['darkblue','purple','yellow'],
+  caption='intensité de concentration du polluant')
+#cadre de la légende
+svg_style = '<style>svg#legend {background-color: rgba(255,255,255,0.5);}</style>'
+
+color_mapa
+```
+:::
+:::
+::: {.column width="55%" }
+  Manipulation du dataframe
+```{.python filename="index.qmd" code-line-numbers="|3,4,5,6,7,8,9|"}
+polluants = polluant.dropna()
+#moyenne des polluants sur l'année
+polluants = (
+    polluants.groupby(
+        ["X", "Y", "nom_poll"]
+    )["valeur"]
+    .mean()
+    .reset_index(name="valeur")
+)
+# PM10
+PM10 = polluants[(polluants["nom_poll"]
+== "PM10")]
+heatPM10 = PM10[["Y", "X", "valeur"]]
+lng = heatPM10["X"].tolist()
+lat = heatPM10["Y"].tolist()
+val = heatPM10["valeur"].tolist()
+#Création du layer Heatmap
+pm10 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="PM10",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fpm10 = folium.FeatureGroup(name="PM10",
+show=True)
+pm10.add_to(fpm10)
+Occitanie.add_child(fpm10)
+```
+:::
+::::
+
+
+## Classe python
+
+:::: {.columns}
+
+::: {.column width="60%" }
+```{.python filename="carte.py" code-line-numbers="false" }
+class Markero(object):
+    """Classe pour faire les points folium facilement"""
+
+    def __init__(self, lat, long, texte, popup):
+        """créé un point"""
+        self.lat = lat
+        self.long = long
+        self.texte = texte
+        self.popup = popup
+
+    def SurCarte(self,carte):
+        """Met le point sur la carte"""
+        folium.Marker(
+        [self.lat, self.long],
+        tooltip=self.texte,
+         popup=self.popup, 
+         icon=folium.Icon(icon='glyphicon-th-list',
+         color="darkpurple")
+        ).add_to(carte)
+
+```
+:::
+
+::: {.column width="40%" }
+Utilisation
+```{.python  filename="index.qmd"}
+from modules.carte import Markero
+
+Mtp=Markero(
+    43.62505, 
+    3.862038,
+    "Montpellier",
+    """
+    <p>Montpellier:<br>
+    300 000 habitants</p>
+    """
+)
+
+Mtp.SurCarte(Occitanie)
+```
+:::
+::::
+
+## Étude de la pollution dans chaque département
+:::{.incremental}
+- Pourquoi étudier par département? 
+  - comparaison inter-département
+  - comparaison intra-département
+- Données utilisées
+  - année actuelle (moyenne par mois)
+  - 5 dernières années (moyenne par an)
+  - polluants: NO,NOX,O3,PM2,PM10
+- Quelles villes? 
+  - Toutes celles disponibles
+:::
+
+
+## Modules utilisés
+```{python}
+#| echo: true
+#| eval: false
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import warnings
+import sys
+```
+
+## Charger et trier les bases de données
+```{python}
+#| echo: true
+#| eval: false
+# Charger les données
+bdd1 = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+bdd1['valeur'].fillna(0, inplace=True)
+
+# Liste des polluants à afficher
+polluants = ['NO', 'NOX', 'O3', 'PM10', 'NO2']
+
+# Plages des ordonnées pour chaque polluant
+ordonnee_ranges = {'NO': [0, 85], 'NOX': [0, 180], 'O3': [0, 90], 'PM10': [0, 45], 'NO2': [0, 70]}
+```
+```{python}
+#| echo: true
+#| eval: false
+# Boucle à travers les polluants pour créer les graphiques
+for polluant in polluants:
+    # Filtrer les données pour le polluant et le département HAUTE-GARONNE
+    filtered_data = bdd1[(bdd1['nom_dept'] == 'HAUTE-GARONNE') & (bdd1['nom_poll'] == polluant)]
+    filtered_data = filtered_data.sort_values(by='date_debut')
+
+    # Afficher le titre entre chaque graphique
+    from IPython.display import display, Markdown
+    display(Markdown(f"## Evolution mensuelle du {polluant}"))
+
+
+    # Convertir la colonne de dates au format aaaa/mm
+    filtered_data['date_debut'] = pd.to_datetime(filtered_data['date_debut']).dt.to_period('M').astype(str)
+```
+
+## Générer les graphiques
+```{python}
+#| echo: true
+#| eval: false
+    # Créer un graphique interactif avec Plotly Express
+    fig = px.scatter(
+        filtered_data, x='date_debut', y='valeur',
+        color='nom_station', size='valeur', hover_name='date_debut',
+        title=f'Évolution de la pollution {polluant} en Haute-Garonne',
+        labels={'valeur': f'Valeur {polluant} (ug.m-3)', 'date_debut': 'Année'}
+    )
+
+    # Ajouter des lignes reliant les points pour chaque station
+    for nom_station in filtered_data['nom_station'].unique():
+        trace_data = filtered_data[filtered_data['nom_station'] == nom_station]
+        fig.add_trace(go.Scatter(
+            x=trace_data['date_debut'],
+            y=trace_data['valeur'],
+            mode='lines',  # Utilisez 'lines' pour ajouter des lignes reliant les points
+            showlegend=False
+        ))
+```
+
+## Mise en forme des graphiques
+```{python}
+#| echo: true
+#| eval: false
+    # Mise en forme et personnalisation
+    fig.update_layout(
+        title_text=f'Évolution de la pollution {polluant} en Haute-Garonne',
+        title_x=0.5,  # Centrer le titre
+        xaxis_title="Année",
+        yaxis_title=f'Valeur {polluant} (ug.m-3)',
+        xaxis_tickformat="%Y/%m",  # Format de l'axe des x
+        legend=dict(orientation="h", yanchor="bottom", y=-0.5, xanchor="center", x=0.5, traceorder='reversed'),
+        margin=dict(l=10, r=10, t=70, b=10),  # Ajustements des marges
+        paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
+        plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
+        yaxis=dict(range=ordonnee_ranges[polluant]),  # Ajuster l'axe des ordonnées
+        font=dict(color='Grey')
+    )
+    #couleur grille
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+    # Afficher le graphique
+    fig.show()
+```
+
+## Étude de l'influence de la population
+:::{.incremental}
+- Pourquoi comparer les villes? 
+  - réponse but est d'étudier les différences de pollution dans différentes villes de population différentes
+- Comment les comparer, sous quels critères? 
+  - réponse poll par poll, avec des données par mois sur la dernière année
+- Quelles villes? 
+  - Multitude de villes, beaucoup trop de données pour un affichage synthétique
+:::
+
+## Occurences villes
+
+
+:::: {.columns}
+
+::: {.column width="60%"}
+```{.python code-line-numbers="7,9"}
+import pandas as pd
+
+df = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+df = df.dropna()
+df["date_debut"] = pd.to_datetime(df["date_debut"], format="%Y/%m/%d %H:%M:%S+%f")
+df["mois_annee"] = df["date_debut"].dt.strftime("%Y/%m")
+villes = df["nom_com"]
+
+occ_villes = villes.value_counts()
+
+```
+:::
+
+::: {.column width="40%"}
+```{python}
+#| eval: true
+#| echo: false
+import pandas as pd
+
+df = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+df = df.dropna()
+df["date_debut"] = pd.to_datetime(df["date_debut"], format="%Y/%m/%d %H:%M:%S+%f")
+df["mois_annee"] = df["date_debut"].dt.strftime("%Y/%m")
+villes = df["nom_com"]
+
+occ_villes = villes.value_counts()
+
+print(occ_villes)
+
+```
+:::
+::::
+
+## Choix des villes
+::: {.fragment fragment-index=1}
+- **Toulouse** : 498 000 haabitants
+- **Montpellier** : 312 000 habitants
+:::
+::: {.fragment fragment-index=2}
+- **Montauban** : 63 000 habitants
+- **Tarbes** : 44 000 habitants
+:::
+::: {.fragment fragment-index=3}
+- **Argèles-Gazost** : 2 900 habitants
+- **Peyrusse-Vieille** : 59 habitants
+:::
+
+## Étude de l'influence de la population
+- Pourquoi comparer les villes?
+- Comment les comparer, sous quels critères?
+- Quelles villes?  
+
+::: {.incremental}
+- Quelles stations dans ces villes?
+:::
+
+## Occurences stations
+\
+
+
+```{python}
+#| echo: true
+#| eval: false
+villes_choisies = [
+    "TOULOUSE",
+    "MONTPELLIER",
+    "TARBES",
+    "MONTAUBAN",
+    "PEYRUSSE-VIEILLE",
+    "ARGELES-GAZOST"
+]
+# Boucle pour itérer sur chaque ville
+for ville in villes_choisies:
+    df_ville = df[df["nom_com"] == ville]
+    occurrences_stations = df_ville["nom_station"].value_counts()
+    print(f"Occurrences des stations pour la ville {ville} :")
+    print(occurrences_stations)
+    print("\n" + "=" * 30 + "\n")
+```
+## Occurences stations
+\
+
+```{python}
+#| echo: false
+#| eval: true
+villes_choisies = [
+    "TOULOUSE",
+    "MONTPELLIER",
+    "TARBES",
+    "MONTAUBAN",
+    "PEYRUSSE-VIEILLE",
+    "ARGELES-GAZOST"
+]
+# Boucle pour itérer sur chaque ville
+for ville in villes_choisies:
+    df_ville = df[df["nom_com"] == ville]
+    occurrences_stations = df_ville["nom_station"].value_counts()
+    print(f"Occurrences des stations pour la ville {ville} :")
+    print(occurrences_stations)
+    print("\n" + "=" * 30 + "\n")
+```
+
+## Comparaison dans les grandes villes
+\
+
+```{.python code-line-numbers="|7|10|12|14"}
+import pandas as pd
+import plotly.graph_objects as go
+import seaborn as sns
+sns.set_palette("colorblind")
+
+df = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+df = df.dropna()
+df["date_debut"] = pd.to_datetime(df["date_debut"], format="%Y/%m/%d %H:%M:%S+%f")
+df["mois_annee"] = df["date_debut"].dt.strftime("%Y/%m")
+df["mois_annee"] = pd.to_datetime(df["mois_annee"], format="%Y/%m")
+
+mtp = df[df.nom_com == "MONTPELLIER"]
+
+mtpno = mtp[mtp.nom_poll == "NO"].sort_values(by="date_debut")
+mtpno2 = mtp[mtp.nom_poll == "NO2"].sort_values(by="date_debut")
+mtpnox = mtp[mtp.nom_poll == "NOX"].sort_values(by="date_debut")
+mtppm10 = mtp[mtp.nom_poll == "PM10"].sort_values(by="date_debut")
+mtppm2_5 = mtp[mtp.nom_poll == "PM2.5"].sort_values(by="date_debut")
+mtpo3 = mtp[mtp.nom_poll == "O3"].sort_values(by="date_debut")
+```
+
+
+## Comparaison dans les grandes villes
+\
+
+```{.python code-line-numbers="|6-10|11|12-13|26"}
+figmtp = go.Figure()
+
+# NO
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno[
+                mtpno.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno[mtpno.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur),
+        legendgroup="groupe 1",
+        legendgrouptitle_text="<b>NO</b>",
+        name="Prés d'Arènes Urbain",
+        mode="lines+markers",
+    )
+)
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno[
+                mtpno.nom_station == "Montpellier - Chaptal Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno[mtpno.nom_station == "Montpellier - Chaptal Urbain"].valeur),
+        legendgroup="groupe 1",
+        name="Chaptal Urbain",
+        mode="lines+markers",
+    )
+)
+```
+
+## Comparaison dans les grandes villes
+```{python}
+#| eval: true
+#| echo: false
+import pandas as pd
+import plotly.graph_objects as go
+import seaborn as sns
+
+# Changement d ela palette de couleur pour l'accessibilité
+sns.set_palette("colorblind")
+
+# Chargement des données
+df = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+
+# On supprime les lignes qui ne comprtent aucunes valeurs
+df = df.dropna()
+
+# On convertie la colonne "date_debut" en format datetime
+df["date_debut"] = pd.to_datetime(df["date_debut"], format="%Y/%m/%d %H:%M:%S+%f")
+
+# On crée une nouvelle colonne "mois-annee" au format datetime
+df["mois_annee"] = df["date_debut"].dt.strftime("%Y/%m")
+df["mois_annee"] = pd.to_datetime(df["mois_annee"], format="%Y/%m")
+
+# On restraint le dataframe à Montpellier et Toulouse et on le range par ordre croissant de dates
+mtp = df[df.nom_com == "MONTPELLIER"]
+tou = df[df.nom_com == "TOULOUSE"]
+
+# MONTPELLIER
+
+# On sélectionne les polluants de MONTPELLIER
+mtpno = mtp[mtp.nom_poll == "NO"].sort_values(by="date_debut")
+mtpno2 = mtp[mtp.nom_poll == "NO2"].sort_values(by="date_debut")
+mtpnox = mtp[mtp.nom_poll == "NOX"].sort_values(by="date_debut")
+mtppm10 = mtp[mtp.nom_poll == "PM10"].sort_values(by="date_debut")
+mtppm2_5 = mtp[mtp.nom_poll == "PM2.5"].sort_values(by="date_debut")
+# On ne prend pas O3 par manque de données
+mtpo3 = mtp[mtp.nom_poll == "O3"].sort_values(by="date_debut")
+
+# mtp.nom_station.unique()
+figmtp = go.Figure()
+
+# NO
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno[
+                mtpno.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno[mtpno.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur),
+        legendgroup="groupe 1",
+        legendgrouptitle_text="<b>NO</b>",
+        name="Prés d'Arènes Urbain",
+        mode="lines+markers",
+    )
+)
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno[
+                mtpno.nom_station == "Montpellier - Chaptal Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno[mtpno.nom_station == "Montpellier - Chaptal Urbain"].valeur),
+        legendgroup="groupe 1",
+        name="Chaptal Urbain",
+        mode="lines+markers",
+    )
+)
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno[mtpno.nom_station == "Montpellier Liberte Trafic"].mois_annee.unique()
+        ),
+        y=list(mtpno[mtpno.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 1",
+        name="Liberte Trafic",
+        mode="lines+markers",
+    )
+)
+
+# NO2
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno2[
+                mtpno2.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtpno2[mtpno2.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur
+        ),
+        legendgroup="groupe 2",
+        legendgrouptitle_text="<b>NO2</b>",
+        name="Prés d'Arènes Urbain",
+        mode="lines+markers",
+    )
+)
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno2[
+                mtpno2.nom_station == "Montpellier - Chaptal Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno2[mtpno2.nom_station == "Montpellier - Chaptal Urbain"].valeur),
+        legendgroup="groupe 2",
+        name="Chaptal Urbain",
+        mode="lines+markers",
+    )
+)
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno2[
+                mtpno2.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno2[mtpno2.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 2",
+        name="Liberte Trafic",
+        mode="lines+markers",
+    )
+)
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno2[
+                mtpno2.nom_station == "Montpellier - Saint Denis Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno2[mtpno2.nom_station == "Montpellier - Saint Denis Trafic"].valeur),
+        legendgroup="groupe 2",
+        name="Saint Denis Trafic",
+        mode="lines+markers",
+    )
+)
+
+
+# NOX
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtpnox[
+                mtpnox.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtpnox[mtpnox.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur
+        ),
+        legendgroup="groupe 3",
+        legendgrouptitle_text="<b>NOX</b>",
+        name="Prés d'Arènes Urbain",
+        mode="lines+markers",
+    )
+)
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtpnox[
+                mtpnox.nom_station == "Montpellier - Chaptal Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpnox[mtpnox.nom_station == "Montpellier - Chaptal Urbain"].valeur),
+        legendgroup="groupe 3",
+        name="Chaptal Urbain",
+        mode="lines+markers",
+    )
+)
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtpnox[
+                mtpnox.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpnox[mtpnox.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 3",
+        name="Liberte Trafic",
+        mode="lines+markers",
+    )
+)
+
+
+# PM10
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm10[
+                mtppm10.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtppm10[mtppm10.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur
+        ),
+        legendgroup="groupe 4",
+        legendgrouptitle_text="<b>PM10</b>",
+        name="Prés d'Arènes Urbain",
+        mode="lines+markers",
+    )
+)
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm10[
+                mtppm10.nom_station == "Montpellier - Pompignane Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtppm10[mtppm10.nom_station == "Montpellier - Pompignane Trafic"].valeur
+        ),
+        legendgroup="groupe 4",
+        name="Pompignane Trafic",
+        mode="lines+markers",
+    )
+)
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm10[
+                mtppm10.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtppm10[mtppm10.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 4",
+        name="Liberte Trafic",
+        mode="lines+markers",
+    )
+)
+
+# PM2.5
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm2_5[
+                mtppm2_5.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtppm2_5[
+                mtppm2_5.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].valeur
+        ),
+        legendgroup="groupe 5",
+        legendgrouptitle_text="<b>PM2.5</b>",
+        name="Prés d'Arènes Urbain",
+        mode="lines+markers",
+    )
+)
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm2_5[
+                mtppm2_5.nom_station == "Montpellier - Pompignane Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtppm2_5[mtppm2_5.nom_station == "Montpellier - Pompignane Trafic"].valeur
+        ),
+        legendgroup="groupe 5",
+        name="Pompignane Trafic",
+        mode="lines+markers",
+    )
+)
+figmtp.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm2_5[
+                mtppm2_5.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtppm2_5[mtppm2_5.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 5",
+        name="Liberte Trafic",
+        mode="lines+markers",
+    )
+)
+
+
+figmtp.update_layout(
+    title={
+        "text": "<b>Différences dans Montpellier</b>",
+        "x": 0.5,
+        "xanchor": "center",
+    },
+    xaxis_title="<b>Mois</b>",
+    yaxis_title="<b>Concentration (µg.m⁻³)</b>",
+    legend=dict(title="<b>Polluants (et stations)</b>"),
+    paper_bgcolor="rgba(100,100,100,0)",  # Couleur de contour de graphique
+    plot_bgcolor="rgba(100,100,100,0)",  # Couleur du fond du graphique
+    font=dict(color="Grey", size=15),
+)
+figmtp.show()
+
+```
+
+## Choix des stations 
+:::{.incremental}
+- **Montpellier** Prés d Arènes Urbain
+- **Montpellier** Liberte Trafic
+- **Toulouse** Berthelot Urbain
+- **Toulouse** Périphérique Trafic
+- **Tarbes** Dupuy Urbain
+- **Montauban** Ramierou Urbain
+- **Argèles-Gazost**
+- **Peyrusse-Vieille** Rural
+:::
+
+## Comparaison entre villes
+\
+
+```{python}
+#| eval: false
+#| echo: true
+
+# On restreint le dataframe aux 4 autres villes
+tar = df[df.nom_com == "TARBES"]
+mon = df[df.nom_com == "MONTAUBAN"]
+arg = df[df.nom_com == "ARGELES-GAZOST"]
+pey = df[df.nom_com == "PEYRUSSE-VIEILLE"]
+
+# Et maintenant aux polluants traités
+## Tarbes
+tarno = tar[tar.nom_poll == "NO"].sort_values(by="date_debut")
+tarno2 = tar[tar.nom_poll == "NO2"].sort_values(by="date_debut")
+tarnox = tar[tar.nom_poll == "NOX"].sort_values(by="date_debut")
+taro3 = tar[tar.nom_poll == "O3"].sort_values(by="date_debut")
+tarpm10 = tar[tar.nom_poll == "PM10"].sort_values(by="date_debut")
+tarpm2_5 = tar[tar.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+
+## Montauban
+monno = mon[mon.nom_poll == "NO"].sort_values(by="date_debut")
+monno2 = mon[mon.nom_poll == "NO2"].sort_values(by="date_debut")
+monnox = mon[mon.nom_poll == "NOX"].sort_values(by="date_debut")
+mono3 = mon[mon.nom_poll == "O3"].sort_values(by="date_debut")
+monpm10 = mon[mon.nom_poll == "PM10"].sort_values(by="date_debut")
+monpm2_5 = mon[mon.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+
+## Argèles-Gazost
+argno = arg[arg.nom_poll == "NO"].sort_values(by="date_debut")
+argno2 = arg[arg.nom_poll == "NO2"].sort_values(by="date_debut")
+argnox = arg[arg.nom_poll == "NOX"].sort_values(by="date_debut")
+argo3 = arg[arg.nom_poll == "O3"].sort_values(by="date_debut")
+argpm10 = arg[arg.nom_poll == "PM10"].sort_values(by="date_debut")
+argpm2_5 = arg[arg.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+
+## Peyrusse-Vieille
+peyno = pey[pey.nom_poll == "NO"].sort_values(by="date_debut")
+peyno2 = pey[pey.nom_poll == "NO2"].sort_values(by="date_debut")
+peynox = pey[pey.nom_poll == "NOX"].sort_values(by="date_debut")
+peyo3 = pey[pey.nom_poll == "O3"].sort_values(by="date_debut")
+peypm10 = pey[pey.nom_poll == "PM10"].sort_values(by="date_debut")
+peypm2_5 = pey[pey.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+```
+
+## Comparaison entre villes
+```{python}
+import pandas as pd
+import plotly.graph_objects as go
+import seaborn as sns
+
+# Changement d ela palette de couleur pour l'accessibilité
+sns.set_palette("colorblind")
+# Chargement des données
+df = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+# On supprime les lignes qui ne comprtent aucunes valeurs
+df = df.dropna()
+# On convertie la colonne "date_debut" en format datetime
+df["date_debut"] = pd.to_datetime(df["date_debut"], format="%Y/%m/%d %H:%M:%S+%f")
+# On crée une nouvelle colonne "mois-annee" au format datetime
+df["mois_annee"] = df["date_debut"].dt.strftime("%Y/%m")
+df["mois_annee"] = pd.to_datetime(df["mois_annee"], format="%Y/%m")
+# On restraint le dataframe à Montpellier et Toulouse et on le range par ordre croissant de dates
+mtp = df[df.nom_com == "MONTPELLIER"]
+tou = df[df.nom_com == "TOULOUSE"]
+
+# MONTPELLIER
+# On sélectionne les polluants de MONTPELLIER
+mtpno = mtp[mtp.nom_poll == "NO"].sort_values(by="date_debut")
+mtpno2 = mtp[mtp.nom_poll == "NO2"].sort_values(by="date_debut")
+mtpnox = mtp[mtp.nom_poll == "NOX"].sort_values(by="date_debut")
+mtppm10 = mtp[mtp.nom_poll == "PM10"].sort_values(by="date_debut")
+mtppm2_5 = mtp[mtp.nom_poll == "PM2.5"].sort_values(by="date_debut")
+mtpo3 = mtp[mtp.nom_poll == "O3"].sort_values(by="date_debut")
+
+touno = tou[tou.nom_poll == "NO"].sort_values(by="date_debut")
+touno2 = tou[tou.nom_poll == "NO2"].sort_values(by="date_debut")
+tounox = tou[tou.nom_poll == "NOX"].sort_values(by="date_debut")
+touo3 = tou[tou.nom_poll == "O3"].sort_values(by="date_debut")
+toupm10 = tou[tou.nom_poll == "PM10"].sort_values(by="date_debut")
+toupm2_5 = tou[tou.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+# On restreint le dataframe aux 4 autres villes
+tar = df[df.nom_com == "TARBES"]
+mon = df[df.nom_com == "MONTAUBAN"]
+arg = df[df.nom_com == "ARGELES-GAZOST"]
+pey = df[df.nom_com == "PEYRUSSE-VIEILLE"]
+
+# Et maintenant aux polluants traités
+## Tarbes
+tarno = tar[tar.nom_poll == "NO"].sort_values(by="date_debut")
+tarno2 = tar[tar.nom_poll == "NO2"].sort_values(by="date_debut")
+tarnox = tar[tar.nom_poll == "NOX"].sort_values(by="date_debut")
+taro3 = tar[tar.nom_poll == "O3"].sort_values(by="date_debut")
+tarpm10 = tar[tar.nom_poll == "PM10"].sort_values(by="date_debut")
+tarpm2_5 = tar[tar.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+## Montauban
+monno = mon[mon.nom_poll == "NO"].sort_values(by="date_debut")
+monno2 = mon[mon.nom_poll == "NO2"].sort_values(by="date_debut")
+monnox = mon[mon.nom_poll == "NOX"].sort_values(by="date_debut")
+mono3 = mon[mon.nom_poll == "O3"].sort_values(by="date_debut")
+monpm10 = mon[mon.nom_poll == "PM10"].sort_values(by="date_debut")
+monpm2_5 = mon[mon.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+## Argèles-Gazost
+argno = arg[arg.nom_poll == "NO"].sort_values(by="date_debut")
+argno2 = arg[arg.nom_poll == "NO2"].sort_values(by="date_debut")
+argnox = arg[arg.nom_poll == "NOX"].sort_values(by="date_debut")
+argo3 = arg[arg.nom_poll == "O3"].sort_values(by="date_debut")
+argpm10 = arg[arg.nom_poll == "PM10"].sort_values(by="date_debut")
+argpm2_5 = arg[arg.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+## Peyrusse-Vieille
+peyno = pey[pey.nom_poll == "NO"].sort_values(by="date_debut")
+peyno2 = pey[pey.nom_poll == "NO2"].sort_values(by="date_debut")
+peynox = pey[pey.nom_poll == "NOX"].sort_values(by="date_debut")
+peyo3 = pey[pey.nom_poll == "O3"].sort_values(by="date_debut")
+peypm10 = pey[pey.nom_poll == "PM10"].sort_values(by="date_debut")
+peypm2_5 = pey[pey.nom_poll == "PM2.5"].sort_values(by="date_debut")
+
+# Initialisation de la figure
+fig = go.Figure()
+
+# NO
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno[
+                mtpno.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno[mtpno.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur),
+        legendgroup="groupe 1",
+        legendgrouptitle_text="<b>NO</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno[mtpno.nom_station == "Montpellier Liberte Trafic"].mois_annee.unique()
+        ),
+        y=list(mtpno[mtpno.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 1",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touno[touno.nom_station == "Toulouse-Berthelot Urbain"].mois_annee.unique()
+        ),
+        y=list(touno[touno.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 1",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touno[
+                touno.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(touno[touno.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 1",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(tarno[tarno.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(tarno[tarno.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 1",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monno[
+                monno.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monno[monno.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 1",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argno[argno.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argno[argno.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 1",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peyno[peyno.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peyno[peyno.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 1",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# NO2
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno2[
+                mtpno2.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtpno2[mtpno2.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur
+        ),
+        legendgroup="groupe 2",
+        legendgrouptitle_text="<b>NO2</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpno2[
+                mtpno2.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpno2[mtpno2.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 2",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touno2[
+                touno2.nom_station == "Toulouse-Berthelot Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(touno2[touno2.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 2",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touno2[
+                touno2.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(touno2[touno2.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 2",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(tarno2[tarno2.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(tarno2[tarno2.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 2",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monno2[
+                monno2.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monno2[monno2.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 2",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argno2[argno2.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argno2[argno2.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 2",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peyno2[peyno2.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peyno2[peyno2.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 2",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# NOX
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpnox[
+                mtpnox.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtpnox[mtpnox.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur
+        ),
+        legendgroup="groupe 3",
+        legendgrouptitle_text="<b>NOX</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpnox[
+                mtpnox.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpnox[mtpnox.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 3",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            tounox[
+                tounox.nom_station == "Toulouse-Berthelot Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(tounox[tounox.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 3",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            tounox[
+                tounox.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(tounox[tounox.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 3",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(tarnox[tarnox.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(tarnox[tarnox.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 3",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monnox[
+                monnox.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monnox[monnox.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 3",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argnox[argnox.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argnox[argnox.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 3",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peynox[peynox.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peynox[peynox.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 3",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# O3
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtpo3[
+                mtpo3.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mtpo3[mtpo3.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur),
+        legendgroup="groupe 4",
+        legendgrouptitle_text="<b>O3</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            touo3[touo3.nom_station == "Toulouse-Berthelot Urbain"].mois_annee.unique()
+        ),
+        y=list(touo3[touo3.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 4",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(taro3[taro3.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()),
+        y=list(taro3[taro3.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 4",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mono3[
+                mono3.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(mono3[mono3.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 4",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argo3[argo3.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argo3[argo3.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 4",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peyo3[peyo3.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peyo3[peyo3.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 4",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# PM10
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm10[
+                mtppm10.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtppm10[mtppm10.nom_station == "Montpellier - Prés d Arènes Urbain"].valeur
+        ),
+        legendgroup="groupe 5",
+        legendgrouptitle_text="<b>PM10</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm10[
+                mtppm10.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtppm10[mtppm10.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 5",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            toupm10[
+                toupm10.nom_station == "Toulouse-Berthelot Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(toupm10[toupm10.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 5",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            toupm10[
+                toupm10.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(toupm10[toupm10.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 5",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            tarpm10[tarpm10.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()
+        ),
+        y=list(tarpm10[tarpm10.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 5",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monpm10[
+                monpm10.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monpm10[monpm10.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 5",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argpm10[argpm10.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argpm10[argpm10.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 5",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peypm10[peypm10.nom_station == "Peyrusse Vieille Rural"].mois_annee.unique()
+        ),
+        y=list(peypm10[peypm10.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 5",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+
+# PM2.5
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm2_5[
+                mtppm2_5.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(
+            mtppm2_5[
+                mtppm2_5.nom_station == "Montpellier - Prés d Arènes Urbain"
+            ].valeur
+        ),
+        legendgroup="groupe 6",
+        legendgrouptitle_text="<b>PM2.5</b>",
+        name="Montpellier - Prés d'Arènes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            mtppm2_5[
+                mtppm2_5.nom_station == "Montpellier Liberte Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(mtppm2_5[mtppm2_5.nom_station == "Montpellier Liberte Trafic"].valeur),
+        legendgroup="groupe 6",
+        name="Montpellier - Liberté",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            toupm2_5[
+                toupm2_5.nom_station == "Toulouse-Berthelot Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(toupm2_5[toupm2_5.nom_station == "Toulouse-Berthelot Urbain"].valeur),
+        legendgroup="groupe 6",
+        name="Toulouse - Berthelot",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            toupm2_5[
+                toupm2_5.nom_station == "Toulouse-Périphérique Trafic"
+            ].mois_annee.unique()
+        ),
+        y=list(toupm2_5[toupm2_5.nom_station == "Toulouse-Périphérique Trafic"].valeur),
+        legendgroup="groupe 6",
+        name="Toulouse - Périphérique",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            tarpm2_5[tarpm2_5.nom_station == "Tarbes-Dupuy Urbain"].mois_annee.unique()
+        ),
+        y=list(tarpm2_5[tarpm2_5.nom_station == "Tarbes-Dupuy Urbain"].valeur),
+        legendgroup="groupe 6",
+        name="Tarbes",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            monpm2_5[
+                monpm2_5.nom_station == "Montauban - Ramierou Urbain"
+            ].mois_annee.unique()
+        ),
+        y=list(monpm2_5[monpm2_5.nom_station == "Montauban - Ramierou Urbain"].valeur),
+        legendgroup="groupe 6",
+        name="Montauban",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(argpm2_5[argpm2_5.nom_station == "Argeles-Gazost"].mois_annee.unique()),
+        y=list(argpm2_5[argpm2_5.nom_station == "Argeles-Gazost"].valeur),
+        legendgroup="groupe 6",
+        name="Argèles-Gazost",
+        mode="lines+markers",
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(
+            peypm2_5[
+                peypm2_5.nom_station == "Peyrusse Vieille Rural"
+            ].mois_annee.unique()
+        ),
+        y=list(peypm2_5[peypm2_5.nom_station == "Peyrusse Vieille Rural"].valeur),
+        legendgroup="groupe 6",
+        name="Peyrusse-Vieille",
+        mode="lines+markers",
+    )
+)
+
+# On modifie le layout du graphe
+fig.update_layout(
+    title={
+        "text": "<b>Comparaison entre différentes villes d'Occitanie</b>",
+        "x": 0.5,
+        "xanchor": "center",
+    },
+    xaxis_title="<b>Mois</b>",
+    yaxis_title="<b>Concentration (µg.m⁻³)</b>",
+    legend={"title": "<b>Polluants (et stations)</b>"},
+    paper_bgcolor="rgba(100,100,100,0)",  # Couleur de contour de graphique
+    plot_bgcolor="rgba(100,100,100,0)",  # Couleur du fond du graphique
+    font=dict(color="Grey", size=15),
+)
+
+# On affiche le graphe
+fig.show()
+
+```
+
+
+## Dash
+```{python}
+#| echo: true
+#| eval: false
+import dash
+from dash import dcc, html
+from dash.dependencies import Input, Output
+import pandas as pd
+import plotly.express as px
+# Charger les données
+bdd1 = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+bdd1['valeur'].fillna(0, inplace=True)
+bdd2 = pd.read_csv("../bases_de_donnees/Mesure_5dernieresannees.csv")
+bdd2['valeur'].fillna(0, inplace=True)
+# Créer une application Dash
+app = dash.Dash(__name__)
+# Créer la mise en page de l'application
+app.layout = html.Div([
+    html.H1("Évolution de la pollution en Occitanie"),
+    # Sélection de la période étudiée
+    dcc.Dropdown(
+        id='periode',
+        options=[
+            {'label': '5 dernières années', 'value': '5ans'},
+            {'label': 'année actuelle', 'value': 'annee_actuelle'},
+        ],
+        value='5ans'
+    ),
+    # Sélection du département
+    dcc.Dropdown(
+        id='departement',
+        options=[
+            {'label': 'HAUTE-GARONNE', 'value': 'HAUTE-GARONNE'},
+            {'label': 'GERS', 'value': 'GERS'},
+            {'label': 'TARN', 'value': 'TARN'},
+            {'label': 'HAUTES-PYRENEES', 'value': 'HAUTES-PYRENEES'},
+            {'label': 'TARN-ET-GARONNE', 'value': 'TARN-ET-GARONNE'},
+            {'label': 'HERAULT', 'value': 'HERAULT'},
+            {'label': 'PYRENEES-ORIENTALES', 'value': 'PYRENEES-ORIENTALES'},
+            {'label': 'AVEYRON', 'value': 'AVEYRON'},
+            {'label': 'ARIEGE', 'value': 'ARIEGE'},
+            {'label': 'GARD', 'value': 'GARD'},
+            {'label': 'LOZERE', 'value': 'LOZERE'},
+        ],
+        value='HAUTE-GARONNE'
+    ),
+    # Sélection du polluant
+    dcc.Dropdown(
+        id='polluant-dropdown',
+        options=[
+            {'label': 'NO', 'value': 'NO'},
+            {'label': 'NO2', 'value': 'NO2'},
+            {'label': 'NOX', 'value': 'NOX'},
+            {'label': 'O3', 'value': 'O3'},
+            {'label': 'PM10', 'value': 'PM10'}
+        ],
+        value='NO'
+    ),   
+    # Graphique interactif - Scatter Plot
+    dcc.Graph(id='scatter-graph'),
+])
+# Mettre à jour le graphique en fonction de la sélection du département et du type de polluant
+@app.callback(
+    Output('scatter-graph', 'figure'),
+    [Input('departement', 'value'),
+     Input('polluant-dropdown', 'value'),
+     Input('periode', 'value')]
+)
+def update_graph(selected_departement, selected_pollutant, selected_periode):
+    if selected_periode == '5ans':
+        bdd = bdd2
+    else:
+        bdd = bdd1
+    filtered_data = bdd[(bdd['nom_dept'] == selected_departement) & (bdd['nom_poll'] == selected_pollutant)]
+    filtered_data = filtered_data.sort_values(by='date_debut')
+    # Scatter Plot
+    scatter_fig = px.scatter(
+        filtered_data, x='date_debut', y='valeur',
+        color='nom_station', size='valeur', hover_name='date_debut'
+    )
+    scatter_fig.update_layout(
+        title=f'Évolution de la pollution pour {selected_pollutant} en {selected_departement}',
+        xaxis_title='Année',
+        yaxis_title=f'Valeur {selected_pollutant} ug.m-3'
+    )
+    # Ajouter une trace pour chaque station du département
+    for nom_station in filtered_data['nom_station'].unique():
+        trace_data = filtered_data[filtered_data['nom_station'] == nom_station]
+        scatter_fig.add_scatter(
+            x=trace_data['date_debut'],
+            y=trace_data['valeur'],
+            mode='markers+lines',  # Use 'markers+lines' to connect the points with lines
+            name=nom_station  # Utilisez le nom de la station comme nom de la trace
+        )
+    # Ajuster l'axe des ordonnées pour chaque graphique
+    scatter_fig.update_yaxes(
+        range=[filtered_data['valeur'].min(), filtered_data['valeur'].max() + 10]
+    )
+    return scatter_fig
+if __name__ == '__main__':
+    app.run_server(port=8051,debug=True)
+```
+##
+```{python}
+#| echo: false
+#| eval: true
+import dash
+from dash import dcc, html
+from dash.dependencies import Input, Output
+import pandas as pd
+import plotly.express as px
+
+# Charger les données
+bdd1 = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+bdd1['valeur'].fillna(0, inplace=True)
+bdd2 = pd.read_csv("../bases_de_donnees/Mesure_5dernieresannees.csv")
+bdd2['valeur'].fillna(0, inplace=True)
+
+# Créer une application Dash
+app = dash.Dash(__name__)
+
+# Créer la mise en page de l'application
+app.layout = html.Div([
+    html.H1("Évolution de la pollution en Occitanie"),
+    # Sélection de la période étudiée
+    dcc.Dropdown(
+        id='periode',
+        options=[
+            {'label': '5 dernières années', 'value': '5ans'},
+            {'label': 'année actuelle', 'value': 'annee_actuelle'},
+        ],
+        value='5ans'
+    ),
+
+    # Sélection du département
+    dcc.Dropdown(
+        id='departement',
+        options=[
+            {'label': 'HAUTE-GARONNE', 'value': 'HAUTE-GARONNE'},
+            {'label': 'GERS', 'value': 'GERS'},
+            {'label': 'TARN', 'value': 'TARN'},
+            {'label': 'HAUTES-PYRENEES', 'value': 'HAUTES-PYRENEES'},
+            {'label': 'TARN-ET-GARONNE', 'value': 'TARN-ET-GARONNE'},
+            {'label': 'HERAULT', 'value': 'HERAULT'},
+            {'label': 'PYRENEES-ORIENTALES', 'value': 'PYRENEES-ORIENTALES'},
+            {'label': 'AVEYRON', 'value': 'AVEYRON'},
+            {'label': 'ARIEGE', 'value': 'ARIEGE'},
+            {'label': 'GARD', 'value': 'GARD'},
+            {'label': 'LOZERE', 'value': 'LOZERE'},
+        ],
+        value='HAUTE-GARONNE'
+    ),
+
+    # Sélection du polluant
+    dcc.Dropdown(
+        id='polluant-dropdown',
+        options=[
+            {'label': 'NO', 'value': 'NO'},
+            {'label': 'NO2', 'value': 'NO2'},
+            {'label': 'NOX', 'value': 'NOX'},
+            {'label': 'O3', 'value': 'O3'},
+            {'label': 'PM10', 'value': 'PM10'}
+        ],
+        value='NO'
+    ),
+    
+    # Graphique interactif - Scatter Plot
+    dcc.Graph(id='scatter-graph'),
+])
+
+# Mettre à jour le graphique en fonction de la sélection du département et du type de polluant
+@app.callback(
+    Output('scatter-graph', 'figure'),
+    [Input('departement', 'value'),
+     Input('polluant-dropdown', 'value'),
+     Input('periode', 'value')]
+)
+def update_graph(selected_departement, selected_pollutant, selected_periode):
+    if selected_periode == '5ans':
+        bdd = bdd2
+    else:
+        bdd = bdd1
+
+    filtered_data = bdd[(bdd['nom_dept'] == selected_departement) & (bdd['nom_poll'] == selected_pollutant)]
+    filtered_data = filtered_data.sort_values(by='date_debut')
+
+    # Scatter Plot
+    scatter_fig = px.scatter(
+        filtered_data, x='date_debut', y='valeur',
+        color='nom_station', size='valeur', hover_name='date_debut'
+    )
+
+    scatter_fig.update_layout(
+        title=f'Évolution de la pollution pour {selected_pollutant} en {selected_departement}',
+        xaxis_title='Année',
+        yaxis_title=f'Valeur {selected_pollutant} ug.m-3'
+    )
+
+    # Ajouter une trace pour chaque station du département
+    for nom_station in filtered_data['nom_station'].unique():
+        trace_data = filtered_data[filtered_data['nom_station'] == nom_station]
+        scatter_fig.add_scatter(
+            x=trace_data['date_debut'],
+            y=trace_data['valeur'],
+            mode='markers+lines',  # Use 'markers+lines' to connect the points with lines
+            name=nom_station  # Utilisez le nom de la station comme nom de la trace
+        )
+
+    # Ajuster l'axe des ordonnées pour chaque graphique
+    scatter_fig.update_yaxes(
+        range=[filtered_data['valeur'].min(), filtered_data['valeur'].max() + 10]
+    )
+
+    return scatter_fig
+
+if __name__ == '__main__':
+    app.run_server(port=8051,debug=True)
+```
+## Tkinter
+
+
+# Étude de l’influence météorologique
+:::{.incremental}
+- Evolution de la concentration de la pollution en un an
+- Lien entre vent et pollution
+:::
+
+## Organisation de la base de données
+```{python}
+#| echo: true
+#| eval: false
+import sys
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+from modules import meteo as md
+
+# Importation des données
+polluants = pd.read_csv("../bases_de_donnees/donnees_polluants_2022_2023_Toulouse.csv",
+                        sep=",", na_values="", low_memory=False)
+#Liste des polluants
+liste_polluants = ['PM10', 'O3', 'NOX', 'NO2', 'PM2.5', 'NO']
+nom_mois = {"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin","07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre"}
+
+# Moyenne des valeurs des polluants
+resultat = []
+
+# Moyenne des valeurs de chaque polluant par date
+for polluant in liste_polluants:
+    df_polluant = (
+        polluants[polluants["nom_poll"] == polluant]
+        .groupby(date)["valeur"].mean().reset_index()
+    )
+    df_polluant["nom"] = polluant
+    df_polluant[date] = df_polluant[date].replace(nom_date)
+    resultat.append(df_polluant)
+
+# Récupérer les DataFrames individuels
+PM10, O3, NOX, NO2, PM2, NO = resultat
+
+# Concaténer tous les polluants dans resultat
+resultat = pd.concat([NOX, NO2, NO, O3, PM10, PM2], ignore_index=True)
+```
+
+## Paramétrage du graphique
+```{python}
+#| echo: true
+#| eval: false
+fig_polar = px.line_polar(
+    resultat,
+    r="valeur",
+    theta=date,
+    color="nom",
+    line_close=True,
+    range_r=[0, max(resultat["valeur"])],
+    start_angle=90,
+    color_discrete_sequence=['orange', 'green', 'purple', 'red', 'blue', 'grey'],
+    title='Concentration moyenne mensuelle des polluants (en µg.m⁻³)'
+)
+```
+
+## Mise en forme du graphique
+```{python}
+#| echo: true
+#| eval: false
+def graphique_polar(fig):
+    """Mise en page d'un graphique polaire"""
+    fig.update_layout(
+        font_size=15,
+        font_color="grey",
+        showlegend=True,
+        polar=dict(
+            bgcolor="rgba(223, 223, 223,0)",
+            angularaxis=dict(linewidth=3, showline=True, linecolor="grey"),
+            radialaxis=dict(
+                showline=True,
+                linewidth=2,
+                gridcolor="rgba(100, 100, 100,0.5)",
+                gridwidth=2,
+            ),
+            angularaxis_gridcolor="rgba(100, 100, 100,0.5)",
+            radialaxis_linecolor="rgb(100, 100, 100)",
+            radialaxis_color="grey",
+        ),
+        paper_bgcolor="rgba(230, 230, 230,0)",
+        plot_bgcolor="rgba(230, 230, 230,0)", 
+    )
+```
+
+##
+```{python}
+#| echo: false
+#| eval: true
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import sys
+sys.path.append( '../' )
+from modules import meteo as md
+
+"""CONCENTRATION POLLUTION"""
+
+"""
+DONNEES
+"""
+
+# Importer les valeurs
+polluants = pd.read_csv("../bases_de_donnees/donnees_polluants_2022_2023_Toulouse.csv", sep=",", na_values="", low_memory=False)
+
+# Extraire le mois de chaque date
+polluants['Date'] = pd.to_datetime(polluants['date_debut'])
+
+# Extraire les lignes correspondant au mois de mars
+polluants_mars = polluants[polluants['Date'].dt.month == 3].copy()
+
+# Définir les polluants
+liste_polluants = ['PM10', 'O3', 'NOX', 'NO2', 'PM2.5', 'NO']
+
+# Définir les couleurs correspondantes
+couleur = ['orange', 'green','purple', 'red', 'blue', 'grey']
+
+# Dictionnaire de correspondance entre les anciens et les nouveaux noms des mois/jours
+nom_mois = {"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre"}
+nom_jours = {"Monday": "Lundi", "Tuesday": "Mardi", "Wednesday": "Mercredi", "Thursday": "Jeudi", "Friday": "Vendredi", "Saturday": "Samedi", "Sunday": "Dimanche"}
+
+def concentration(date, format, nom_date, titre, temps):
+    """Traitement des polluants exclusivement"""
+
+    """
+    DONNEES
+    """
+
+    # Formatage des dates
+    polluants[date] = polluants['Date'].dt.strftime(format)
+
+    # Moyenne des valeurs de chaque polluant par date
+    resultat = []
+
+    for polluant in liste_polluants:
+        df_polluant = (
+            polluants[polluants["nom_poll"] == polluant]
+            .groupby(date)["valeur"].mean().reset_index()
+        )
+        df_polluant["nom"] = polluant
+        df_polluant[date] = df_polluant[date].replace(nom_date)
+        resultat.append(df_polluant)
+    
+    # Récupérer les DataFrames individuels
+    PM10, O3, NOX, NO2, PM2, NO = resultat
+
+    # Concaténer tous les polluants dans resultat
+    resultat = pd.concat([NOX, NO2, NO, O3, PM10, PM2], ignore_index=True)
+
+
+    """
+    GRAPHIQUE
+    """
+    
+    # Paramétrer le graphique polaire
+    fig_polar = px.line_polar(
+        resultat,
+        r="valeur",
+        theta=date,
+        color="nom",
+        line_close=True,
+        range_r=[0, max(resultat["valeur"])],
+        start_angle=90,
+        color_discrete_sequence=couleur,
+        title=titre
+    )
+    md.graphique_polar(fig_polar)
+
+    # Afficher le graphique polaire
+    fig_polar.show()
+
+# Graphique mois
+concentration('Mois', '%m', nom_mois, 'Concentration moyenne mensuelle des polluants (en µg.m⁻³)', 'Temps (mois)')
+```
+
+## Organisation des bases de données
+```{python}
+#| echo: true
+#| eval: false
+# Importer les données
+donnees = pd.read_csv("../bases_de_donnees/donnees_meteo_2022_2023_Toulouse.csv",
+                      sep=";", na_values="", low_memory=False)
+# Formater les dates
+donnees["Date"] = donnees["Date"].apply(lambda x: x.split("T")[0])
+donnees['Date'] = pd.to_datetime(donnees['Date'])
+
+# Extraire les lignes correspondant au mois de mars
+# Créer une copie pour éviter les problèmes de vue
+donnees_mars = donnees[donnees['Date'].dt.month == 3].copy()
+
+# Vitesse moyenne du vent chaque jour de la période
+vent = donnees_mars.groupby('Date')['valeur'].mean().reset_index()
+
+# Conversion en km/h
+vent['valeur'] = vent['valeur'].multiply(3.6)
+
+NOX = polluants_mars[(polluants_mars['nom_poll'] == 'NOX')].groupby('Date')["valeur"].mean().reset_index()
+NO2 = polluants_mars[(polluants_mars['nom_poll'] == 'NO2')].groupby('Date')["valeur"].mean().reset_index()
+NO = polluants_mars[(polluants_mars['nom_poll'] == 'NO')].groupby('Date')["valeur"].mean().reset_index()
+O3 = polluants_mars[(polluants_mars['nom_poll'] == 'O3')].groupby('Date')["valeur"].mean().reset_index()
+```
+
+
+## Mise en forme du graphique
+```{python}
+#| echo: true
+#| eval: false
+# Mise en forme des graphiques
+def graphique_axe(fig, titre, yaxis2_title):
+    """Mise en page d'un graphique cartésien avec 2 axes y"""
+    fig.update_layout(
+        title=titre,
+        xaxis=dict(title="Temps (jours)"),  # Abscisse
+        yaxis=dict(title="Concentration (µg.m⁻³)", side="left", position=0),  # Ordonnée
+        yaxis2=dict(
+            title=yaxis2_title, overlaying="y", side="right", position=1
+        ),  # Deuxième ordonnée
+        font_size=15,
+        showlegend=True,
+        paper_bgcolor="rgba(230, 230, 230,0)",  # Couleur de contour de graphique
+        plot_bgcolor="rgba(100,100,100,0)",  # Couleur du fond du graphique
+        font=dict(color="Grey"),
+        legend=dict(x=1.1, y=1),
+    )
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor="LightGrey")
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor="LightGrey")
+
+# Tracer les courbes
+def trace(df, color, name, date):
+    """Ajout courbe sur un graphique cartésien"""
+    return go.Scatter(x=df[date], y=df["valeur"], mode="lines", line=dict(width=2, color=color), name="Date")
+
+fig.add_trace(md.trace(vent, 'pink', 'vent', "Date"))
+fig.add_trace(md.trace(NOX, 'orange', 'NOx', "Date"))
+fig.add_trace(md.trace(NO2, 'green', 'NO₂', "Date"))
+fig.add_trace(md.trace(NO, 'purple', 'NO', "Date"))
+fig.add_trace(md.trace(O3, 'red', 'O₃', "Date"))
+```
+
+##
+```{python}
+#| echo: false
+#| eval: true
+"""LIEN VENTS/POLLUANTS"""
+
+"""
+DONNEES
+"""
+
+# Importer les valeurs
+donnees = pd.read_csv("../bases_de_donnees/donnees_meteo_2022_2023_Toulouse.csv",
+                      sep=";", na_values="", low_memory=False)
+
+# Formater les dates
+donnees["Date"] = donnees["Date"].apply(lambda x: x.split("T")[0])
+donnees['Date'] = pd.to_datetime(donnees['Date'])
+
+# Extraire les lignes correspondant au mois de mars
+# Créer une copie pour éviter les problèmes de vue
+donnees_mars = donnees[donnees['Date'].dt.month == 3].copy()
+
+# Renommer colonnes
+donnees.rename(columns={'Température': "valeur"}, inplace=True)
+donnees_mars.rename(
+    columns={"Vitesse du vent moyen 10 mn": "valeur"}, inplace=True)
+
+"""
+VENT
+"""
+
+# Vitesse moyenne du vent chaque jour de la période
+vent = donnees_mars.groupby('Date')['valeur'].mean().reset_index()
+
+# Conversion en km/h
+vent['valeur'] = vent['valeur'].multiply(3.6)
+
+
+"""
+POLLUANTS
+"""
+
+# Moyenne des valeurs des polluants par jour
+NOX = polluants_mars[(polluants_mars['nom_poll'] == 'NOX')].groupby('Date')["valeur"].mean().reset_index()
+NO2 = polluants_mars[(polluants_mars['nom_poll'] == 'NO2')].groupby('Date')["valeur"].mean().reset_index()
+NO = polluants_mars[(polluants_mars['nom_poll'] == 'NO')].groupby('Date')["valeur"].mean().reset_index()
+O3 = polluants_mars[(polluants_mars['nom_poll'] == 'O3')].groupby('Date')["valeur"].mean().reset_index()
+
+"""
+GRAPHIQUE
+"""
+
+# Ajouter la trace pour le vecteur vent sur le deuxième axe Y
+trace_vent = go.Scatter(x=vent["Date"], y=vent["valeur"], mode='lines', line=dict(
+    width=2, color='pink'), name='Vent', yaxis='y2')
+
+# Créer la figure
+fig = go.Figure([trace_vent])
+
+# Ajouter les courbes des polluants
+fig.add_trace(md.trace(NOX, 'orange', 'NOx', "Date"))
+fig.add_trace(md.trace(NO2, 'green', 'NO₂', "Date"))
+fig.add_trace(md.trace(NO, 'purple', 'NO', "Date"))
+fig.add_trace(md.trace(O3, 'red', 'O₃', "Date"))
+
+md.graphique_axe(
+    fig, "Vitesse du vent et émissions d'oxydes d'azote (mars 2023)", 'Vitesse (km.h⁻¹)')
+
+# Afficher le graphique
+fig.show()
+```
+
+
+
+## Tests pythons
+```{python}
+#| echo: true
+#| eval: false
+from modules.meteo import trace
+
+def test_trace():
+    df = pd.DataFrame({'date': ['2023-01-01', '2023-01-02'], 'valeur': [10, 20]})
+    courbe = trace(df, 'blue', 'Courbe', 'date')
+    # Vérifier que les coordonnées de la trace correspondent aux listes attendues
+    assert courbe.x.tolist() == ['2023-01-01', '2023-01-02']
+    assert courbe.y.tolist() == [10, 20]
+
+def test_markero_sur_carte():
+    # Créer une carte Folium
+    carte = folium.Map(location=[0, 0], zoom_start=5)
+
+    # Créer une instance de la classe Markero
+    marqueur = Markero(100, -20, "nom", "popup")
+
+    # Appeler la méthode SurCarte pour placer le marqueur sur la carte
+    marqueur.SurCarte(carte)
+
+    # Vérifier que le marqueur a été ajouté à la carte
+    children = list(carte._children.values())  # Convertir en liste
+
+    # Vérifier que les propriétés du marqueur sont correctes
+    marqueur_map_child = children[1]
+    assert marqueur_map_child.location == [100,-20]
+```
