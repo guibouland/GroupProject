@@ -106,10 +106,11 @@ heatPM10 = PM10[["Y", "X", "valeur"]].copy()
 lng = heatPM10["X"].tolist()
 lat = heatPM10["Y"].tolist()
 val = heatPM10["valeur"].tolist()
+#Création de la Heatmap avec les listes de lattitudes, longitudes et valeurs
 pm10 = HeatMap(
     list(zip(lat, lng, val)),
     name="PM10",
-    gradient=grad,
+    gradient=grad, #notre gradient prédéfini
     radius=40,
     blur=35,
 )
@@ -190,6 +191,7 @@ Occitanie.add_child(fno)
 Occitanie.add_child(fno2)
 Occitanie.add_child(fo3)
 
+#Création des markers avec la classe Markero
 Toul = Markero(
     43.6,
     1.43333,
@@ -261,6 +263,7 @@ Perpi = Markero(
 """,
 )
 
+#ajouts des markers sur la carte
 Toul.SurCarte(Occitanie)
 Mtp.SurCarte(Occitanie)
 Tarbes.SurCarte(Occitanie)
@@ -269,6 +272,7 @@ Pey.SurCarte(Occitanie)
 Arg.SurCarte(Occitanie)
 Perpi.SurCarte(Occitanie)
 
+#ajout de l'affichage des options
 folium.TileLayer("OpenStreetMap", name="Street Map").add_to(Occitanie)
 folium.TileLayer("Cartodb dark_matter", name="Sombre").add_to(Occitanie)
 folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)

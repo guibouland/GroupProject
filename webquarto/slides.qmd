@@ -1,6 +1,6 @@
 ---
 title: "Pollution en Occitanie"
-author: "LAMURE Maxence, DIAS Pierre, BOULAND Guillaume, FESTOR Quentin"
+author: "BOULAND Guillaume, DIAS Pierre, FESTOR Quentin, LAMURE Maxence"
 styles: [styleslides.css]
 highlight-style: ayu
 format: 
@@ -24,17 +24,25 @@ Comment développer un site de modélisation de données sur github?
 . . .
 
 ```{python}
-#| echo: false
+#| echo: False
+import sys
+sys.path.append( '../' )
 import geopandas as gpd
 import pandas as pd
 import numpy as np
+import folium
+from modules.carte import Markero
+#pour voir les utilités de la classe: help(Markero)
+from folium.plugins import HeatMap
+from folium.plugins import GroupedLayerControl
+import branca.colormap as cm
+
+
 pd.options.mode.chained_assignment = None
-import sys
-sys.path.append( '../' )
 
 # base de la carte avec les départements
 sf = gpd.read_file("../bases_de_donnees/departements-version-simplifiee.geojson")
-#on ne garde que les departement qui nous interessent
+# on ne garde que les departement qui nous interessent
 indexNames = sf[
     (sf["code"] != "09")
     & (sf["code"] != "11")
@@ -51,10 +59,10 @@ indexNames = sf[
     & (sf["code"] != "82")
 ].index
 sf.drop(indexNames, inplace=True)
-import folium
+
 
 centre = [43.716671, 2.15]
-Occitanie = folium.Map(location=centre, zoom_start=6.5,tiles=None)
+Occitanie = folium.Map(location=centre, zoom_start=6.5, tiles=None)
 folium.GeoJson(
     sf[["nom", "geometry"]],
     name="Départements",
@@ -72,20 +80,15 @@ folium.GeoJson(
     ),
 ).add_to(Occitanie)
 
+# légende
 
-# ajout layer pollution
-from folium.plugins import HeatMap
-from folium.plugins import HeatMapWithTime
-from folium.plugins import GroupedLayerControl
-import branca.colormap as cm
+color_mapa = cm.LinearColormap(
+    colors=["darkblue", "purple", "yellow"],
+    caption="intensité de concentration du polluant",
+)
 
-#légende
-
-color_mapa=cm.LinearColormap(colors=['darkblue','purple','yellow'],
-                             caption='intensité de concentration du polluant')
-
-#cadre de la légende
-svg_style = '<style>svg#legend {background-color: rgba(255,255,255,0.5);}</style>'
+# cadre de la légende
+svg_style = "<style>svg#legend {background-color: rgba(255,255,255,0.5);}</style>"
 
 Occitanie.get_root().header.add_child(folium.Element(svg_style))
 color_mapa.add_to(Occitanie)
@@ -98,27 +101,27 @@ polluant = pd.read_csv(
 )
 polluants = polluant.dropna()
 
-#moyenne des polluants sur l'année
+# moyenne des polluants sur l'année
 polluants = (
-    polluants.groupby(["X", "Y", "nom_poll","nom_dept"])["valeur"]
+    polluants.groupby(["X", "Y", "nom_poll", "nom_dept"])["valeur"]
     .mean()
     .reset_index(name="valeur")
 )
 
-#gradient de couleurs adapté aux daltoniens, jaune chaud, bleu froid.
-grad={
-        0: "#0d0887",
-        0.1: "#0d0887",
-        0.2: "#0d0887",
-        0.3: "#0d0887",
-        0.4: "#0d0887",
-        0.5: "#6a00a8",
-        0.6: "#b12a90",
-        0.7: "#e16462",
-        0.8: "#fca636",
-        0.9: "#fcce25",
-        1: "#f0f921",
-    }
+# gradient de couleurs adapté aux daltoniens, jaune chaud, bleu froid.
+grad = {
+    0: "#0d0887",
+    0.1: "#0d0887",
+    0.2: "#0d0887",
+    0.3: "#0d0887",
+    0.4: "#0d0887",
+    0.5: "#6a00a8",
+    0.6: "#b12a90",
+    0.7: "#e16462",
+    0.8: "#fca636",
+    0.9: "#fcce25",
+    1: "#f0f921",
+}
 
 # PM10
 PM10 = polluants[(polluants["nom_poll"] == "PM10")]
@@ -150,7 +153,7 @@ pm2 = HeatMap(
     radius=40,
     blur=35,
 )
-fpm2 = folium.FeatureGroup(name="PM2", show=False)
+fpm2 = folium.FeatureGroup(name="PM2.5", show=False)
 pm2.add_to(fpm2)
 
 # NO
@@ -210,57 +213,76 @@ Occitanie.add_child(fno)
 Occitanie.add_child(fno2)
 Occitanie.add_child(fo3)
 
-class Markero(object):
-    """Classe pour faire les points folium facilement"""
-
-    def __init__(self, lat, long, texte, popup):
-        """créé un point"""
-        self.lat = lat
-        self.long = long
-        self.texte = texte
-        self.popup = popup
-
-    def SurCarte(self,carte):
-        """Met le point sur la carte"""
-        folium.Marker(
-        [self.lat, self.long],tooltip=self.texte, popup=self.popup, icon=folium.Icon(icon='glyphicon-th-list',color="darkpurple")
-        ).add_to(carte)
-
-Toul=Markero(43.6, 1.43333,"Toulouse","""
+Toul = Markero(
+    43.6,
+    1.43333,
+    "Toulouse",
+    """
 <p>Toulouse:<br>
 500 000 habitants </p>
-  """) 
+  """,
+)
 
 
-Mtp=Markero(43.62505, 3.862038,"Montpellier","""
+Mtp = Markero(
+    43.62505,
+    3.862038,
+    "Montpellier",
+    """
 <p>Montpellier:<br>
 300 000 habitants</p>
-  """)
+  """,
+)
 
-Tarbes=Markero(43.23333, 0.08333,"Tarbes","""
+Tarbes = Markero(
+    43.23333,
+    0.08333,
+    "Tarbes",
+    """
 <p>Tarbes:<br>
 Plus de 40 000 habitants</p>
-  """)
+  """,
+)
 
-Montauban=Markero(44.01667, 1.35,"Montauban","""
+Montauban = Markero(
+    44.01667,
+    1.35,
+    "Montauban",
+    """
 <p>Montauban:<br>
 Plus de 60 000 habitants</p>
-  """)
+  """,
+)
 
-Pey=Markero(43.6333, 0.1833,"Peyrusse-Vieille","""
+Pey = Markero(
+    43.6333,
+    0.1833,
+    "Peyrusse-Vieille",
+    """
 <p>Peyrusse-Vieille:<br>
 65 habitants </p>
-  """)
+  """,
+)
 
-Arg=Markero(43.005028, -0.101087,"Argeles-Gazost","""
+Arg = Markero(
+    43.005028,
+    -0.101087,
+    "Argeles-Gazost",
+    """
 <p>Argeles-Gazost:<br>
 Moins de 3000 habitants</p>
-  """)
+  """,
+)
 
-Perpi=Markero(42.683331,2.88333,"Perpignan","""
+Perpi = Markero(
+    42.683331,
+    2.88333,
+    "Perpignan",
+    """
 <p>Perpignan:<br>
 120 000 habitants </p>
-""")
+""",
+)
 
 Toul.SurCarte(Occitanie)
 Mtp.SurCarte(Occitanie)
@@ -274,50 +296,143 @@ folium.TileLayer("OpenStreetMap", name="Street Map").add_to(Occitanie)
 folium.TileLayer("Cartodb dark_matter", name="Sombre").add_to(Occitanie)
 folium.TileLayer("CartoDB Positron", name="Clair").add_to(Occitanie)
 
-folium.LayerControl(position= 'topleft',collapsed=True,opacity=0.7).add_to(Occitanie)
+folium.LayerControl(position="topleft", collapsed=True, opacity=0.7).add_to(Occitanie)
 
-GroupedLayerControl(position='bottomleft',
+GroupedLayerControl(
+    position="bottomleft",
     groups={"Polluants": [fpm10, fpm2, fno, fno2, fo3]},
-    collapsed=False
+    collapsed=False,
 ).add_to(Occitanie)
 
 
 Occitanie
 ```
 
-. . .
-
-:::{style="margin-bottom: 10px; font-size: 0.6em;"}
-Code de la carte
-:::
 
 
-## {auto-animate=true}
-::: {style="font-size: 2em;"}
-Code de la carte
-:::
+## Code de la carte{auto-animate=true}
+
 :::: {.columns}
-
-::: {.column width="40%" }
-```{.python filename="index.qmd" code-line-numbers="false"}
+::: {.column width="45%" }
+  Packages et données
+```{.python filename="index.qmd" code-line-numbers="|1,2|3,4,5|6|7|9,10,11,12,13,14,15"}
 import geopandas as gpd
 import pandas as pd
-import numpy as np
-import sys
 import folium
-from modules.carte import Markero
 from folium.plugins import HeatMap
 from folium.plugins import GroupedLayerControl
+from modules.carte import Markero
 import branca.colormap as cm
 # base de la carte avec les départements
-sf = gpd.read_file("../bases_de_donnees/departements-version-simplifiee.geojson")
+sf = gpd.read_file("bases_de_donnees/departements-version-simplifiee.geojson")
+polluant = pd.read_csv(
+    "bases_de_donnees/Mesure_mensuelle_annee.csv",
+    sep=",",
+    na_values="",
+    low_memory=False,
+)
 ```
 :::
 
+::: {.column width="55%"}
+  Création de la carte
+```{.python filename="index.qmd" code-line-numbers="false"}
+Occitanie=folium.Map(location=[43.716,2.15],
+zoom_start=6.5,tiles=None)
+folium.GeoJson(
+    sf[["nom", "geometry"]],
+    name="Départements",
+    zoom_on_click=True,
+    style_function=lambda feature: {
+        "fillColor": "#003322",
+        "color": "grey",
+        "weight": 2,
+        "dashArray": "5, 5",
+        "fillOpacity": 0.01,
+    },
+    tooltip=folium.features.GeoJsonTooltip(
+        fields=["nom"],
+        aliases=["Département:"],
+    ),
+).add_to(Occitanie)
+```
+:::
+::::
+
+## Code de la carte{auto-animate="true"}
+
+:::: {.columns}
+
+::: {.column width="45%" }
+  Légende
+```{.python filename="index.qmd"}
+color_mapa=cm.LinearColormap(
+  colors=['darkblue','purple','yellow'],
+  caption='intensité de concentration du polluant')
+#cadre de la légende
+svg_style = '<style>svg#legend {background-color: rgba(255,255,255,0.5);}</style>'
+
+Occitanie.get_root()
+.header.add_child(folium.Element(svg_style))
+color_mapa.add_to(Occitanie)
+```
+<br>
+
+:::{.fragment fragment-index=2}
+
+```{python}
+color_mapa=cm.LinearColormap(
+  colors=['darkblue','purple','yellow'],
+  caption='intensité de concentration du polluant')
+#cadre de la légende
+svg_style = '<style>svg#legend {background-color: rgba(255,255,255,0.5);}</style>'
+
+color_mapa
+```
+:::
+:::
+::: {.column width="55%" }
+  Manipulation du dataframe
+```{.python filename="index.qmd" code-line-numbers="|3,4,5,6,7,8,9|"}
+polluants = polluant.dropna()
+#moyenne des polluants sur l'année
+polluants = (
+    polluants.groupby(
+        ["X", "Y", "nom_poll"]
+    )["valeur"]
+    .mean()
+    .reset_index(name="valeur")
+)
+# PM10
+PM10 = polluants[(polluants["nom_poll"]
+== "PM10")]
+heatPM10 = PM10[["Y", "X", "valeur"]]
+lng = heatPM10["X"].tolist()
+lat = heatPM10["Y"].tolist()
+val = heatPM10["valeur"].tolist()
+#Création du layer Heatmap
+pm10 = HeatMap(
+    list(zip(lat, lng, val)),
+    name="PM10",
+    gradient=grad,
+    radius=40,
+    blur=35,
+)
+fpm10 = folium.FeatureGroup(name="PM10",
+show=True)
+pm10.add_to(fpm10)
+Occitanie.add_child(fpm10)
+```
+:::
+::::
 
 
-::: {.column width="60%"}
-```{.python filename="carte.py" code-line-numbers="false"}
+## Classe python
+
+:::: {.columns}
+
+::: {.column width="60%" }
+```{.python filename="carte.py" code-line-numbers="false" }
 class Markero(object):
     """Classe pour faire les points folium facilement"""
 
@@ -338,6 +453,25 @@ class Markero(object):
          color="darkpurple")
         ).add_to(carte)
 
+```
+:::
+
+::: {.column width="40%" }
+Utilisation
+```{.python  filename="index.qmd"}
+from modules.carte import Markero
+
+Mtp=Markero(
+    43.62505, 
+    3.862038,
+    "Montpellier",
+    """
+    <p>Montpellier:<br>
+    300 000 habitants</p>
+    """
+)
+
+Mtp.SurCarte(Occitanie)
 ```
 :::
 ::::
@@ -501,11 +635,15 @@ print(occ_villes)
 ::::
 
 ## Choix des villes
-:::{.incremental}
+::: {.fragment fragment-index=1}
 - **Toulouse** : 498 000 haabitants
-- **Montpellier** : 312 000 habitants 
+- **Montpellier** : 312 000 habitants
+:::
+::: {.fragment fragment-index=2}
 - **Montauban** : 63 000 habitants
 - **Tarbes** : 44 000 habitants
+:::
+::: {.fragment fragment-index=3}
 - **Argèles-Gazost** : 2 900 habitants
 - **Peyrusse-Vieille** : 59 habitants
 :::
