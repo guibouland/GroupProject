@@ -343,85 +343,20 @@ class Markero(object):
 ::::
 
 ## Etude de la pollution dans chaque département
-
-```{python}
-#| echo: false
-import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
-import warnings
-import sys
-sys.path.append( '../' )
-
-# Désactiver temporairement les avertissements spécifiques
-warnings.filterwarnings("ignore", category=UserWarning, message="Converting to PeriodArray/Index representation will drop timezone information.")
-
-pd.options.mode.chained_assignment = None
-# Charger les données
-bdd1 = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
-bdd1['valeur'].fillna(0, inplace=True)
-
-# Liste des polluants à afficher
-polluants = ['NO', 'NOX', 'O3', 'PM10', 'NO2']
-
-# Plages des ordonnées pour chaque polluant
-ordonnee_ranges = {'NO': [0, 85], 'NOX': [0, 180], 'O3': [0, 90], 'PM10': [0, 45], 'NO2': [0, 70]}
-
-# Boucle à travers les polluants pour créer les graphiques
-for polluant in polluants:
-    # Filtrer les données pour le polluant et le département HAUTE-GARONNE
-    filtered_data = bdd1[(bdd1['nom_dept'] == 'HAUTE-GARONNE') & (bdd1['nom_poll'] == polluant)]
-    filtered_data = filtered_data.sort_values(by='date_debut')
-
-    # Afficher le titre entre chaque graphique
-    from IPython.display import display, Markdown
-    display(Markdown(f"Evolution mensuelle du {polluant}"))
+:::{.incremental}
+- Pourquoi étudier par département? 
+  - comparaison inter-département
+  - comparaison intra-département
+- Données utilisées
+  - année actuelle (moyenne par mois)
+  - 5 dernières années (moyenne par an)
+  - polluants: NO,NOX,O3,PM2,PM10
+- Quelles villes? 
+  - Toutes celles disponibles
+:::
 
 
-    # Convertir la colonne de dates au format aaaa/mm
-    filtered_data['date_debut'] = pd.to_datetime(filtered_data['date_debut']).dt.to_period('M').astype(str)
-
-    # Créer un graphique interactif avec Plotly Express
-    fig = px.scatter(
-        filtered_data, x='date_debut', y='valeur',
-        color='nom_station', size='valeur', hover_name='date_debut',
-        title=f'Évolution de la pollution {polluant} en Haute-Garonne',
-        labels={'valeur': f'Valeur {polluant} (ug.m-3)', 'date_debut': 'Année'}
-    )
-
-    # Ajouter des lignes reliant les points pour chaque station
-    for nom_station in filtered_data['nom_station'].unique():
-        trace_data = filtered_data[filtered_data['nom_station'] == nom_station]
-        fig.add_trace(go.Scatter(
-            x=trace_data['date_debut'],
-            y=trace_data['valeur'],
-            mode='lines',  # Utilisez 'lines' pour ajouter des lignes reliant les points
-            showlegend=False
-        ))
-
-    # Mise en forme et personnalisation
-    fig.update_layout(
-        title_text=f'Évolution de la pollution {polluant} en Haute-Garonne',
-        title_x=0.5,  # Centrer le titre
-        xaxis_title="Année",
-        yaxis_title=f'Valeur {polluant} (ug.m-3)',
-        xaxis_tickformat="%Y/%m",  # Format de l'axe des x
-        legend=dict(orientation="h", yanchor="bottom", y=-0.5, xanchor="center", x=0.5, traceorder='reversed'),
-        margin=dict(l=10, r=10, t=70, b=10),  # Ajustements des marges
-        paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
-        plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
-        yaxis=dict(range=ordonnee_ranges[polluant]),  # Ajuster l'axe des ordonnées
-        font=dict(color='Grey')
-    )
-    #couleur grille
-    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
-    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
-    # Afficher le graphique
-    fig.show()
-
-```
-
-##
+## modules utilisés
 ```{python}
 #| echo: true
 #| eval: false
@@ -430,12 +365,12 @@ import plotly.express as px
 import plotly.graph_objects as go
 import warnings
 import sys
-sys.path.append( '../' )
+```
 
-# Désactiver temporairement les avertissements spécifiques
-warnings.filterwarnings("ignore", category=UserWarning, message="Converting to PeriodArray/Index representation will drop timezone information.")
-
-pd.options.mode.chained_assignment = None
+## Charger et trier les bases de données
+```{python}
+#| echo: true
+#| eval: false
 # Charger les données
 bdd1 = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
 bdd1['valeur'].fillna(0, inplace=True)
@@ -445,7 +380,10 @@ polluants = ['NO', 'NOX', 'O3', 'PM10', 'NO2']
 
 # Plages des ordonnées pour chaque polluant
 ordonnee_ranges = {'NO': [0, 85], 'NOX': [0, 180], 'O3': [0, 90], 'PM10': [0, 45], 'NO2': [0, 70]}
-
+```
+```{python}
+#| echo: true
+#| eval: false
 # Boucle à travers les polluants pour créer les graphiques
 for polluant in polluants:
     # Filtrer les données pour le polluant et le département HAUTE-GARONNE
@@ -459,7 +397,12 @@ for polluant in polluants:
 
     # Convertir la colonne de dates au format aaaa/mm
     filtered_data['date_debut'] = pd.to_datetime(filtered_data['date_debut']).dt.to_period('M').astype(str)
+```
 
+## Générer les graphiques
+```{python}
+#| echo: true
+#| eval: false
     # Créer un graphique interactif avec Plotly Express
     fig = px.scatter(
         filtered_data, x='date_debut', y='valeur',
@@ -477,7 +420,11 @@ for polluant in polluants:
             mode='lines',  # Utilisez 'lines' pour ajouter des lignes reliant les points
             showlegend=False
         ))
-
+```
+## Mise en forme des graphiques
+```{python}
+#| echo: true
+#| eval: false
     # Mise en forme et personnalisation
     fig.update_layout(
         title_text=f'Évolution de la pollution {polluant} en Haute-Garonne',
@@ -497,11 +444,12 @@ for polluant in polluants:
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
     # Afficher le graphique
     fig.show()
-
 ```
-
-
-
+##
+```{python}
+#| echo: false
+#| eval: true
+```
 ## Étude de l'influence de la population
 :::{.incremental}
 - Pourquoi comparer les villes? 
@@ -513,7 +461,7 @@ for polluant in polluants:
 :::
 
 ## Occurences villes
-\
+
 
 :::: {.columns}
 
@@ -1710,10 +1658,225 @@ fig.show()
 ```
 
 
-## Problèmes rencontrés
-```{python,eval=FALSE,echo=TRUE}
-# mettre mon code dash 
+## Dash
+```{python}
+#| echo: true
+#| eval: false
+import dash
+from dash import dcc, html
+from dash.dependencies import Input, Output
+import pandas as pd
+import plotly.express as px
+# Charger les données
+bdd1 = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+bdd1['valeur'].fillna(0, inplace=True)
+bdd2 = pd.read_csv("../bases_de_donnees/Mesure_5dernieresannees.csv")
+bdd2['valeur'].fillna(0, inplace=True)
+# Créer une application Dash
+app = dash.Dash(__name__)
+# Créer la mise en page de l'application
+app.layout = html.Div([
+    html.H1("Évolution de la pollution en Occitanie"),
+    # Sélection de la période étudiée
+    dcc.Dropdown(
+        id='periode',
+        options=[
+            {'label': '5 dernières années', 'value': '5ans'},
+            {'label': 'année actuelle', 'value': 'annee_actuelle'},
+        ],
+        value='5ans'
+    ),
+    # Sélection du département
+    dcc.Dropdown(
+        id='departement',
+        options=[
+            {'label': 'HAUTE-GARONNE', 'value': 'HAUTE-GARONNE'},
+            {'label': 'GERS', 'value': 'GERS'},
+            {'label': 'TARN', 'value': 'TARN'},
+            {'label': 'HAUTES-PYRENEES', 'value': 'HAUTES-PYRENEES'},
+            {'label': 'TARN-ET-GARONNE', 'value': 'TARN-ET-GARONNE'},
+            {'label': 'HERAULT', 'value': 'HERAULT'},
+            {'label': 'PYRENEES-ORIENTALES', 'value': 'PYRENEES-ORIENTALES'},
+            {'label': 'AVEYRON', 'value': 'AVEYRON'},
+            {'label': 'ARIEGE', 'value': 'ARIEGE'},
+            {'label': 'GARD', 'value': 'GARD'},
+            {'label': 'LOZERE', 'value': 'LOZERE'},
+        ],
+        value='HAUTE-GARONNE'
+    ),
+    # Sélection du polluant
+    dcc.Dropdown(
+        id='polluant-dropdown',
+        options=[
+            {'label': 'NO', 'value': 'NO'},
+            {'label': 'NO2', 'value': 'NO2'},
+            {'label': 'NOX', 'value': 'NOX'},
+            {'label': 'O3', 'value': 'O3'},
+            {'label': 'PM10', 'value': 'PM10'}
+        ],
+        value='NO'
+    ),   
+    # Graphique interactif - Scatter Plot
+    dcc.Graph(id='scatter-graph'),
+])
+# Mettre à jour le graphique en fonction de la sélection du département et du type de polluant
+@app.callback(
+    Output('scatter-graph', 'figure'),
+    [Input('departement', 'value'),
+     Input('polluant-dropdown', 'value'),
+     Input('periode', 'value')]
+)
+def update_graph(selected_departement, selected_pollutant, selected_periode):
+    if selected_periode == '5ans':
+        bdd = bdd2
+    else:
+        bdd = bdd1
+    filtered_data = bdd[(bdd['nom_dept'] == selected_departement) & (bdd['nom_poll'] == selected_pollutant)]
+    filtered_data = filtered_data.sort_values(by='date_debut')
+    # Scatter Plot
+    scatter_fig = px.scatter(
+        filtered_data, x='date_debut', y='valeur',
+        color='nom_station', size='valeur', hover_name='date_debut'
+    )
+    scatter_fig.update_layout(
+        title=f'Évolution de la pollution pour {selected_pollutant} en {selected_departement}',
+        xaxis_title='Année',
+        yaxis_title=f'Valeur {selected_pollutant} ug.m-3'
+    )
+    # Ajouter une trace pour chaque station du département
+    for nom_station in filtered_data['nom_station'].unique():
+        trace_data = filtered_data[filtered_data['nom_station'] == nom_station]
+        scatter_fig.add_scatter(
+            x=trace_data['date_debut'],
+            y=trace_data['valeur'],
+            mode='markers+lines',  # Use 'markers+lines' to connect the points with lines
+            name=nom_station  # Utilisez le nom de la station comme nom de la trace
+        )
+    # Ajuster l'axe des ordonnées pour chaque graphique
+    scatter_fig.update_yaxes(
+        range=[filtered_data['valeur'].min(), filtered_data['valeur'].max() + 10]
+    )
+    return scatter_fig
+if __name__ == '__main__':
+    app.run_server(port=8051,debug=True)
 ```
+##
+```{python}
+#| echo: false
+#| eval: true
+import dash
+from dash import dcc, html
+from dash.dependencies import Input, Output
+import pandas as pd
+import plotly.express as px
+
+# Charger les données
+bdd1 = pd.read_csv("../bases_de_donnees/Mesure_mensuelle_annee.csv")
+bdd1['valeur'].fillna(0, inplace=True)
+bdd2 = pd.read_csv("../bases_de_donnees/Mesure_5dernieresannees.csv")
+bdd2['valeur'].fillna(0, inplace=True)
+
+# Créer une application Dash
+app = dash.Dash(__name__)
+
+# Créer la mise en page de l'application
+app.layout = html.Div([
+    html.H1("Évolution de la pollution en Occitanie"),
+    # Sélection de la période étudiée
+    dcc.Dropdown(
+        id='periode',
+        options=[
+            {'label': '5 dernières années', 'value': '5ans'},
+            {'label': 'année actuelle', 'value': 'annee_actuelle'},
+        ],
+        value='5ans'
+    ),
+
+    # Sélection du département
+    dcc.Dropdown(
+        id='departement',
+        options=[
+            {'label': 'HAUTE-GARONNE', 'value': 'HAUTE-GARONNE'},
+            {'label': 'GERS', 'value': 'GERS'},
+            {'label': 'TARN', 'value': 'TARN'},
+            {'label': 'HAUTES-PYRENEES', 'value': 'HAUTES-PYRENEES'},
+            {'label': 'TARN-ET-GARONNE', 'value': 'TARN-ET-GARONNE'},
+            {'label': 'HERAULT', 'value': 'HERAULT'},
+            {'label': 'PYRENEES-ORIENTALES', 'value': 'PYRENEES-ORIENTALES'},
+            {'label': 'AVEYRON', 'value': 'AVEYRON'},
+            {'label': 'ARIEGE', 'value': 'ARIEGE'},
+            {'label': 'GARD', 'value': 'GARD'},
+            {'label': 'LOZERE', 'value': 'LOZERE'},
+        ],
+        value='HAUTE-GARONNE'
+    ),
+
+    # Sélection du polluant
+    dcc.Dropdown(
+        id='polluant-dropdown',
+        options=[
+            {'label': 'NO', 'value': 'NO'},
+            {'label': 'NO2', 'value': 'NO2'},
+            {'label': 'NOX', 'value': 'NOX'},
+            {'label': 'O3', 'value': 'O3'},
+            {'label': 'PM10', 'value': 'PM10'}
+        ],
+        value='NO'
+    ),
+    
+    # Graphique interactif - Scatter Plot
+    dcc.Graph(id='scatter-graph'),
+])
+
+# Mettre à jour le graphique en fonction de la sélection du département et du type de polluant
+@app.callback(
+    Output('scatter-graph', 'figure'),
+    [Input('departement', 'value'),
+     Input('polluant-dropdown', 'value'),
+     Input('periode', 'value')]
+)
+def update_graph(selected_departement, selected_pollutant, selected_periode):
+    if selected_periode == '5ans':
+        bdd = bdd2
+    else:
+        bdd = bdd1
+
+    filtered_data = bdd[(bdd['nom_dept'] == selected_departement) & (bdd['nom_poll'] == selected_pollutant)]
+    filtered_data = filtered_data.sort_values(by='date_debut')
+
+    # Scatter Plot
+    scatter_fig = px.scatter(
+        filtered_data, x='date_debut', y='valeur',
+        color='nom_station', size='valeur', hover_name='date_debut'
+    )
+
+    scatter_fig.update_layout(
+        title=f'Évolution de la pollution pour {selected_pollutant} en {selected_departement}',
+        xaxis_title='Année',
+        yaxis_title=f'Valeur {selected_pollutant} ug.m-3'
+    )
+
+    # Ajouter une trace pour chaque station du département
+    for nom_station in filtered_data['nom_station'].unique():
+        trace_data = filtered_data[filtered_data['nom_station'] == nom_station]
+        scatter_fig.add_scatter(
+            x=trace_data['date_debut'],
+            y=trace_data['valeur'],
+            mode='markers+lines',  # Use 'markers+lines' to connect the points with lines
+            name=nom_station  # Utilisez le nom de la station comme nom de la trace
+        )
+
+    # Ajuster l'axe des ordonnées pour chaque graphique
+    scatter_fig.update_yaxes(
+        range=[filtered_data['valeur'].min(), filtered_data['valeur'].max() + 10]
+    )
+
+    return scatter_fig
+
+if __name__ == '__main__':
+    app.run_server(port=8051,debug=True)
+```
+## Tkinter
 
 
 ## Liens pollutions et météorologie
