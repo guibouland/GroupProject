@@ -1,6 +1,6 @@
 import time 
 start = time.time()
-from meteo import graphique, trace, graphique_polar, graphique_axe, resultats, moy
+from meteo import graphique, trace, graphique_polar, graphique_axe
 from carte import Markero
 import plotly.graph_objects as go
 import pandas as pd
@@ -33,23 +33,6 @@ def test_graphique_axe():
     assert fig.layout.yaxis.title.text == "Concentration (µg.m⁻³)"
     assert fig.layout.yaxis2.title.text == "Axe Y2"
 
-def test_resultats():
-    date = 'Jour'
-    polluants_tous = ['Polluant1', 'Polluant2']
-    polluants = pd.DataFrame({'Jour': ['2023-01-01', '2023-01-01', '2023-01-02', '2023-01-02'],
-                              'valeur': [10, 15, 20, 25],
-                              'nom_poll': ['Polluant1', 'Polluant2', 'Polluant1', 'Polluant2']})
-    mapping = {'2023-01-01': 'Lundi', '2023-01-02': 'Mardi'}
-    result = resultats(date, polluants_tous, polluants, mapping)
-    assert result[0].shape == (2, 3)  # Vérifier la forme du DataFrame résultant
-
-def test_moy():
-    var = pd.DataFrame({'date': ['2023-01-01', '2023-01-01', '2023-01-02', '2023-01-02'],
-                        'valeur': [10, 15, 20, 25],
-                        'nom1': ['Polluant1', 'Polluant2', 'Polluant1', 'Polluant2']})
-    resultat = moy(var, 'nom1', 'Polluant1', 'date')
-    assert resultat.shape == (2, 2)  # Vérifier la forme du DataFrame résultant
-    
 def test_markero_sur_carte():
     # Créer une carte Folium
     carte = folium.Map(location=[0, 0], zoom_start=5)

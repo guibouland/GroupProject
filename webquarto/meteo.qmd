@@ -32,7 +32,7 @@ import plotly.graph_objects as go
 DONNEES
 """
 
-# Importer les valeurs
+# Importer les données
 polluants = pd.read_csv("../bases_de_donnees/donnees_polluants_2022_2023_Toulouse.csv",
                         sep=",", na_values="", low_memory=False)
 
@@ -43,19 +43,19 @@ polluants['Date'] = pd.to_datetime(polluants['date_debut'])
 polluants_mars = polluants[polluants['Date'].dt.month == 3].copy()
 
 # Définir les polluants
-polluants_tous = ['PM10', 'O3', 'NOX', 'NO2', 'PM2.5', 'NO']
+liste_polluants = ['PM10', 'O3', 'NOX', 'NO2', 'PM2.5', 'NO']
 
 # Définir les couleurs correspondantes
 couleur = ['orange', 'green', 'purple', 'red', 'blue', 'grey']
 
 # Dictionnaire de correspondance entre les anciens et les nouveaux noms des mois/jours
-mois_mapping = {"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin",
+nom_mois = {"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin",
                 "07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre"}
-jours_mapping = {"Monday": "Lundi", "Tuesday": "Mardi", "Wednesday": "Mercredi",
+nom_jours = {"Monday": "Lundi", "Tuesday": "Mardi", "Wednesday": "Mercredi",
                  "Thursday": "Jeudi", "Friday": "Vendredi", "Saturday": "Samedi", "Sunday": "Dimanche"}
 
 
-def concentration(date, format, mapping, titre, temps):
+def concentration(date, format, nom_date, titre, temps):
     """Traitement des polluants exclusivement"""
 
     """
@@ -65,14 +65,41 @@ def concentration(date, format, mapping, titre, temps):
     # Formatage des dates
     polluants[date] = polluants['Date'].dt.strftime(format)
 
-    # Moyenne des valeurs des polluants
-    resultat = md.resultats(date, polluants_tous, polluants, mapping)
+    # Moyenne des valeurs de chaque polluant par date
+    resultat = []
+
+    for polluant in liste_polluants:
+        df_polluant = (
+            polluants[polluants["nom_poll"] == polluant]
+            .groupby(date)["valeur"].mean().reset_index()
+        )
+        # Ajout de la colonne éponyme pour la sélectionner individuellement
+        df_polluant["nom"] = polluant
+        if date == "Jour":
+            # Trier par date et la renommer
+            df_polluant["Jour"] = pd.Categorical(
+                df_polluant["Jour"],
+                categories=[
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday",
+                ],
+                ordered=True,
+            )
+            df_polluant = df_polluant.sort_values(date)
+        # Renommer la date
+        df_polluant[date] = df_polluant[date].replace(nom_date)
+        resultat.append(df_polluant)
 
     # Récupérer les DataFrames individuels
-    PM, O, NOX, NOO, PMM, NO = resultat
+    PM10, O3, NOX, NO2, PM2, NO = resultat
 
     # Concaténer tous les polluants dans resultat
-    resultat = pd.concat([NOX, NOO, NO, O, PM, PMM], ignore_index=True)
+    resultat = pd.concat([NOX, NO2, NO, O3, PM10, PM2], ignore_index=True)
 
     """
     GRAPHIQUE
@@ -99,11 +126,11 @@ def concentration(date, format, mapping, titre, temps):
 
     # Ajouter les traces pour chaque polluant
     fig.add_trace(md.trace(NOX, 'orange', 'NOx', date))
-    fig.add_trace(md.trace(NOO, 'green', 'NO₂', date))
+    fig.add_trace(md.trace(NO2, 'green', 'NO₂', date))
     fig.add_trace(md.trace(NO, 'purple', 'NO', date))
-    fig.add_trace(md.trace(O, 'red', 'O₃', date))
-    fig.add_trace(md.trace(PM, 'blue', 'PM10', date))
-    fig.add_trace(md.trace(PMM, 'grey', 'PM2.5', date))
+    fig.add_trace(md.trace(O3, 'red', 'O₃', date))
+    fig.add_trace(md.trace(PM10, 'blue', 'PM10', date))
+    fig.add_trace(md.trace(PM2, 'grey', 'PM2.5', date))
 
     # Afficher les graphiques
     fig_polar.show()
@@ -111,7 +138,7 @@ def concentration(date, format, mapping, titre, temps):
 
 
 # Graphique mois
-concentration('Mois', '%m', mois_mapping,
+concentration('Mois', '%m', nom_mois,
               'Concentration moyenne mensuelle des polluants (en µg.m⁻³)', 'Temps (mois)')
 
 ```
@@ -128,7 +155,7 @@ Concernant les particules en suspension, elles ont toutes deux en moyenne les m�
 
 ```{python}
 # Graphique jour
-concentration('Jour', '%A', jours_mapping,
+concentration('Jour', '%A', nom_jours,
               'Concentration moyenne quotidienne des polluants (en µg.m⁻³)', 'Temps (jours)')
 ```
 <br>
@@ -167,10 +194,10 @@ VENT
 """
 
 # Vitesse moyenne du vent chaque jour de la période
-vent_moy = donnees_mars.groupby('Date')['valeur'].mean().reset_index()
+vent = donnees_mars.groupby('Date')['valeur'].mean().reset_index()
 
 # Conversion en km/h
-vent_moy['valeur'] = vent_moy['valeur'].multiply(3.6)
+vent['valeur'] = vent['valeur'].multiply(3.6)
 
 
 """
@@ -178,27 +205,27 @@ POLLUANTS
 """
 
 # Moyenne des valeurs des polluants par jour
-NOX = md.moy(polluants_mars, 'nom_poll', 'NOX', 'Date')
-NOO = md.moy(polluants_mars, 'nom_poll', 'NO2', 'Date')
-NO = md.moy(polluants_mars, 'nom_poll', 'NO', 'Date')
-O = md.moy(polluants_mars, 'nom_poll', 'O3', 'Date')
+NOX = polluants_mars[(polluants_mars['nom_poll'] == 'NOX')].groupby('Date')["valeur"].mean().reset_index()
+NO2 = polluants_mars[(polluants_mars['nom_poll'] == 'NO2')].groupby('Date')["valeur"].mean().reset_index()
+NO = polluants_mars[(polluants_mars['nom_poll'] == 'NO')].groupby('Date')["valeur"].mean().reset_index()
+O3 = polluants_mars[(polluants_mars['nom_poll'] == 'O3')].groupby('Date')["valeur"].mean().reset_index()
 
 """
 GRAPHIQUE
 """
 
-# Ajouter la trace pour le vecteur vent_moy sur le deuxième axe Y
-trace_vent_moy = go.Scatter(x=vent_moy["Date"], y=vent_moy["valeur"], mode='lines', line=dict(
+# Ajouter la trace pour le vecteur vent sur le deuxième axe Y
+trace_vent = go.Scatter(x=vent["Date"], y=vent["valeur"], mode='lines', line=dict(
     width=2, color='pink'), name='Vent', yaxis='y2')
 
 # Créer la figure
-fig = go.Figure([trace_vent_moy])
+fig = go.Figure([trace_vent])
 
-# Ajouter les courbes des polluants
+# Ajouter les courbes
 fig.add_trace(md.trace(NOX, 'orange', 'NOx', "Date"))
-fig.add_trace(md.trace(NOO, 'green', 'NO₂', "Date"))
+fig.add_trace(md.trace(NO2, 'green', 'NO₂', "Date"))
 fig.add_trace(md.trace(NO, 'purple', 'NO', "Date"))
-fig.add_trace(md.trace(O, 'red', 'O₃', "Date"))
+fig.add_trace(md.trace(O3, 'red', 'O₃', "Date"))
 
 md.graphique_axe(
     fig, "Vitesse du vent et émissions d'oxydes d'azote (mars 2023)", 'Vitesse (km.h⁻¹)')
@@ -235,19 +262,19 @@ POLLUANTS
 polluants['Date'] = pd.to_datetime(polluants['date_debut'])
 
 # Moyenne des valeurs des polluants par jour
-O = md.moy(polluants, 'nom_poll', 'O3', 'Date')
+O3 = polluants[(polluants['nom_poll'] == 'O3')].groupby('Date')["valeur"].mean().reset_index()
 
 """
 GRAPHIQUE
 """
 
-# Ajouter la trace pour le vecteur vent_moy sur le deuxième axe Y
+# Ajouter la trace pour le vecteur vent sur le deuxième axe Y
 trace_temp_moy = go.Scatter(x=temp_moy["Date"], y=temp_moy["valeur"], mode='lines', line=dict(
     width=2, color='purple'), name='Température', yaxis='y2')
 
 # Créer la figure
 fig = go.Figure([trace_temp_moy])
-fig.add_trace(md.trace(O, 'orange', 'O₃', "Date"))
+fig.add_trace(md.trace(O3, 'orange', 'O₃', "Date"))
 md.graphique_axe(fig, "Température et concentration d'ozone",
                  'Température (°C)')
 
