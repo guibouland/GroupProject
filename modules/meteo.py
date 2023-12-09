@@ -76,46 +76,5 @@ def graphique_axe(fig, titre, yaxis2_title):
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor="LightGrey")
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor="LightGrey")
 
-
-def resultats(date, polluants_tous, polluants, mapping):
-    """moyenne des valeurs des polluants"""
-    resultat = []
-    # Moyenne des valeurs des polluants par jour
-    for polluant in polluants_tous:
-        # Moyenne des valeurs de chaque polluant par jour
-        df_polluant = (
-            polluants[polluants["nom_poll"] == polluant]
-            .groupby(date)["valeur"]
-            .mean()
-            .reset_index()
-        )
-        # Ajout de la colonne éponyme pour la reconnaître
-        df_polluant["nom"] = polluant
-        if date == "Jour":
-            # Trier par date et la renommer
-            df_polluant["Jour"] = pd.Categorical(
-                df_polluant["Jour"],
-                categories=[
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday",
-                    "Sunday",
-                ],
-                ordered=True,
-            )
-            df_polluant = df_polluant.sort_values(date)
-        # Renommer la date
-        df_polluant[date] = df_polluant[date].replace(mapping)
-        resultat.append(df_polluant)
-    return resultat
-
-
-def moy(var, nom1, nom2, date):
-    """Moyenne des valeurs des variables par date"""
-    return var[(var[nom1] == nom2)].groupby(date)["valeur"].mean().reset_index()
-
 end = time.time()
 print(f"Execution time: {end - start:.5f} s.")

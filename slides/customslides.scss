@@ -13,3 +13,11 @@ $presentation-block-margin: 2px;
   border-left: 3px solid $text-muted;
   padding-left: 0.5em;
 }
+
+code {
+    line-height: 100%;
+    height: relative;
+    padding: 0.2em;
+    word-break: normal;
+    border-radius: 5px;
+}
