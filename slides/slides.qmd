@@ -2022,9 +2022,7 @@ if __name__ == '__main__':
 :::
 
 ## Organisation de la base de données
-```{python}
-#| echo: true
-#| eval: false
+```{.python filename="meteo.qmd"}
 import sys
 import pandas as pd
 import plotly.express as px
@@ -2059,9 +2057,7 @@ resultat = pd.concat([NOX, NO2, NO, O3, PM10, PM2], ignore_index=True)
 ```
 
 ## Paramétrage du graphique
-```{python}
-#| echo: true
-#| eval: false
+```{.python filename="meteo.qmd"}
 fig_polar = px.line_polar(
     resultat,
     r="valeur",
@@ -2076,9 +2072,7 @@ fig_polar = px.line_polar(
 ```
 
 ## Mise en forme du graphique
-```{python}
-#| echo: true
-#| eval: false
+```{.python filename="meteo.py"}
 def graphique_polar(fig):
     """Mise en page d'un graphique polaire"""
     fig.update_layout(
@@ -2184,7 +2178,29 @@ def concentration(date, format, nom_date, titre, temps):
         color_discrete_sequence=couleur,
         title=titre
     )
-    md.graphique_polar(fig_polar)
+    fig_polar.update_layout(
+        font_size=15,
+        font_color="grey",
+        showlegend=True,
+        polar=dict(
+            bgcolor="rgba(223, 223, 223,0)",
+            angularaxis=dict(linewidth=3, showline=True, linecolor="grey"),
+            radialaxis=dict(
+                showline=True,
+                linewidth=2,
+                gridcolor="rgba(100, 100, 100,0.5)",
+                gridwidth=2,
+            ),
+            angularaxis_gridcolor="rgba(100, 100, 100,0.5)",
+            radialaxis_linecolor="rgb(100, 100, 100)",
+            radialaxis_color="grey",
+        ),
+        paper_bgcolor="rgba(230, 230, 230,0)",  # Couleur de contour de graphique
+        plot_bgcolor="rgba(230, 230, 230,0)",  # Couleur du fond du graphique
+        width=1900,
+        height=780,
+        margin=dict(l=100, r=1000, t=100, b=100),
+    )
 
     # Afficher le graphique polaire
     fig_polar.show()
@@ -2194,9 +2210,7 @@ concentration('Mois', '%m', nom_mois, 'Concentration moyenne mensuelle des pollu
 ```
 
 ## Organisation des bases de données
-```{python}
-#| echo: true
-#| eval: false
+```{.python filename="meteo.qmd"}
 # Importer les données
 donnees = pd.read_csv("../bases_de_donnees/donnees_meteo_2022_2023_Toulouse.csv",
                       sep=";", na_values="", low_memory=False)
@@ -2222,10 +2236,7 @@ O3 = polluants_mars[(polluants_mars['nom_poll'] == 'O3')].groupby('Date')["valeu
 
 
 ## Mise en forme du graphique
-```{python}
-#| echo: true
-#| eval: false
-# Mise en forme des graphiques
+```{.python filename="meteo.py"}
 def graphique_axe(fig, titre, yaxis2_title):
     """Mise en page d'un graphique cartésien avec 2 axes y"""
     fig.update_layout(
@@ -2249,12 +2260,11 @@ def graphique_axe(fig, titre, yaxis2_title):
 def trace(df, color, name, date):
     """Ajout courbe sur un graphique cartésien"""
     return go.Scatter(x=df[date], y=df["valeur"], mode="lines", line=dict(width=2, color=color), name="Date")
+```
 
+```{.python filename="meteo.qmd"}
 fig.add_trace(md.trace(vent, 'pink', 'vent', "Date"))
 fig.add_trace(md.trace(NOX, 'orange', 'NOx', "Date"))
-fig.add_trace(md.trace(NO2, 'green', 'NO₂', "Date"))
-fig.add_trace(md.trace(NO, 'purple', 'NO', "Date"))
-fig.add_trace(md.trace(O3, 'red', 'O₃', "Date"))
 ```
 
 ##
@@ -2322,8 +2332,24 @@ fig.add_trace(md.trace(NO2, 'green', 'NO₂', "Date"))
 fig.add_trace(md.trace(NO, 'purple', 'NO', "Date"))
 fig.add_trace(md.trace(O3, 'red', 'O₃', "Date"))
 
-md.graphique_axe(
-    fig, "Vitesse du vent et émissions d'oxydes d'azote (mars 2023)", 'Vitesse (km.h⁻¹)')
+fig.update_layout(
+    title="Vitesse du vent et émissions d'oxydes d'azote (mars 2023)",
+    xaxis=dict(title="Temps (jours)"),  # Abscisse
+    yaxis=dict(title="Concentration (µg.m⁻³)", side="left", position=0),  # Ordonnée
+    yaxis2=dict(
+        title='Vitesse (km.h⁻¹)', overlaying="y", side="right", position=1
+    ),  # Deuxième ordonnée
+    font_size=15,
+    showlegend=True,
+    paper_bgcolor="rgba(230, 230, 230,0)",  # Couleur de contour de graphique
+    plot_bgcolor="rgba(100,100,100,0)",  # Couleur du fond du graphique
+    font=dict(color="Grey"),
+    legend=dict(x=1.1, y=1),
+    width=1050,
+    height=700,
+)
+fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor="LightGrey")
+fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor="LightGrey")
 
 # Afficher le graphique
 fig.show()
@@ -2332,10 +2358,9 @@ fig.show()
 
 
 ## Tests pythons
-```{python}
-#| echo: true
-#| eval: false
+```{.python filename="test_modules.py"}
 from modules.meteo import trace
+from modules.carte import Markero
 
 def test_trace():
     df = pd.DataFrame({'date': ['2023-01-01', '2023-01-02'], 'valeur': [10, 20]})
