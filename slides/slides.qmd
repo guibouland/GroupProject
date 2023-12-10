@@ -478,10 +478,10 @@ Mtp.SurCarte(Occitanie)
 ## Étude de la pollution dans chaque département
 :::{.incremental}
 - Pourquoi étudier par département? 
-  - comparaison inter-département
-  - comparaison intra-département
+  - Comparaison inter-département
+  - Comparaison intra-département
 - Données utilisées pour les polluants: NO,NOX,O3,PM2,PM10
-  - année actuelle (moyenne par mois)
+  - Année actuelle (moyenne par mois)
   - 5 dernières années (moyenne par an)
 - Quelles villes? 
   - Toutes celles disponibles
@@ -513,6 +513,8 @@ polluants = ['NO', 'NOX', 'O3', 'PM10', 'NO2']
 # Plages des ordonnées pour chaque polluant
 ordonnee_ranges = {'NO': [0, 85], 'NOX': [0, 180], 'O3': [0, 90], 'PM10': [0, 45], 'NO2': [0, 70]}
 ```
+
+
 ```{python}
 #| echo: true
 #| eval: false
@@ -578,6 +580,10 @@ for polluant in polluants:
     # Afficher le graphique
     fig.show()
 ```
+
+## Mise en forme des graphiques
+\
+
 ```{python}
 import pandas as pd
 import plotly.express as px
@@ -602,10 +608,6 @@ filtered_data = filtered_data.sort_values(by='date_debut')
 
 # Convertir la colonne de dates au format aaaa/mm
 filtered_data['date_debut'] = pd.to_datetime(filtered_data['date_debut']).dt.to_period('M').astype(str)
-
-# Afficher le titre entre chaque graphique
-from IPython.display import display, Markdown
-display(Markdown(f"## Evolution mensuelle du {polluant}"))
 
 # Créer un graphique interactif avec Plotly Express
 fig = px.scatter(
@@ -645,17 +647,15 @@ fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 # Afficher le graphique
 fig.show()
 ```
+
 ## Étude de l'influence de la population
 :::{.incremental}
 - Pourquoi comparer les villes? 
-  - réponse but est d'étudier les différences de pollution dans différentes villes de population différentes
 - Comment les comparer, sous quels critères? 
-  - réponse poll par poll, avec des données par mois sur la dernière année
 - Quelles villes? 
-  - Multitude de villes, beaucoup trop de données pour un affichage synthétique
 :::
 
-## Occurences villes
+## Occurences des villes
 
 
 :::: {.columns}
@@ -718,7 +718,7 @@ print(occ_villes)
 - Quelles stations dans ces villes?
 :::
 
-## Occurences stations
+## Occurences des stations
 \
 
 
@@ -741,7 +741,8 @@ for ville in villes_choisies:
     print(occurrences_stations)
     print("\n" + "=" * 30 + "\n")
 ```
-## Occurences stations
+
+## Occurences des stations
 \
 
 ```{python}
@@ -785,15 +786,13 @@ mtpno = mtp[mtp.nom_poll == "NO"].sort_values(by="date_debut")
 mtpno2 = mtp[mtp.nom_poll == "NO2"].sort_values(by="date_debut")
 mtpnox = mtp[mtp.nom_poll == "NOX"].sort_values(by="date_debut")
 mtppm10 = mtp[mtp.nom_poll == "PM10"].sort_values(by="date_debut")
-mtppm2_5 = mtp[mtp.nom_poll == "PM2.5"].sort_values(by="date_debut")
-mtpo3 = mtp[mtp.nom_poll == "O3"].sort_values(by="date_debut")
 ```
 
 
 ## Comparaison dans les grandes villes
 \
 
-```{.python code-line-numbers="|6-10|11|12-13|26"}
+```{.python code-line-numbers="|6-10|11|12-13"}
 figmtp = go.Figure()
 
 # NO
@@ -811,6 +810,12 @@ figmtp.add_trace(
         mode="lines+markers",
     )
 )
+```
+
+## Comparaison dans les grandes villes
+\
+
+```{.python code-line-numbers="|9"}
 figmtp.add_trace(
     go.Scatter(
         x=list(
@@ -1125,8 +1130,8 @@ figmtp.show()
 
 ## Choix des stations 
 :::{.incremental}
-- **Montpellier** Prés d Arènes Urbain
-- **Montpellier** Liberte Trafic
+- **Montpellier** Prés d'Arènes Urbain
+- **Montpellier** Liberté Trafic
 - **Toulouse** Berthelot Urbain
 - **Toulouse** Périphérique Trafic
 - **Tarbes** Dupuy Urbain
