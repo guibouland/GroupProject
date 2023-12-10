@@ -392,7 +392,7 @@ color_mapa
 :::
 ::: {.column width="55%" }
   Manipulation du dataframe
-```{.python filename="index.qmd" code-line-numbers="|3,4,5,6,7,8,9|"}
+```{.python filename="index.qmd " code-line-numbers="|3,4,5,6,7,8,9|"}
 polluants = polluant.dropna()
 #moyenne des polluants sur l'année
 polluants = (
@@ -426,7 +426,7 @@ Occitanie.add_child(fpm10)
 ::::
 
 
-## Classe python
+## Classe python {auto-animate=true}
 
 :::: {.columns}
 
@@ -457,7 +457,7 @@ class Markero(object):
 
 ::: {.column width="40%" }
 Utilisation
-```{.python  filename="index.qmd"}
+```{.python  filename="index.qmd "}
 from modules.carte import Markero
 
 Mtp=Markero(
@@ -582,7 +582,6 @@ for polluant in polluants:
 ```
 
 ## Mise en forme des graphiques
-\
 
 ```{python}
 import pandas as pd

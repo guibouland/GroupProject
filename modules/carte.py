@@ -20,5 +20,5 @@ class Markero(object):
         ).add_to(carte)
 
 end = time.time()
-print(f"Execution time: {end - start:.5f} s.")
+#print(f"Execution time: {end - start:.5f} s.")
 

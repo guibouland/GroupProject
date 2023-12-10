@@ -77,4 +77,4 @@ def graphique_axe(fig, titre, yaxis2_title):
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor="LightGrey")
 
 end = time.time()
-print(f"Execution time: {end - start:.5f} s.")
+#print(f"Execution time: {end - start:.5f} s.")

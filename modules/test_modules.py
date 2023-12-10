@@ -51,4 +51,4 @@ def test_markero_sur_carte():
     assert marqueur_map_child.location == [100,-20]
 
 end = time.time()
-print(f"Execution time: {end - start:.5f} s.")
+#print(f"Execution time: {end - start:.5f} s.")
