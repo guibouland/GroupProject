@@ -37,28 +37,27 @@ Chaque graphique regroupe l'évolution d'un polluant pour une base de données c
 
 ## Etude du temps et de la mémoire
 
-* A l'aide du package `memory-profiler`, il est possible de surveiller la consommation en temps et en mémoire d'une fonction python. Cependant, il n'est pas possible de vérifier de tels critères sur des fichiers `Quarto`.   
+* A l'aide du package `memory-profiler`, il est possible de surveiller la consommation en temps et en mémoire d'une fonction python. Cependant, il n'est pas possible de vérifier de tels critères sur des fichiers `Quarto`.
 Les tests des fichiers `carte.py` et `meteo.py` (avec la commande `mprof run`) donnent ainsi:  
 
 |   carte    |   meteo    |
 |:-:    |:-:    |
 |  ![carte.py](image/../images/cartemem.png?raw=true "carte.py")     |   ![meteo.py](image/../images/meteomem.png?raw=true "meteo.py")    |
 
-L'utilisation de la mémoire est de l'ordre de 50 mébioctects (environ 50 Mo) par fichier python ce qui reste convenable.  
+L'utilisation de la mémoire est de l'ordre de 50 mébioctects (environ 50 Mo) par fichier python, ce qui reste convenable.  
 
-* Avec la fonction `time()` il est possible de determiner le temps necessaire pour chaque cellules python d'un fichier quarto.  
+* Avec la fonction `time()`, il est possible de déterminer le temps nécessaire pour chaque cellule python d'un fichier quarto.  
 
 |fichier quarto| Execution time|
 |:-:    |:-:    |
 |carte | 0.21710 s|
 |départements |0.50733 s (par départements) * 13 = 6.59529 s|  
 |villes |0.09505 s + 0.17805 s + 0.28116 s = 0.55426 s|  
-|météo|0.31670 s + 0.14615 s + 0.13853 s = 0,60138 s| 
+|météo|0.31670 s + 0.14615 s + 0.13853 s = 0,60138 s|
 
-Pour l'efficacité temporelle, la partie départementale est la plus longue. Tandis que les autres s'effectuent en moins d'une seconde, cette partie du site prend longtemps à s'afficher.
-Pour remedier à cela, des outils comme `dash` ou `Tkinter` ont été abordés mais abandonnés car incompatibles avec Github. Le choix d'importer directement les bases de données au lieu de les appeler avec `requests` est aussi un parti pris pour améliorer la vitesse d'execution.  
-Une optique d'amélioration serait de plus dépendre de fonctions python dans les `.qmd`.
-
+Pour l'efficacité temporelle, la partie départementale est la plus longue. Tandis que les autres s'effectuent en moins d'une seconde, cette partie du site prend du temps à s'afficher.
+Pour remédier à cela, des outils comme `dash` ou `Tkinter` ont été abordé mais abandonné car incompatibles avec Github. Le choix d'importer directement les bases de données au lieu de les appeler avec `requests` est aussi un parti pris pour améliorer la vitesse d'exécution.  
+Une amélioration possible serait d'augmenter la dépendance des fichiers `.qmd` aux fonctions python.
 
 ## Licence
 
@@ -72,4 +71,3 @@ Ce projet a été réalisé par 4 élèves de l'Université de Montpellier:
 * [DIAS Pierre](https://github.com/pierre-ed-ds)
 * [FESTOR Quentin](https://github.com/Qufst)
 * [LAMURE Maxence](https://github.com/MaxenceLamure)
-
