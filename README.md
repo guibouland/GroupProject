@@ -68,7 +68,8 @@ Nous avons opté pour une licence [MIT](LICENSE), octroyant à tout le monde les
 
 Ce projet a été réalisé par 4 élèves de l'Université de Montpellier:
 
+* [BOULAND Guillaume](https://github.com/guibouland)
 * [DIAS Pierre](https://github.com/pierre-ed-ds)
 * [FESTOR Quentin](https://github.com/Qufst)
 * [LAMURE Maxence](https://github.com/MaxenceLamure)
-* [BOULAND Guillaume](https://github.com/guibouland)
+

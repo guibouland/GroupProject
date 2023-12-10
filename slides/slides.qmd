@@ -4,6 +4,7 @@ author: "BOULAND Guillaume, DIAS Pierre, FESTOR Quentin, LAMURE Maxence"
 highlight-style: ayu
 format: 
     revealjs:
+        transition: slide
         theme: [default, customslides.scss]
 ---
 
@@ -18,7 +19,7 @@ Comment développer un site de modélisation de données sur github?
 - Etude de l'influence météorologique
 :::
 
-## Vision globale {auto-animate=true}
+# Vision globale 
 
 . . .
 
@@ -557,6 +558,7 @@ for polluant in polluants:
 ```
 
 ## Mise en forme des graphiques
+
 ```{python}
 #| echo: true
 #| eval: false
@@ -647,7 +649,7 @@ fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 fig.show()
 ```
 
-## Étude de l'influence de la population
+# Étude de l'influence de la population
 :::{.incremental}
 - Pourquoi comparer les villes? 
 - Comment les comparer, sous quels critères? 
@@ -766,7 +768,6 @@ for ville in villes_choisies:
 
 ## Comparaison dans les grandes villes
 \
-
 ```{.python code-line-numbers="|7|10|12|14"}
 import pandas as pd
 import plotly.graph_objects as go
@@ -831,6 +832,7 @@ figmtp.add_trace(
 ```
 
 ## Comparaison dans les grandes villes
+
 ```{python}
 #| eval: true
 #| echo: false
@@ -1191,6 +1193,7 @@ peypm2_5 = pey[pey.nom_poll == "PM2.5"].sort_values(by="date_debut")
 ```
 
 ## Comparaison entre villes
+
 ```{python}
 import pandas as pd
 import plotly.graph_objects as go
@@ -2425,7 +2428,12 @@ fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor="LightGrey")
 fig.show()
 ```
 
+# Analyses du code
 
+::: {.incremental}
+* Les tests
+* Le temps et la mémoire
+:::
 
 ## Tests pythons
 ```{.python filename="test_modules.py"}
@@ -2456,3 +2464,45 @@ def test_markero_sur_carte():
     marqueur_map_child = children[1]
     assert marqueur_map_child.location == [100,-20]
 ```
+
+## Temps et mémoire
+
+:::: {.columns}
+::: {.column width="50%" }
+Etude du temps
+```{.python}
+import time 
+start = time.time()
+#Cellule à tester
+end = time.time()
+print(f"Execution time: {end - start:.5f} s.")
+```
+:::{.fragment fragment-index=2}
+|fichier quarto| Execution time|
+|:-:    |:-:    |
+|carte | 0.21710 s|
+|départements |6.59529 s|  
+|villes |0.55426 s|  
+|météo|0,60138 s| 
+:::
+:::
+
+
+::: {.column width="50%" }
+:::{.fragment fragment-index=3}
+Etude de la mémoire
+```{.console code-line-numbers="false"}
+$ pip install mprof
+
+$ mprof run meteo.py
+
+$ mprof plot
+```
+:::{.fragment fragment-index=4}
+![](meteomem.png){.absolute width="50%"}
+:::
+:::
+:::
+::::
+
+# [Pollution Occitanie](https://guibouland.github.io/GroupProject/)
