@@ -640,7 +640,9 @@ fig.update_layout(
     paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
     plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
     yaxis=dict(range=ordonnee_ranges[polluant]),  # Ajuster l'axe des ordonnées
-    font=dict(color='Grey')
+    font=dict(color='Grey'),
+    width=1050,
+    height=700,
     )
 #couleur grille
 fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
@@ -1124,6 +1126,8 @@ figmtp.update_layout(
     paper_bgcolor="rgba(100,100,100,0)",  # Couleur de contour de graphique
     plot_bgcolor="rgba(100,100,100,0)",  # Couleur du fond du graphique
     font=dict(color="Grey", size=15),
+    width=1050,
+    height=650,
 )
 figmtp.show()
 
@@ -1856,6 +1860,8 @@ fig.update_layout(
     paper_bgcolor="rgba(100,100,100,0)",  # Couleur de contour de graphique
     plot_bgcolor="rgba(100,100,100,0)",  # Couleur du fond du graphique
     font=dict(color="Grey", size=15),
+    width=1050,
+    height=650,
 )
 
 # On affiche le graphe
