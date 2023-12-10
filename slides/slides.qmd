@@ -480,10 +480,9 @@ Mtp.SurCarte(Occitanie)
 - Pourquoi étudier par département? 
   - comparaison inter-département
   - comparaison intra-département
-- Données utilisées
+- Données utilisées pour les polluants: NO,NOX,O3,PM2,PM10
   - année actuelle (moyenne par mois)
   - 5 dernières années (moyenne par an)
-  - polluants: NO,NOX,O3,PM2,PM10
 - Quelles villes? 
   - Toutes celles disponibles
 :::
