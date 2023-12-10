@@ -10,6 +10,8 @@ format:
 ---
 # Evolution des polluants au cours de cette année:
 ```{python}
+import time 
+start = time.time()
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -77,11 +79,11 @@ for polluant in polluants:
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
     # Afficher le graphique
     fig.show()
-
+end = time.time()
+#print(f"Execution time: {end - start:.5f} s.")
 
 ```
 
-On souhaite également afficher les graphiques concernant l'évolution des polluants en Haute-Garonne lors des 5 dernières années. On utilise les valeurs moyennes pour chaque année.
 
 # Evolution des polluants au cours des 5 dernières années:
 ```{python}

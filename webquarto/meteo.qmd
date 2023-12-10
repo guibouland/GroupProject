@@ -19,6 +19,8 @@ Ensuite, On essaie de mettre en évidence l'influence de différents facteurs m�
 ## Concentration mensuelle de pollution sur une année
 
 ```{python}
+import time 
+start = time.time()
 import sys
 sys.path.append('../')
 from modules import meteo as md
@@ -140,7 +142,8 @@ def concentration(date, format, nom_date, titre, temps):
 # Graphique mois
 concentration('Mois', '%m', nom_mois,
               'Concentration moyenne mensuelle des polluants (en µg.m⁻³)', 'Temps (mois)')
-
+end = time.time()
+#print(f"Execution time: {end - start:.5f} s.")
 ```
 <br>
 On remarque que la concentration d'oxydes d'azote (NOx, NO₂ et NO) est très faible au mois d'Août (33.9 µg.m⁻³ de NOx par exemple) puis ne cesse d'augmenter jusqu'à Décembre (99.0 µg.m⁻³ de NOx), elle se maintient pendant l'hiver jusqu'à Février (94.0 µg.m⁻³ de NOx) pour nettement diminuer jusqu'à l'été. <br>
@@ -166,6 +169,7 @@ La concentration d'ozone est quant à elle très stable variant entre 52.3 et 57
 ## Lien entre le vent et la concentration de pollution
 
 ```{python}
+start = time.time()
 """LIEN VENTS/POLLUANTS"""
 
 """
@@ -232,6 +236,8 @@ md.graphique_axe(
 
 # Afficher le graphique
 fig.show()
+end = time.time()
+#print(f"Execution time: {end - start:.5f} s.")
 ```
 <br>
 On remarque nettement un lien de causalité entre la vitesse du vent et la concentration des polluants.<br>
@@ -241,6 +247,7 @@ On pourra également remarquer une corrélation positive entre la vitesse du ven
 ## Lien entre la température et la concentration d'ozone
 
 ```{python}
+start = time.time()
 """LIEN TEMPERATURE/OZONE"""
 
 """
@@ -280,7 +287,8 @@ md.graphique_axe(fig, "Température et concentration d'ozone",
 
 # Afficher le graphique
 fig.show()
-
+end = time.time()
+#print(f"Execution time: {end - start:.5f} s.")
 ```
 <br>
 On pourra noter une corrélation positive entre la température et la concentration d'ozone bien qu'elle soit indirect, puisque le facteur causal influençant les deux données est le rayonnement solaire.<br>

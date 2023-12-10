@@ -5,6 +5,8 @@ execute:
 
 ## Concentrations moyennes de polluants en 2023
 ```{python}
+#import time 
+#start = time.time()
 import geopandas as gpd
 import pandas as pd
 import numpy as np
@@ -287,6 +289,9 @@ GroupedLayerControl(
 
 
 Occitanie
+
+#end = time.time()
+#print(f"Execution time: {end - start:.5f} s.")
 ```
 
 Moyenne des valeurs enregistrées entre août 2022 et septembre 2023

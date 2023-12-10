@@ -10,6 +10,8 @@ Nous allons nous concentrer sur les deux plus grosses villes d'Occitanie : Montp
 
 ```{python}
 #| echo: false
+import time 
+start = time.time()
 import pandas as pd
 import plotly.graph_objects as go
 import seaborn as sns
@@ -303,7 +305,8 @@ figmtp.add_trace(
 
 # On affiche le graphique
 figmtp.show()
-
+end = time.time()
+#print(f"Execution time: {end - start:.5f} s.")
 ```
 
 <p style="text-align: center;"><b>Double-cliquez sur les stations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
@@ -317,7 +320,7 @@ Nous faisons la même comparaison pour Toulouse.
 ```{python}
 #| echo: false
 # TOULOUSE
-
+start = time.time()
 # On sélectionne les polluants de TOULOUSE
 touno = tou[tou.nom_poll == "NO"].sort_values(by="date_debut")
 touno2 = tou[tou.nom_poll == "NO2"].sort_values(by="date_debut")
@@ -806,6 +809,8 @@ figtou.add_trace(
 
 # On affiche le graphique
 figtou.show()
+end = time.time()
+#print(f"Execution time: {end - start:.5f} s.")
 ```
 
 <p style="text-align: center;"><b>Double-cliquez sur les stations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
@@ -851,6 +856,8 @@ Ainsi, nous choisissons les stations suivantes:
 
 ```{python}
 #| echo: false
+
+start = time.time()
 """
 COMPARAISON INTER VILLES
 On choisit 6 villes de populations différentes:
@@ -1496,6 +1503,8 @@ fig.add_trace(
 
 # On affiche le graphe
 fig.show()
+end = time.time()
+#print(f"Execution time: {end - start:.5f} s.")
 ```
 
 <p style="text-align: center;"><b>Double-cliquez sur les stations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
