@@ -3,7 +3,7 @@ execute:
   echo: false
 ---
 
-## Moyenne des intensités de polluants de 2023
+## Concentrations moyennes de polluants en 2023
 ```{python}
 import geopandas as gpd
 import pandas as pd
@@ -289,7 +289,7 @@ GroupedLayerControl(
 Occitanie
 ```
 
-Moyenne des valeurs enregistrées entre aout 2022 et septembre 2023
+Moyenne des valeurs enregistrées entre août 2022 et septembre 2023
 \
 \
 Ces cartes de chaleurs prennents des valeurs de 0 à 1. On comprendra que la balise captant la concentration de polluant la plus forte se verra attribuée la plus forte température. On observe que la pollution se concentre principalement au niveau des métropoles.\

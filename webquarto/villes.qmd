@@ -2,7 +2,7 @@
 title: 'Comparatifs entre villes'
 ---
 
-Dans cette section, le but est de comparer les concentrations de pollutions entre villes d'Occitanie. Cependant, dans le jeu de données utilisé, celui des prélèvement de l'année dernière (mois par mois), les villes n'ont pas les mêmes occurences et les prélèvements d'une ville présente des disparités à l'intérieur de celle-ci.
+Dans cette section, le but est de comparer les concentrations de pollution entre plusieurs villes d'Occitanie. Cependant, dans le jeu de données utilisé, celui des prélèvements de l'année dernière (mois par mois), les villes n'ont pas les mêmes occurences et les prélèvements d'une ville présente des disparités à l'intérieur de celle-ci.
 
 ## Comparaisons intra-villes
 
@@ -306,11 +306,11 @@ figmtp.show()
 
 ```
 
-<p style="text-align: center;"><b>Double-cliquez sur les sations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
+<p style="text-align: center;"><b>Double-cliquez sur les stations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
 \
 
-On observe que pour les oxydes d'azote (NOx, NO/NO₂), la station "*[Liberté](https://www.google.com/maps/place/43%C2%B036'41.8%22N+3%C2%B049'41.0%22E/@43.6116,3.82806,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6116!4d3.82806?entry=ttu)*" a des valeurs beaucoup plus importantes que les autres. En effet, cette station se situe à coté d'une grosse voie routière, ce qui explique ces valeurs puisque les oxydes d'azote sont émises par la combustion de carburant. Nous obsevons aussi un pic en hiver (surtout pendant le mois de février).  
-Pour les particules fines PM10, on observe que les stations situées près d'un gros trafic routier, "*[Liberté](https://www.google.com/maps/place/43%C2%B036'41.8%22N+3%C2%B049'41.0%22E/@43.6116,3.82806,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6116!4d3.82806?entry=ttu)*" et "*[Pompignane](https://www.google.com/maps/place/43%C2%B036'36.0%22N+3%C2%B053'55.0%22E/@43.61,3.8960351,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.61!4d3.89861?entry=ttu)*" ont toujours des valeurs plus importantes mais l'écart est moindre. Cependant, pour les particules fines PM2.5, il n'y a pas de stations qui se démarque clairement.  
+On observe que pour les oxydes d'azote (NOx, NO/NO₂), la station "*[Liberté](https://www.google.com/maps/place/43%C2%B036'41.8%22N+3%C2%B049'41.0%22E/@43.6116,3.82806,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6116!4d3.82806?entry=ttu)*" a des valeurs beaucoup plus importantes que les autres. En effet, cette station se situe à proximité d'une grosse voie routière, ce qui explique ces valeurs puisque les oxydes d'azote sont émis par la combustion de carburant. Nous observons aussi un pic en hiver (surtout pendant le mois de Février).  
+Pour les particules PM10, on observe que les stations situées près d'un gros trafic routier, "*[Liberté](https://www.google.com/maps/place/43%C2%B036'41.8%22N+3%C2%B049'41.0%22E/@43.6116,3.82806,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6116!4d3.82806?entry=ttu)*" et "*[Pompignane](https://www.google.com/maps/place/43%C2%B036'36.0%22N+3%C2%B053'55.0%22E/@43.61,3.8960351,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.61!4d3.89861?entry=ttu)*" ont toujours des valeurs plus importantes mais l'écart est moindre. Cependant pour les particules fines PM2.5, il n'y a pas de station qui se démarque clairement.  
 \
 
 Nous faisons la même comparaison pour Toulouse.
@@ -808,18 +808,18 @@ figtou.add_trace(
 figtou.show()
 ```
 
-<p style="text-align: center;"><b>Double-cliquez sur les sations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
+<p style="text-align: center;"><b>Double-cliquez sur les stations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
 \
 
-Pour les oxydes d'azotes (NOx, NO/NO₂), nous observons les mêmes résultats qu'à Montpellier, les stations "*[Rte Albi](https://www.google.com/maps/place/43%C2%B038'35.2%22N+1%C2%B028'03.5%22E/@43.6431,1.4650751,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6431!4d1.46765?entry=ttu)*", "*[Port de l'Embouchure](https://www.google.com/maps/place/43%C2%B036'37.1%22N+1%C2%B024'54.7%22E/@43.6103,1.4126051,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6103!4d1.41518?entry=ttu)*" et "*[Périphérique](https://www.google.com/maps/place/43%C2%B034'26.4%22N+1%C2%B026'58.5%22E/@43.574,1.4470151,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.574!4d1.44959?entry=ttu)*" ont des valeurs bien supérieures aux autres stations, avec la station "*Périphérique*" au dessus parmi les trois.  
+Pour les oxydes d'azote (NOx, NO/NO₂), nous observons les mêmes résultats qu'à Montpellier, les stations "*[Rte Albi](https://www.google.com/maps/place/43%C2%B038'35.2%22N+1%C2%B028'03.5%22E/@43.6431,1.4650751,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6431!4d1.46765?entry=ttu)*", "*[Port de l'Embouchure](https://www.google.com/maps/place/43%C2%B036'37.1%22N+1%C2%B024'54.7%22E/@43.6103,1.4126051,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6103!4d1.41518?entry=ttu)*" et "*[Périphérique](https://www.google.com/maps/place/43%C2%B034'26.4%22N+1%C2%B026'58.5%22E/@43.574,1.4470151,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.574!4d1.44959?entry=ttu)*" ont des valeurs bien supérieures aux autres stations, avec la station "*Périphérique*" au dessus parmi les trois.  
 
-Concernant l'ozone (O₃), on se rend compte que les valeurs sont équitables, cependant on observe une grosse baisse en hiver du fait que l'ozone est crée grâce aux rayonnement solaires.  
+Concernant l'ozone (O₃), on se rend compte que les valeurs sont équitables. Cependant on observe une grosse diminution en hiver du fait que l'ozone est créé grâce aux rayonnement solaires.  
 
-Pour finir, à l'instar de Montpellier, on retrouve les mêmes observations concernant les particules fines (PM10 et PM2.5). Les stations proches de trafic routier ont encore des valeurs légèrement supérieures aux autres.
+Pour finir, à l'instar de Montpellier, on retrouve les mêmes observations concernant les particules PM10 et PM2.5. Les stations proches de trafics routiers ont encore des valeurs légèrement supérieures aux autres.
 
 ## Comparaison entre villes
 
-Le but ici est de comparer les émissions de pollution entre villes de population variées afin de constater les différences et l'impact de l'activité humaine.  
+Le but ici est de comparer les émissions de pollution entre villes de populations variées afin de constater les différences et l'impact de l'activité humaine.  
 Pour cela, nous avons choisi 6 villes de populations différentes (en 2023):  
 
 - **Toulouse** : 498 000 habitants  
@@ -829,10 +829,10 @@ Pour cela, nous avons choisi 6 villes de populations différentes (en 2023):
 - **Argèles-Gazost** : 2 900 habitants  
 - **Peyrusse-Vieille** : 59 habitants  
 
-Ce choix, au delà du nombre d'habitants, les classe directement en 3 classes distinctes: petites, moyennes et grandes villes. Il a été réalisé après avoir observer le nombre d'occurence des stations.  
+Ce choix, au delà du nombre d'habitants, les classe directement en 3 classes distinctes: petites, moyennes et grandes villes. Il a été réalisé après avoir observé le nombre d'occurences des stations.  
 
-Nous voulons les comparer par polluant, en sélectionnant des stations de prélèvement. En effet, comme vu ci-dessus, les grandes villes ont plusieurs stations de prélèvement qui donnent des informations qui peuvent beaucoup varier en fonction de leur emplacement dans la ville et de leur proximité avec une voie routière très fréquentée.  
-Ainsi, pour des raisons de clareté, nous choisissons de sélectionner une à deux stations par ville, ce choix se réduisant à Toulouse et Monpellier ayant le plus de stations de prélèvement.  
+Nous voulons les comparer par polluant, en sélectionnant des stations de prélèvement. En effet, comme vu ci-dessus, les grandes villes ont plusieurs stations de prélèvement qui donnent des informations pouvant beaucoup varier en fonction de leur emplacement dans la ville et de leur proximité avec une voie routière très fréquentée.  
+Ainsi pour des raisons de clareté, nous choisissons de sélectionner une à deux stations par ville, ce choix se réduisant à Toulouse et Monpellier puisqu'elles ont le plus de stations de prélèvement.  
 
 Ainsi, nous choisissons les stations suivantes: 
 
@@ -840,7 +840,7 @@ Ainsi, nous choisissons les stations suivantes:
   - "*[Montpellier - Prés d Arènes Urbain](https://www.google.com/maps/place/43%C2%B035'29.4%22N+3%C2%B053'12.8%22E/@43.5915,3.8843151,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.5915!4d3.88689?entry=ttu)*" : les valeurs étant moyennes, cette station est présente et abondante pour chaque polluant
   - "*[Montpellier Liberte Trafic](https://www.google.com/maps/place/43%C2%B036'41.8%22N+3%C2%B049'41.0%22E/@43.6116,3.82806,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.6116!4d3.82806?entry=ttu)*" : pour son profil atypique que nous verrons plus bas
 - **Toulouse** :
-  - "*[Toulouse-Berthelot Urbain](https://www.google.com/maps/place/43%C2%B035'14.3%22N+1%C2%B026'38.5%22E/@43.5873,1.4414551,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.5873!4d1.44403?entry=ttu)*" : pour les mêmes raison que pour "*Montpellier - Prés d Arènes Urbain*"
+  - "*[Toulouse-Berthelot Urbain](https://www.google.com/maps/place/43%C2%B035'14.3%22N+1%C2%B026'38.5%22E/@43.5873,1.4414551,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.5873!4d1.44403?entry=ttu)*" : pour les mêmes raisons que pour "*Montpellier - Prés d Arènes Urbain*"
   - "*[Toulouse-Périphérique Trafic](https://www.google.com/maps/place/43%C2%B034'26.4%22N+1%C2%B026'58.5%22E/@43.574,1.4470151,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.574!4d1.44959?entry=ttu)*" : pour les mêmes raisons que pour "*Montpellier Liberte Trafic*"
 - **Reste** : Le reste des villes ayant une seule station, le choix est immédiat. 
   - "*[Tarbes-Dupuy Urbain](https://www.google.com/maps/place/43%C2%B013'49.1%22N+0%C2%B003'44.0%22E/@43.2303,0.0596471,17z/data=!3m1!4b1!4m4!3m3!8m2!3d43.2303!4d0.062222?entry=ttu)*"  
@@ -1498,11 +1498,11 @@ fig.add_trace(
 fig.show()
 ```
 
-<p style="text-align: center;"><b>Double-cliquez sur les sations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
+<p style="text-align: center;"><b>Double-cliquez sur les stations dans la légende pour isoler un polluant.</b><br>(faire de même pour changer de polluant)</p>
 \
 
-Pour les oxydes d'azote (NOx, NO/NO₂), on remarque que les stations à haut trafic routier de Montpellier et Toulouse sont nettement au dessus de toutes les autres. Les deux autres stations de ces deux villes se confondent avec celles de Tarbes et Montauban, et étonnamment avec celle d'Argèles-Gazost. Cependant, on peut voir que les valeurs d ela station de Peyrusse-Vieille sont quasiment nulles.
+Pour les oxydes d'azote (NOx, NO/NO₂), on remarque que les stations à haut trafic routier de Montpellier et Toulouse sont nettement au dessus de toutes les autres. Les deux autres stations de ces deux villes se confondent avec celles de Tarbes et Montauban, et étonnamment avec celle d'Argèles-Gazost. Cependant, on peut voir que les valeurs de la station de Peyrusse-Vieille sont quasiment nulles.
 
-On observe une baisse générale des valeurs pour l'ozone (O₃) en hiver, comme observé en première partie. La ville ayant les plus grandes valeurs est Peyrusse-Vieille, ce qui peut paraître étonnant. Cependant, comme précenté dans la partie [Lien Météorologique](meteo.qmd), on peut prétendre à un lien entre ces valeurs élevées et la quantité de vent.
+On observe une baisse générale des valeurs pour l'ozone (O₃) en hiver, comme observé en première partie. La ville ayant les plus grandes valeurs est Peyrusse-Vieille, ce qui peut paraître étonnant. Cependant, comme présenté dans la partie [Lien Météorologique](meteo.qmd), on peut prétendre à un lien entre ces valeurs élevées et la vitesse du vent.
 
-Pour finir, pour les particules fines (PM10, PM2.5), on observe un pic en hiver, causé par les transports ainsi que les procédés de combustion (chauffage...). Les staitons de Tarbes et Montauban sont celles qui ont les valeurs les plus importantes, même si le tout reste homogène.
+Pour finir, concernant les particules PM10 et PM2.5, on observe un pic en hiver causé par les transports ainsi que les procédés de combustion (chauffage...). Les stations de Tarbes et Montauban sont celles qui ont les valeurs les plus importantes, même si le tout reste homogène.

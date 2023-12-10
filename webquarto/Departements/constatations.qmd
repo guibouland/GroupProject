@@ -15,22 +15,21 @@ Après analyse de tous les graphiques affichés dans les différents départemen
 
 ## Différences entre départements
 
-Premièrement, on remarque une grande disparité de quantité de pollution dans chaque département pour les polluants de type NOX/NO et NO2. Il est donc compliqué de comparer les quantités de pollution en oxydes d'azote dans les départements, mais on remarque que les stations situées proches des axes routiers semblent enregistrer des quantités bien supérieures aux autres. Cela pouvait être prédis étant donné que ces polluants résultent de la combustion des carburants fossiles notamment.
-Donc les départements possédant plus de grandes villes enregistrent des quantités bien plus importantes que d'autres départements plus riverain.
+Premièrement, on remarque une grande disparité concernant la quantité de pollution dans chaque département pour les polluants de type NOX/NO et NO2. Il est par conséquent compliqué de comparer les quantités d'oxydes d'azote dans les départements, mais on remarque que les stations situées proches des axes routiers semblent enregistrer des quantités bien supérieures aux autres. Cela pouvait être prédit étant donné que ces polluants résultent notamment de la combustion des carburants fossiles.
+Donc les départements possédant plus de grandes villes enregistrent des quantités bien plus importantes que d'autres départements plus riverains.
 
 ## Evolution au cours de l'année
 
-On remarque dans chaque station de chaque département, quelles que soient les quantités, une forte hausse des quantités en hiver. Cela peut être dû à une augmentation des chauffages domestiques et de la production énergétique. Les concentrations chutent drastiquement 
-à partir du mois de mars. 
+On remarque dans chaque station de chaque département, une forte hausse des quantités en hiver, quelles qu'elles soient. Cela peut être dû à une augmentation du chauffage domestique et de la production énergétique. Les concentrations chutent drastiquement à partir du mois de Mars. 
 
 ## Evolution moyenne au cours des 5 dernières années
 
-On remarque que dans la majorité des départements, notemment dans les grandes villes, que les concentrations en oxydes d'azote se réduisent légèrement. Cette évolution est moins flagrante dans les stations de campagne, cependant au abord des routes on remarque plus ce changement. Peut être est-ce dû à une diminution du trafic routier grâce à l'instoration de moyens de transport plus responsable notemment les transport en commun. Peut être aussi grâce aux évolutions concernant les voitures éléctriques. 
-A Montpellier par exemple, la volonté de la ville est de réduire le trafic routier et de convaincre les gens d'utiliser les transports en commun, donc la ville a entreprit de grands changements avec une gratuitée partielle bientôt complète des transport en commun. Probablement que ce genre de décision impacte positivement cette diminution des quantités des oxydes d'azote.
+On remarque que dans la majorité des départements, notamment dans les grandes villes, les concentrations en oxydes d'azote se réduisent légèrement. Cette évolution est moins flagrante dans les stations de campagne, cependant aux abords des routes on remarque mieux ce changement. Peut être est-ce dû à une diminution du trafic routier grâce à l'instauration de moyens de transport plus responsables notamment les transports en commun. Peut être aussi grâce aux évolutions concernant les voitures éléctriques. 
+A Montpellier par exemple, la volonté de la ville est de réduire le trafic routier et de convaincre les gens d'utiliser les transports en commun, donc la ville a entreprit de grands changements avec une gratuité partielle bientôt complète des transport en commun. Probablement que ce genre de décision impacte positivement cette diminution des quantités des oxydes d'azote.
 
 ## Remarques
 
-Au sein d'une même ville, on remarque des concentrations drastiquement différentes selon les positions des stations. Les stations proches des aéroport enregistrent par exemple des quantités bien moindre que les stations proches des axes routiers, voir la partie sur les comparaisons entre villes pour plus de détails.
+Au sein d'une même ville, on remarque des concentrations drastiquement différentes selon les positions des stations. Les stations proches des aéroports enregistrent par exemple des quantités bien moindre que les stations proches des axes routiers, voir la partie sur les comparaisons entre villes pour plus de détails.
 
 # Ozone O3
 
@@ -40,11 +39,11 @@ A l'inverse des oxydes d'azote, la concentration en ozone semble proche peu impo
 
 ## Evolution au cours de l'année 
 
-On remarque une forte baisse des concentrations en hiver, probablement dû à une baisse de l'ensoleillement, puisque ce polluant résulte de la transformation d'autres polluants sous l'influence des rayonnements solaires.
+On remarque une forte diminution des concentrations en hiver, probablement due à une baisse de l'ensoleillement, puisque ce polluant résulte de la transformation d'autres polluants sous l'influence de rayonnements solaires.
 
 ## Evolution moyenne au cours des 5 dernières années
 
-On remarque dans la majorité des départements une faible baisse en 2020 des concentrations, mais outre ça les concentrations semblent constantes.
+On remarque dans la majorité des départements, hormis une faible dinimution des concentrations en 2020, celles-ci restent globalement constantes.
 
 ## Remarque
 
@@ -54,8 +53,8 @@ Les concentrations en O3 semblent évoluer au cours de l'année symétriquement 
 
 ## Différences entre départements
 
-Les concentrations en particules semblent propres à chaque département, cependant les quantités restent globalement toujours entre 10 et 30 (ug.m-3). En effet, dans les villes les concentrations peuvent être 2 fois supérieures qu'à la campagne cependant on observe quand même une tendance assez marquée dans chaque département. 
+Les concentrations en particules semblent propres à chaque département, cependant les quantités restent globalement toujours entre 10 et 30 (ug.m-3). En effet les concentrations peuvent être 2 fois supérieures dans les villes qu'en campagne, cependant on observe quand même une tendance assez marquée dans chaque département.
 
 ## Evolution moyenne au cours des 5 dernières années
 
-Les contrations semblent constantes au cours des dernières années. On remarque une évolution très faible au cours de ans, qui n'a de tendance ni positive ni négative.
+Les concentrations semblent constantes au cours des dernières années. On remarque une évolution très faible au cours des 5 ans, qui n'a de tendance ni positive ni négative.

@@ -14,7 +14,7 @@ format:
 Toutes les données ont été mesurées entre le 01/10/2022 et le 30/09/2023 et proviennent de [SYNOP data](https://public.opendatasoft.com/explore/dataset/donnees-synop-essentielles-omm/api/?sort=date) pour les données météorologiques et de [Atmo Occitanie](https://data-atmo-occitanie.opendata.arcgis.com/pages/liste-des-flux) pour les données des polluants.
 
 On étudie dans un premier temps la variation des moyennes des concentrations des polluants par mois puis par jour dans une période d'un an dans la ville de Toulouse.
-Ensuite, On essaie de mettre en évidence un lien entre différents facteurs météorologiques et certains polluants.
+Ensuite, On essaie de mettre en évidence l'influence de différents facteurs météorologiques sur la concentration de certains polluants.
 
 ## Concentration mensuelle de pollution sur une année
 
@@ -159,7 +159,7 @@ concentration('Jour', '%A', nom_jours,
               'Concentration moyenne quotidienne des polluants (en µg.m⁻³)', 'Temps (jours)')
 ```
 <br>
-On remarque que les concentrations d'oxydes d'azote sont stables en semaine (entre 57.9 et 66.7 µg.m⁻³ de NOx par exemple) mais diminuent soudainement le week end (52.7 µg.m⁻³ de NOx le Samedi puis 40.6 µg.m⁻³ le Dimanche). Ceci est probablement dû au fait qu'en majorité les gens ne travaillent pas ou moins le week end.<br>
+On remarque que les concentrations d'oxydes d'azote sont stables en semaine (entre 57.9 et 66.7 µg.m⁻³ de NOx par exemple) mais diminuent soudainement le week-end (52.7 µg.m⁻³ de NOx le Samedi puis 40.6 µg.m⁻³ le Dimanche). Ceci est probablement dû au fait qu'en majorité les gens ne travaillent pas ou moins en fin de semaine.<br>
 <br>
 La concentration d'ozone est quant à elle très stable variant entre 52.3 et 57.8 µg.m⁻³ toute la semaine. Ceci s'explique par le fait que l'ensoleillement et la température varient de façon similaire tous les jours (il ne fait pas plus chaud le lundi en particulier par exemple). De même, les concentrations des particules en suspension varient peu (entre 16.5 et 19.4 µg.m⁻³ pour les particules PM10 et entre 9.3 et 10.3 µg.m⁻³ pour celles PM2.5).
 
@@ -235,7 +235,7 @@ fig.show()
 ```
 <br>
 On remarque nettement un lien de causalité entre la vitesse du vent et la concentration des polluants.<br>
-En effet à chaque pic de vitesse du vent, la concentration des tous les polluants chute et de la même manière, quand la vitesse du vent est faible, la concentration des polluants augmente drastiquement.<br>
+En effet à chaque pic de vitesse du vent, la concentration de tous les polluants chute, et de la même manière quand la vitesse du vent est faible, la concentration des polluants augmente drastiquement.<br>
 On pourra également remarquer une corrélation positive entre la vitesse du vent et la concentration d'ozone puisque leur sens de variation sont sensiblement les mêmes.
 
 ## Lien entre la température et la concentration d'ozone
@@ -283,5 +283,5 @@ fig.show()
 
 ```
 <br>
-On pourra noter un lien de corrélation positif entre la température et la concentration d'ozone bien qu'il reste indirect, puisque le facteur causal influençant les deux données est le rayonnement solaire.<br>
+On pourra noter une corrélation positive entre la température et la concentration d'ozone bien qu'elle soit indirect, puisque le facteur causal influençant les deux données est le rayonnement solaire.<br>
 L'indice UV aurait donc été une donnée plus pertinente à comparer que la température mais elle n'est pas disponible dans les données recueillies.
