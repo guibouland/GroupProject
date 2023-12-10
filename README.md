@@ -32,7 +32,8 @@ Téléchargement des 2 bases de données sur le dépôt github afin d'éviter d'
 Chaque graphique regroupe l'évolution d'un polluant pour une base de données choisis. Le module 'express' de 'plotly' utilisé pour générer les points, et le module 'graph_objects' de 'plotly' afin d'ajouter les traces qui relient les points, pour obtenir les graphiques.
 
 * Comparatif entre villes de différentes populations au cours de cette année, en utilisant `pandas` pour manipuler ce dataframe. Avec le nombre de données disponibles dans certaines grandes villes telles que Montpellier et Toulouse, nous avons aussi réalisé un comparatif entre stations de prélèvements de ces villes, le tout présenté sous forme de graphe en utilisant le module `graph_objects` de `plotly`, permettant un minimum d'interactivité grâce à des groupes de légendes (par polluants) cliquables;
-* Lien météorologique.
+
+* Mise en évidence de l'influence de facteurs météorologiques sur la concentration de pollution via l'utilisation de `pandas` pour la manipulation des data frames ainsi que de `graph_objects` et `express` de `plotly` pour un affichage interactif de graphes à coordonnées cartésiennes comme polaires. Un sous-module `meteo` de `modules` est créé spécifiquement pour la mise en page et l'ajout de courbes sur les graphes.
 
 ## Licence
 
