@@ -1,6 +1,4 @@
----
-title: "Pollution en Occitanie"
----
+# Pollution en Occitanie
 
 Le site internet de ce projet est disponible à l'URL suivante: [https://guibouland.github.io/GroupProject](https://guibouland.github.io/GroupProject/).
 
