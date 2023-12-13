@@ -2566,6 +2566,67 @@ branca==0.7.0
 ##
 ![](Arborescence.png){fig-align="center"}
 
+## Arborescence
+\ 
+
+:::: {.columns}
+::: {.column width="50%"}
+
+```{tree}
+📦 Root
+├─ 📂 .github/workflows
+│  └─ 📜python-publish.yml
+├─ 📂 bases_de_donnees
+│  ├─ 📜Mesure_5dernieresannees.csv 
+│  ├─ 📜Mesure_mensuelle_annee.csv
+│  └─ ...
+├─ 📂 images
+│  ├─ 📜cartemem.png
+│  ├─ 📜city.svg
+│  └─ ... 
+├─ 📂 modules
+│  ├─ 📜carte.py
+│  ├─ 📜meteo.py 
+│  ├─ 📜test_modules.py
+│  └─ 📜villes.py
+├─ 📂 roadmap
+│  ├─ 📜README.qmd
+└─ └─ 📜objectifSchema.png
+
+```
+
+:::
+
+
+::: {.column width="50%"}
+
+```{tree}
+├─ 📂 slides
+│  ├─ 📜slides.qmd
+│  ├─ 📜slides2.qmd
+│  └─ 📜customslides.scss
+├─ 📂 webquarto
+│  ├─ 📂 Départements
+│  │  ├─ 📜Ariege.qmd
+│  │  └─ ...
+│  ├─ 📜about.qmd
+│  ├─ 📜meteo.qmd
+│  └─ 📜villes.qmd
+├─ 📜.gitignore
+├─ 📜LICENSE
+├─ 📜README.md 
+├─ 📜_quarto.yml
+├─ 📜customdark.scss 
+├─ 📜customlight.scss 
+├─ 📜index.qmd
+├─ 📜requirements.txt
+└─ 📜styles.css
+```
+
+:::
+::::
+
+
 # Comparaison avec les attentes
 ##
 \
