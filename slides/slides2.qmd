@@ -1914,48 +1914,7 @@ fig.show()
 ```
 
 
-# Étude de l’influence météorologique
-:::{.incremental}
-- Evolution de la concentration de la pollution en un an
-- Lien entre vent et pollution
-:::
-
-## Organisation de la base de données
-```{.python filename="meteo.qmd"}
-import sys
-import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
-from modules import meteo as md
-
-# Importation des données
-polluants = pd.read_csv("../bases_de_donnees/donnees_polluants_2022_2023_Toulouse.csv",
-                        sep=",", na_values="", low_memory=False)
-#Liste des polluants
-liste_polluants = ['PM10', 'O3', 'NOX', 'NO2', 'PM2.5', 'NO']
-nom_mois = {"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin","07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre"}
-
-# Moyenne des valeurs des polluants
-resultat = []
-
-# Moyenne des valeurs de chaque polluant par date
-for polluant in liste_polluants:
-    df_polluant = (
-        polluants[polluants["nom_poll"] == polluant]
-        .groupby(date)["valeur"].mean().reset_index()
-    )
-    df_polluant["nom"] = polluant
-    df_polluant[date] = df_polluant[date].replace(nom_date)
-    resultat.append(df_polluant)
-
-# Récupérer les DataFrames individuels
-PM10, O3, NOX, NO2, PM2, NO = resultat
-
-# Concaténer tous les polluants dans resultat
-resultat = pd.concat([NOX, NO2, NO, O3, PM10, PM2], ignore_index=True)
-```
-
-## Paramétrage du graphique
+## Paramétrage d'un graphique à coordonnées polaires
 ```{.python filename="meteo.qmd"}
 fig_polar = px.line_polar(
     resultat,
@@ -1970,7 +1929,7 @@ fig_polar = px.line_polar(
 )
 ```
 
-## Mise en forme du graphique
+## Mise en forme d'un graphique à coordonnées polaires
 ```{.python filename="meteo.py"}
 def graphique_polar(fig):
     """Mise en page d'un graphique polaire"""
@@ -2108,33 +2067,7 @@ def concentration(date, format, nom_date, titre, temps):
 concentration('Mois', '%m', nom_mois, 'Concentration moyenne mensuelle des polluants (en µg.m⁻³)', 'Temps (mois)')
 ```
 
-## Organisation des bases de données
-```{.python filename="meteo.qmd"}
-# Importer les données
-donnees = pd.read_csv("../bases_de_donnees/donnees_meteo_2022_2023_Toulouse.csv",
-                      sep=";", na_values="", low_memory=False)
-# Formater les dates
-donnees["Date"] = donnees["Date"].apply(lambda x: x.split("T")[0])
-donnees['Date'] = pd.to_datetime(donnees['Date'])
-
-# Extraire les lignes correspondant au mois de mars
-# Créer une copie pour éviter les problèmes de vue
-donnees_mars = donnees[donnees['Date'].dt.month == 3].copy()
-
-# Vitesse moyenne du vent chaque jour de la période
-vent = donnees_mars.groupby('Date')['valeur'].mean().reset_index()
-
-# Conversion en km/h
-vent['valeur'] = vent['valeur'].multiply(3.6)
-
-NOX = polluants_mars[(polluants_mars['nom_poll'] == 'NOX')].groupby('Date')["valeur"].mean().reset_index()
-NO2 = polluants_mars[(polluants_mars['nom_poll'] == 'NO2')].groupby('Date')["valeur"].mean().reset_index()
-NO = polluants_mars[(polluants_mars['nom_poll'] == 'NO')].groupby('Date')["valeur"].mean().reset_index()
-O3 = polluants_mars[(polluants_mars['nom_poll'] == 'O3')].groupby('Date')["valeur"].mean().reset_index()
-```
-
-
-## Mise en forme du graphique
+## Graphique à deux ordonnées
 ```{.python filename="meteo.py"}
 def graphique_axe(fig, titre, yaxis2_title):
     """Mise en page d'un graphique cartésien avec 2 axes y"""
@@ -2159,11 +2092,6 @@ def graphique_axe(fig, titre, yaxis2_title):
 def trace(df, color, name, date):
     """Ajout courbe sur un graphique cartésien"""
     return go.Scatter(x=df[date], y=df["valeur"], mode="lines", line=dict(width=2, color=color), name="Date")
-```
-
-```{.python filename="meteo.qmd"}
-fig.add_trace(md.trace(vent, 'pink', 'vent', "Date"))
-fig.add_trace(md.trace(NOX, 'orange', 'NOx', "Date"))
 ```
 
 ##
@@ -2492,7 +2420,6 @@ if __name__ == '__main__':
 :::
 
 ## Tests pythons
-\ 
 
 ```{.python filename="test_modules.py"}
 from modules.meteo import trace
@@ -2522,6 +2449,12 @@ def test_markero_sur_carte():
     marqueur_map_child = children[1]
     assert marqueur_map_child.location == [100,-20]
 ```
+
+<center>
+
+![](pytest.JPG){width="100%"}
+
+</center>
 
 ## Temps et mémoire
 
@@ -2570,7 +2503,7 @@ $ mprof plot
 
 :::: {.columns}
 ::: {.column width="70%"}
-```{.yml filename="pytohon-publish.yml"}
+```{.yml filename="python-publish.yml"}
 on:
   workflow_dispatch:
   push:
