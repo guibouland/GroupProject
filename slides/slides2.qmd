@@ -2563,8 +2563,6 @@ branca==0.7.0
 ::::
 
 # Arborescence
-##
-![](Arborescence.png){fig-align="center"}
 
 ## Arborescence
 \ 
@@ -2572,7 +2570,7 @@ branca==0.7.0
 :::: {.columns}
 ::: {.column width="50%"}
 
-```{tree}
+```
 📦 Root
 ├─ 📂 .github/workflows
 │  └─ 📜python-publish.yml
@@ -2600,7 +2598,7 @@ branca==0.7.0
 
 ::: {.column width="50%"}
 
-```{tree}
+```
 ├─ 📂 slides
 │  ├─ 📜slides.qmd
 │  ├─ 📜slides2.qmd
