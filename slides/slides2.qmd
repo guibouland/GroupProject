@@ -9,10 +9,11 @@ format:
 ---
 
 # Problématique
-Comment développer un site de modélisation de données sur github?
+Comment développer un site de modélisation de données avec Python via Quarto?
 
 ## Plan
 :::{.incremental}
+- Structure du site
 - Carte interactive
 - Graphiques interactifs
 - Problèmes rencontrés
@@ -91,7 +92,7 @@ jupyter: python3
 editor: visual
 
 ```
-# Vision globale 
+# Carte interactive
 
 . . .
 
@@ -548,7 +549,7 @@ Mtp.SurCarte(Occitanie)
 :::
 ::::
 
-# Étude départementale
+# Graphiques interactifs
 
 ## Modules utilisés
 \ 
@@ -624,32 +625,6 @@ for polluant in polluants:
 ## Mise en forme des graphiques
 
 ```{python}
-#| echo: true
-#| eval: false
-    # Mise en forme et personnalisation
-    fig.update_layout(
-        title_text=f'Évolution de la pollution {polluant} en Haute-Garonne',
-        title_x=0.5,  # Centrer le titre
-        xaxis_title="Année",
-        yaxis_title=f'Valeur {polluant} (ug.m-3)',
-        xaxis_tickformat="%Y/%m",  # Format de l'axe des x
-        legend=dict(orientation="h", yanchor="bottom", y=-0.5, xanchor="center", x=0.5, traceorder='reversed'),
-        margin=dict(l=10, r=10, t=70, b=10),  # Ajustements des marges
-        paper_bgcolor='rgba(100,100,100,0)',  # Couleur de contour de graphique 
-        plot_bgcolor='rgba(100,100,100,0)',   # Couleur du fond du graphique
-        yaxis=dict(range=ordonnee_ranges[polluant]),  # Ajuster l'axe des ordonnées
-        font=dict(color='Grey')
-    )
-    #couleur grille
-    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
-    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
-    # Afficher le graphique
-    fig.show()
-```
-
-## Mise en forme des graphiques
-
-```{python}
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -714,8 +689,6 @@ fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 # Afficher le graphique
 fig.show()
 ```
-
-# Étude de l'influence de la population
 
 ## Occurences des villes
 
@@ -2666,4 +2639,5 @@ branca==0.7.0
             Présentation orale : milestone,     2023-12-15, 2023-12-15
 
 ```
+
 # [Pollution Occitanie](https://guibouland.github.io/GroupProject/)
