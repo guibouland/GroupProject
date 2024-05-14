@@ -1,1 +1,1 @@
-Sitemap: https://github.com/guibouland/GroupProject/sitemap.xml
+Sitemap: https://guibouland.github.io/GroupProject/sitemap.xml
