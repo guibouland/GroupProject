@@ -17,11 +17,26 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
+
+      - name: Install Python and Dependencies
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          cache: "pip"
       - run: |
+      - run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install jupyter
           python3 -m pip install jupyter
           python3 -m pip install -r requirements.txt
-
+          python3 -m pip install -r requirements.txt
+      - name: Test with pytest
+        run: |
+          pip install pytest pytest-cov
+          pytest ./modules/test_modules.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
       - name: Render and Publish
+      - name: Render and Publish
+        uses: quarto-dev/quarto-actions/publish@v2
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
